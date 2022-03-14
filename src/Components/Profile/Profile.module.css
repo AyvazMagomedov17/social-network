@@ -1,0 +1,17 @@
+.profile {
+    padding-bottom: 60px;
+}
+
+.img {
+    position: relative;
+    padding: 200px 300px;
+}
+.img img {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}

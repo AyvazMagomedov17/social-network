@@ -1,0 +1,11 @@
+.img img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+}
+
+.img {
+    position: absolute;
+    top: -20px;
+}

@@ -1,0 +1,11 @@
+.nav {
+    grid-area: nav;
+    background-color: rgba(241, 241, 236, 0.521);
+}
+
+.link {
+    color: red;
+}
+.item {
+    padding-left: 20px;
+}

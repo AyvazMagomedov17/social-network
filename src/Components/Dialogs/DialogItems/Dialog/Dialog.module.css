@@ -1,0 +1,74 @@
+.dialog {
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    height: 100px;
+    align-items: center;
+    padding-left: 6px;
+    position: relative;
+    min-width: 300px;
+}
+.row:hover {
+    background-color: rgb(245, 239, 239);
+}
+
+.top {
+    display: flex;
+    margin-bottom: 25px;
+    align-items: center;
+}
+.bottom {
+    display: flex;
+}
+
+.img {
+    position: relative;
+    padding: 24px;
+    margin-right: 10px;
+}
+
+.img img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.name {
+    padding-right: 10px;
+    font-size: 15px;
+    color: #27aae1;
+}
+.status {
+    color: #939598;
+    font-size: 12px;
+    position: absolute;
+
+    right: 10px;
+}
+
+.lastMessage {
+    font-size: 13px;
+    color: #939598;
+}
+
+.newMessage {
+    margin-top: -5px;
+    display: flex;
+    color: #fff;
+    background-color: red;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    position: absolute;
+
+    right: 10px;
+}

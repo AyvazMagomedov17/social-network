@@ -1,0 +1,18 @@
+.wrapper {
+    height: 100vh;
+    overflow: hidden;
+}
+.messages {
+}
+.main {
+    overflow-y: scroll;
+    height: 75vh;
+    padding: 0 15px;
+}
+
+.main::-webkit-scrollbar {
+    width: 5px;
+}
+.main::-webkit-scrollbar-thumb {
+    background-color: rgb(194, 187, 187);
+}

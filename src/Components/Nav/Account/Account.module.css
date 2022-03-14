@@ -1,0 +1,25 @@
+.account {
+    margin-bottom: 50px;
+}
+
+.row {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.left {
+    width: 35%;
+}
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+.body {
+    background: rgba(16, 152, 185, 0.952);
+    height: 90px;
+    border-radius: 5px;
+}

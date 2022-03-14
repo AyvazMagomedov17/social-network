@@ -1,0 +1,7 @@
+.dialogs {
+    padding-top: 10px;
+    display: grid;
+
+    grid-template-columns: 6.1fr 10fr;
+    gap: 10px;
+}

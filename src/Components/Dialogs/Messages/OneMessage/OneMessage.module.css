@@ -1,0 +1,9 @@
+.message {
+    line-height: 20px;
+    font-size: 15px;
+    color: #38383a;
+    margin-bottom: 10px;
+}
+.message:last-child {
+    margin: 0;
+}

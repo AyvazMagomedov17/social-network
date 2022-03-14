@@ -1,0 +1,10 @@
+.followers {
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.followers::before {
+    content: "+";
+    padding-right: 5px;
+}

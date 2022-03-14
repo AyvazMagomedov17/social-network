@@ -1,0 +1,12 @@
+.dialogItems {
+    overflow-y: scroll;
+    height: 81.5vh;
+    border: 1px solid rgb(201, 197, 197);
+}
+.dialogItems::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dialogItems::-webkit-scrollbar-thumb {
+    background-color: rgb(194, 187, 187);
+}
