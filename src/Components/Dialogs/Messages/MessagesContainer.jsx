@@ -1,3 +1,4 @@
+import { connect } from "react-redux"
 import Messages from "./Messages"
 
 const MessagesContainer = (props) => {
@@ -24,6 +25,9 @@ const MessagesContainer = (props) => {
     )
 
 }
+
+
+
 
 
 

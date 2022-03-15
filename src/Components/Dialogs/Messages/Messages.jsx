@@ -23,14 +23,6 @@ const Messages = (props) => {
 
         })
 
-
-
-
-
-
-
-
-
     return (
 
         <div className={s.messages}>

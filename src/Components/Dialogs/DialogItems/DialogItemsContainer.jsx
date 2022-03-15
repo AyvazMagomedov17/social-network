@@ -1,20 +1,16 @@
+import { connect } from "react-redux";
 import DialogItems from "./DialogItems";
 
 
 
-const DialogItemsContainer = (props) => {
-    let state = props.store.getState().messagesPage
 
-    let dialogData = state.dialogData
-
-
-
-
-
-    return (
-        <DialogItems dialogData={dialogData} />
-
-    )
+let mapStateToProps = (state) => {
+    return {
+        dialogData: state.messagesPage.dialogData
+    }
 }
+
+
+const DialogItemsContainer = connect(mapStateToProps)(DialogItems)
 
 export default DialogItemsContainer;
