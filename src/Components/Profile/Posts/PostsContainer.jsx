@@ -1,19 +1,16 @@
-import Post from './Post/Post';
+import { connect } from 'react-redux';
+
 import Posts from './Posts'
 
-let itemImg = 'img/Profile/'
-
-const PostsContainer = (props) => {
-
-    let state = props.store.getState()
-
-    let postData = state.profilePage.postData
 
 
 
-    return (
-        <Posts postData={postData} />
-    )
+
+let mapStateToProps = (state) => {
+    return {
+        postData: state.profilePage.postData
+    }
 }
+const PostsContainer = connect(mapStateToProps)(Posts)
 
 export default PostsContainer;

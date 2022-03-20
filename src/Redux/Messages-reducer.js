@@ -10,7 +10,7 @@ let initialState = {
     },
     yourMessageInfo: {
         id: 'you',
-        name: 'Зарема',
+        name: 'Марат',
         time: ""
     },
     MessageData: [
@@ -35,21 +35,31 @@ let initialState = {
     newMessageTextarea: '',
 }
 const messagesReducer = (state = initialState, action) => {
+
     switch (action.type) {
         case ADD__MESSAGE:
+
             if (state.newMessageTextarea != '') {
                 let newMessage = {
                     id: 10,
                     from: 'me',
                     message: state.newMessageTextarea
                 }
-                state.newMessageTextarea = ''
-                state.MessageData.push(newMessage)
-                return state
+                return {
+                    ...state,
+                    newMessageTextarea: '',
+                    MessageData: [...state.MessageData, newMessage]
+                }
+
             }
+
         case CHANGE__MESSAGE:
-            state.newMessageTextarea = action.text
-            return state
+            return {
+                ...state,
+                newMessageTextarea: action.text
+            }
+
+
         default:
             return state
     }

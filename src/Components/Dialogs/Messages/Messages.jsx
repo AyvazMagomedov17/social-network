@@ -30,7 +30,7 @@ const Messages = (props) => {
                 {OneMessageElement}
             </div>
             <div className={s.addMessage}>
-                <AddMessageContainer store={props.store} />
+                <AddMessageContainer />
             </div>
 
         </div>

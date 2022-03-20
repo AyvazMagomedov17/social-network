@@ -8,7 +8,8 @@ import AddPost from './AddPost'
 
 let mapStateToProps = (state) => {
     return {
-        newPostTextarea: state.profilePage.newPostTextarea
+        newPostTextarea: state.profilePage.newPostTextarea,
+
     }
 }
 
@@ -24,5 +25,6 @@ let mapDispatchToProps = (dispatch) => {
 }
 
 const AddPostContainer = connect(mapStateToProps, mapDispatchToProps)(AddPost)
+
 
 export default AddPostContainer;

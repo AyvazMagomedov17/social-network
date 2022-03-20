@@ -1,30 +1,23 @@
 import { connect } from "react-redux"
 import Messages from "./Messages"
 
-const MessagesContainer = (props) => {
-    let state = props.store.getState().messagesPage
-
-    let myMessageInfoData = state.myMessageInfo
-    let yourMessageInfoData = state.yourMessageInfo
-    let OneMessageData = state.MessageData
 
 
 
 
 
-
-
-
-
-
-    return (
-
-        <Messages store={props.store} myMessageInfoData={myMessageInfoData} yourMessageInfoData={yourMessageInfoData} OneMessageData={OneMessageData} />
-
-
-    )
-
+let mapStateToProps = (state) => {
+    let myMessageInfoData = state.messagesPage.myMessageInfo
+    let yourMessageInfoData = state.messagesPage.yourMessageInfo
+    let OneMessageData = state.messagesPage.MessageData
+    return {
+        myMessageInfoData: myMessageInfoData,
+        yourMessageInfoData: yourMessageInfoData,
+        OneMessageData: OneMessageData
+    }
 }
+
+const MessagesContainer = connect(mapStateToProps)(Messages)
 
 
 

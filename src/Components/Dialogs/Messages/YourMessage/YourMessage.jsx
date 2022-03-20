@@ -8,7 +8,7 @@ const YourMessage = (props) => {
                 <div className={s.rowReverse}>
                     <div className={s.profile}>
                         <div className={s.img}>
-                            <img src="img/Dialogs/user1.jpg" alt="" /></div>
+                            <img src="./img/Dialogs/user2.jpg" alt="" /></div>
                         <span className={s.data}>{props.time}</span>
                         <span className={s.name}>{props.name} </span>
 

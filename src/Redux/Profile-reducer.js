@@ -25,9 +25,12 @@ let initialState = {
 }
 
 const profileReducer = (state = initialState, action) => {
+
     switch (action.type) {
         case ADD__POST:
+
             if (state.newPostTextarea != '') {
+
                 let newPost = {
                     id: 2,
                     name: 'ayvaz',
@@ -36,14 +39,21 @@ const profileReducer = (state = initialState, action) => {
                     img: 'img/Profile/user2.jpg',
                     text: state.newPostTextarea
                 }
-                state.newPostTextarea = ''
-                state.postData.unshift(newPost)
-                return state
+                return {
+                    ...state,
+                    newPostTextarea: '',
+                    postData: [newPost, ...state.postData]
+                }
+
             }
+
         case CHANGE_TEXTAREA:
-            debugger;
-            state.newPostTextarea = action.text
-            return state
+            return {
+                ...state,
+                newPostTextarea: action.text
+            }
+
+
         default:
             return state
     }

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import s from './Dialog.module.css'
 
 const Dialog = (props) => {
+    debugger
     let path = '/messages/' + props.id;
     return (
 
