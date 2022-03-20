@@ -1,27 +1,47 @@
 import axios from 'axios';
-import Friend from './Friend/Friend';
+
 import FriendContainer from './Friend/FriendContainer';
 import s from './FriendList.module.css'
 import React from 'react';
 
 
 class FriendListC extends React.Component {
+    constructor(props) {
+        super(props)
 
-    getUsers = () => {
+    }
+
+
+    componentDidMount() {
         if (this.props.usersData.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
                 .then((response) => {
                     this.props.setUsers(response.data.items)
+                    this.props.setTotalUsersCount(response.data.totalCount)
+
                 })
         }
+
+
     }
-    componentDidMount() {
-        this.getUsers()
+    setCurrentPage = (pageNumber) => {
+        this.props.setCurrentPage(pageNumber)
+
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+            .then((response) => {
+                this.props.setUsers(response.data.items)
+            })
+
     }
 
 
 
     render() {
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+        let pages = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
         let usersELem = this.props.usersData
             .map((user) => {
                 if (user.followed === true) {
@@ -33,7 +53,12 @@ class FriendListC extends React.Component {
             )
         return (
             <div className={s.friendlist} >
+                <div className={s.pages}>
+                    {pages.map((p) => {
+                        return <button onClick={() => { this.setCurrentPage(p) }} className={this.props.currentPage === p && s.selectedPage}>{p}</button>
+                    })}
 
+                </div>
                 <ul className={s.list}>
                     {usersELem}
                 </ul>

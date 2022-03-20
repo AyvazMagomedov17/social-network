@@ -1,9 +1,14 @@
 
 const SET_USERS = 'SET-USERS'
 const TOGGLE_FOLLOW = 'TOGGLE-FOLLOW'
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
+const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT'
 
 let initialState = {
-    usersData: []
+    usersData: [],
+    pageSize: 100,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 const friendsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -27,8 +32,12 @@ const friendsReducer = (state = initialState, action) => {
         }
         case SET_USERS: {
 
-            return { ...state, usersData: [...state.usersData, ...action.users] }
+            return { ...state, usersData: action.users }
         }
+        case SET_CURRENT_PAGE:
+            return { ...state, currentPage: action.currentPage }
+        case SET_TOTAL_USERS_COUNT:
+            return { ...state, totalUsersCount: action.count }
 
         default:
             return state
@@ -46,6 +55,18 @@ export const setUsersAC = (users) => {
     return {
         type: SET_USERS,
         users: users
+    }
+}
+export const setCurrentPageAC = (currentPage) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        currentPage: currentPage
+    }
+}
+export const setTotalUsersCountAC = (count) => {
+    return {
+        type: SET_TOTAL_USERS_COUNT,
+        count
     }
 }
 
