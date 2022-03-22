@@ -34,6 +34,7 @@ let initialState = {
     ],
     newMessageTextarea: '',
 }
+window.newMessageTextarea = initialState.newMessageTextarea
 const messagesReducer = (state = initialState, action) => {
 
     switch (action.type) {

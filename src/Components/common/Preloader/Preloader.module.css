@@ -1,0 +1,8 @@
+.loader img {
+    width: 500px;
+    height: 500px;
+}
+.loader {
+    display: flex;
+    justify-content: center;
+}

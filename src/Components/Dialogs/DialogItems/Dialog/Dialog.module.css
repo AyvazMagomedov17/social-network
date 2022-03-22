@@ -4,7 +4,7 @@
 
 .row {
     display: flex;
-    height: 100px;
+    height: 80px;
     align-items: center;
     padding-left: 6px;
     position: relative;

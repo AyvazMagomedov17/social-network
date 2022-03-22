@@ -1,8 +1,11 @@
 import { connect } from "react-redux";
-import { setCurrentPageAC, setTotalUsersCountAC, setUsersAC } from "../../../Redux/Friends-reducer";
+import { changeFetchingAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC } from "../../../Redux/Friends-reducer";
 import axios from 'axios';
 import React from 'react';
 import FriendList from './FriendList';
+
+import s from './FriendListContainer.module.css'
+import Preloader from "../../common/Preloader/Preloader";
 
 
 
@@ -20,6 +23,7 @@ class FriendListApiComponent extends React.Component {
                 .then((response) => {
                     this.props.setUsers(response.data.items)
                     this.props.setTotalUsersCount(response.data.totalCount)
+                    this.props.changeFetching()
 
                 })
         }
@@ -32,6 +36,8 @@ class FriendListApiComponent extends React.Component {
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then((response) => {
                 this.props.setUsers(response.data.items)
+                this.props.changeFetching()
+
             })
 
     }
@@ -41,7 +47,14 @@ class FriendListApiComponent extends React.Component {
     render() {
 
         return (
-            <FriendList totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} usersData={this.props.usersData} currentPage={this.props.currentPage} setCurrentPage={this.setCurrentPage} />
+            <>
+                {this.props.isFetching
+                    ?
+                    <Preloader />
+                    :
+                    <FriendList totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} usersData={this.props.usersData} currentPage={this.props.currentPage} setCurrentPage={this.setCurrentPage} />}
+
+            </>
         )
     }
 }
@@ -52,27 +65,19 @@ let mapStateToProps = (state) => {
         usersData: state.friendsPage.usersData,
         pageSize: state.friendsPage.pageSize,
         totalUsersCount: state.friendsPage.totalUsersCount,
-        currentPage: state.friendsPage.currentPage
+        currentPage: state.friendsPage.currentPage,
+        isFetching: state.friendsPage.isFetching
 
 
     }
 
 }
-let mapDispatchToProps = (dispatch) => {
+const FriendListContainer = connect(mapStateToProps, {
+    setUsers: setUsersAC,
+    setCurrentPage: setCurrentPageAC,
 
-    return {
-        setUsers: (users) => {
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage: (currentPage) => {
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setTotalUsersCount: (count) => {
-            dispatch(setTotalUsersCountAC(count))
-        }
-
-    }
-}
-const FriendListContainer = connect(mapStateToProps, mapDispatchToProps)(FriendListApiComponent)
+    setTotalUsersCount: setTotalUsersCountAC,
+    changeFetching: changeFetchingAC
+})(FriendListApiComponent)
 
 export default FriendListContainer;

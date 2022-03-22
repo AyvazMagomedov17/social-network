@@ -5,7 +5,7 @@ import MessagesContainer from './Messages/MessagesContainer';
 
 
 const Dialogs = (props) => {
-    debugger
+
     return (
         <div className={s.dialogs}>
             <DialogItemsContainer store={props.store} />
