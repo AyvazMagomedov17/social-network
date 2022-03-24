@@ -13,26 +13,49 @@ class ProfileUserContainer extends Component {
 
     componentDidMount() {
 
+        let userId = this.props.actualString["*"]
+        if (!userId) {
+            axios
+                .get(`https://social-network.samuraijs.com/api/1.0/profile/2`)
+                .then((response) => {
 
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.actualString["*"]}`)
-            .then((response) => {
-
-                this.props.setUserProfile(response.data)
+                    this.props.setUserProfile(response.data)
 
 
-            })
+                })
+        } else {
+            axios
+                .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+                .then((response) => {
+
+                    this.props.setUserProfile(response.data)
+
+
+                })
+        }
     }
 
     render() {
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.actualString["*"]}`)
-            .then((response) => {
+        let userId = this.props.actualString["*"]
+        if (!userId) {
+            axios
+                .get(`https://social-network.samuraijs.com/api/1.0/profile/2`)
+                .then((response) => {
 
-                this.props.setUserProfile(response.data)
+                    this.props.setUserProfile(response.data)
 
 
-            })
+                })
+        } else {
+            axios
+                .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+                .then((response) => {
+
+                    this.props.setUserProfile(response.data)
+
+
+                })
+        }
         return (
             <ProfileUser setActualString={this.props.setActualString} profile={this.props.profile} />
         )

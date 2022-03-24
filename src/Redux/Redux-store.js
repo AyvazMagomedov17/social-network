@@ -1,4 +1,5 @@
 import { combineReducers, createStore, } from "redux";
+import AuthReducer from "./Auth-reducer";
 import friendsReducer from "./Friends-reducer";
 import messagesReducer from "./Messages-reducer";
 import profileReducer from "./Profile-reducer";
@@ -10,7 +11,8 @@ let reducers = combineReducers({
     profilePage: profileReducer,
     messagesPage: messagesReducer,
     friendsPage: friendsReducer,
-    whoToFollow: whoToFollowReducer
+    whoToFollow: whoToFollowReducer,
+    auth: AuthReducer
 
 
 })

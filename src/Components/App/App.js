@@ -1,6 +1,6 @@
 
 import './App.css';
-import Header from '../Header/Header';
+
 import Nav from '../Nav/Nav';
 
 import Profile from '../Profile/Profile';
@@ -8,6 +8,7 @@ import WhoToFollowContainer from '../WhoToFollow/WhoToFollowContainer';
 import Dialogs from '../Dialogs/Dialogs';
 import { Route, Routes, } from 'react-router-dom';
 import Friends from '../Friends/Friends';
+import HeaderContainer from '../Header/HeaderContainer';
 
 
 
@@ -19,7 +20,7 @@ function App(props) {
     return (
 
         <div className="app">
-            <Header />
+            <HeaderContainer />
             <div className="app__wrapper __container">
                 <Nav />
                 <div className='app-wrapper-main'>

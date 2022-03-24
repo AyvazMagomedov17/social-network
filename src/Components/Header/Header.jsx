@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import Form from './form/Form';
 import s from './Header.module.css'
 import Item from './Items/Item';
@@ -12,13 +13,15 @@ const Header = (props) => {
                     <Form />
                     <nav className={s.nav}>
                         <ul className={s.list}>
-                            <Item text='Home' />
-                            <Item text='Newsfeed' />
-                            <Item text='Timeline' />
-                            <Item text='All pages' />
-                            <Item text='Contact' />
+                            <Item link='/login' text='Home' />
+                            <Item link='/login' text='Newsfeed' />
+                            <Item link='/login' text='Timeline' />
+                            <Item link='/login' text='All pages' />
+                            <Item link='/login' text='Contact' />
+                            {props.isAuth ? <Item link='#' text={props.login} /> : <Item link='/login' text='Login' />}
                         </ul>
                     </nav>
+
                 </div>
 
             </div>
