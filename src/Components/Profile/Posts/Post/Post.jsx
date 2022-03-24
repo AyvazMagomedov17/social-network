@@ -1,6 +1,7 @@
 import s from './Post.module.css'
 import classNames from 'classnames'
-let itemImg = 'img/AddPost/'
+import likeImg from '../../../../Assets/img/Profile/like.svg'
+import dislikeImg from '../../../../Assets/img/Profile/dislike.svg'
 
 
 const Post = (props) => {
@@ -19,11 +20,11 @@ const Post = (props) => {
                     </div>
                     <div className={s.right}>
                         <button className={classNames(s.like, s.likes)}>
-                            <img src="img/Profile/like.svg" alt="likes" />
+                            <img src={likeImg} alt="likes" />
                             <span>{props.like}</span>
                         </button>
                         <button className={classNames(s.dislike, s.likes)} >
-                            <img src="img/Profile/dislike.svg" alt="dislikes" />
+                            <img src={dislikeImg} alt="dislikes" />
                             <span>{props.dislike}</span>
                         </button>
                     </div>

@@ -9,22 +9,17 @@ import AddPost from './AddPost'
 let mapStateToProps = (state) => {
     return {
         newPostTextarea: state.profilePage.newPostTextarea,
+        img: state.profilePage.addPostImg
 
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        addPost: () => {
-            dispatch(addPostActionCreator())
-        },
-        changeTextarea: (text) => {
-            dispatch(changeTextareaActionCreator(text))
-        }
-    }
-}
 
-const AddPostContainer = connect(mapStateToProps, mapDispatchToProps)(AddPost)
+
+const AddPostContainer = connect(mapStateToProps, {
+    addPost: addPostActionCreator,
+    changeTextarea: changeTextareaActionCreator
+})(AddPost)
 
 
 export default AddPostContainer;

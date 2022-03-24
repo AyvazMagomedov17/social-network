@@ -10,16 +10,10 @@ let mapStateToProps = (state) => {
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        addMessage: () => {
-            dispatch(addMessageActionCreator())
-        },
-        changeMessage: (text) => {
-            dispatch(changeMessageTextareaActionCreator(text))
-        }
-    }
-}
 
-const AddMessageContainer = connect(mapStateToProps, mapDispatchToProps)(AddMessage)
+
+const AddMessageContainer = connect(mapStateToProps, {
+    addMessage: addMessageActionCreator,
+    changeMessage: changeMessageTextareaActionCreator
+})(AddMessage)
 export default AddMessageContainer;

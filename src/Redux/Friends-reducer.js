@@ -15,7 +15,7 @@ let initialState = {
 const friendsReducer = (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_FOLLOW: {
-            debugger
+
             let stateCopy = {
                 ...state,
                 usersData: state.usersData.map((u) => {
@@ -26,7 +26,7 @@ const friendsReducer = (state = initialState, action) => {
                             followed: !u.followed,
                         }
                     }
-                    debugger
+
                     return u
                 })
             }

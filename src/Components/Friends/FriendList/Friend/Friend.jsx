@@ -14,9 +14,8 @@ const Friend = (props) => {
     return (
         <li className={s.friend}>
             <div className={s.left}>
-                <NavLink to='/friends/#'>
+                <NavLink to={`/profile/${props.id}`}>
                     <div className={s.img}>
-
                         <img src={props.img} alt="user" />
                     </div>
                 </NavLink>
@@ -24,7 +23,7 @@ const Friend = (props) => {
             </div>
             <div className={s.right}>
                 <div className={s.first}>
-                    <NavLink to='/friends/#' className={s.name}>
+                    <NavLink to={`/profile/${props.id}`} className={s.name}>
                         {props.name}
                     </NavLink>
                     <span className={s.location}>

@@ -16,9 +16,7 @@ let mapDispatchToProps = (dispatch) => {
         toggleFollow: (userId) => {
             dispatch(toggleFollowAC(userId))
         },
-        setUsers: (users) => {
-            dispatch(setUsersAC(users))
-        }
+
 
     }
 }

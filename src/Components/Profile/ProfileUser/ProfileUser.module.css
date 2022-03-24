@@ -1,0 +1,88 @@
+.profileUser {
+    margin-bottom: 20px;
+}
+
+.body {
+    display: flex;
+}
+.left {
+    margin-right: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 0 1 250px;
+    padding: 10px 0 0 20px;
+}
+.right {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    width: 500px;
+    flex: 1 1 auto;
+    margin-right: 10px;
+}
+.fullName {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 7px;
+}
+.status {
+    font-size: 15px;
+    color: #5d5d5e;
+    font-weight: 600;
+}
+
+.rightTop {
+    margin-bottom: 60px;
+}
+.contacts {
+    display: flex;
+}
+
+.avatar {
+    position: relative;
+    padding: 100px;
+    margin-bottom: 10px;
+}
+.avatar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.firstButton {
+    margin-bottom: 5px;
+}
+.message {
+    font-size: 15px;
+    color: #576069;
+    font-weight: 600;
+}
+.followed {
+    color: #5181b8;
+    font-weight: 600;
+    font-size: 15px;
+    padding-bottom: 20px;
+    height: 10px;
+}
+.contactsTitle {
+    font-size: 15px;
+    font-weight: 900;
+    margin-right: 20px;
+}
+.contact {
+    font-size: 15px;
+    margin-right: 10px;
+}
+.contactsLink {
+    color: #606063;
+}
+.itemContact {
+    margin-bottom: 10px;
+}
