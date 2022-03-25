@@ -15,6 +15,7 @@ const Friend = (props) => {
     }
 
     let followUnfollow = () => {
+        props.togglefollowingInProgress(true, props.id)
         props.usersData.forEach((item) => {
             if (item.id === props.id && item.followed === false) {
                 usersApi.FollowAPI(props.id)
@@ -23,6 +24,8 @@ const Friend = (props) => {
                         if (data.resultCode === 0) {
                             toggleFollow()
                         }
+
+                        props.togglefollowingInProgress(false, props.id)
 
                     })
             }
@@ -33,7 +36,7 @@ const Friend = (props) => {
                         if (data.resultCode === 0) {
                             toggleFollow()
                         }
-
+                        props.togglefollowingInProgress(false, props.id)
                     })
             }
         })
@@ -62,14 +65,8 @@ const Friend = (props) => {
                     </div>
                 </div>
                 <div className={s.second}>
-                    <button onClick={() => {
+                    <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => {
                         followUnfollow()
-
-
-
-
-
-
                     }} className={s.follow}>
                         {props.follow}
                     </button>

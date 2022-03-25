@@ -77,7 +77,8 @@ const FriendListContainer = connect(mapStateToProps, {
     setCurrentPage: setCurrentPageAC,
 
     setTotalUsersCount: setTotalUsersCountAC,
-    changeFetching: changeFetchingAC
+    changeFetching: changeFetchingAC,
+
 })(FriendListApiComponent)
 
 export default FriendListContainer;
