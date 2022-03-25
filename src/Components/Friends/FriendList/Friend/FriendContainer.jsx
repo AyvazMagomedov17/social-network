@@ -6,8 +6,10 @@ import Friend from "./Friend";
 
 
 let mapStateToProps = (state) => {
+
     return {
-        SDS: 0
+        usersData: state.friendsPage.usersData
+
     }
 }
 let mapDispatchToProps = (dispatch) => {

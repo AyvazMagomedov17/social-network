@@ -20,7 +20,7 @@ const friendsReducer = (state = initialState, action) => {
                 ...state,
                 usersData: state.usersData.map((u) => {
                     if (u.id === action.userId) {
-                        debugger
+
                         return {
                             ...u,
                             followed: !u.followed,
@@ -41,7 +41,7 @@ const friendsReducer = (state = initialState, action) => {
         case SET_TOTAL_USERS_COUNT:
             return { ...state, totalUsersCount: action.count }
         case CHANGE_FETCHING:
-            debugger
+
             return { ...state, isFetching: !state.isFetching }
 
         default:

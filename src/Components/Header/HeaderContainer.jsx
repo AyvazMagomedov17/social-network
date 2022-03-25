@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { setAuthUserDataAC } from '../../Redux/Auth-reducer';
-import Form from './form/Form';
 import Header from './Header';
-import s from './Header.module.css'
-import Item from './Items/Item';
-import Logo from './logo/Logo';
+
 
 class HeaderContainer extends Component {
     componentDidMount() {
