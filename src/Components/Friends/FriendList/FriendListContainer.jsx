@@ -6,6 +6,7 @@ import FriendList from './FriendList';
 
 import s from './FriendListContainer.module.css'
 import Preloader from "../../common/Preloader/Preloader";
+import { getUsersAPI, usersApi } from "../../../Api/api";
 
 
 
@@ -19,12 +20,10 @@ class FriendListApiComponent extends React.Component {
 
     componentDidMount() {
         if (this.props.usersData.length === 0) {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-                withCredentials: true
-            })
-                .then((response) => {
-                    this.props.setUsers(response.data.items)
-                    this.props.setTotalUsersCount(response.data.totalCount)
+            usersApi.getUsersAPI(this.props.currentPage, this.props.pageSize)
+                .then((data) => {
+                    this.props.setUsers(data.items)
+                    this.props.setTotalUsersCount(data.totalCount)
                     this.props.changeFetching()
 
                 })
@@ -34,11 +33,9 @@ class FriendListApiComponent extends React.Component {
     }
     setCurrentPage = (pageNumber) => {
         this.props.setCurrentPage(pageNumber)
-
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, { withCredentials: true })
-            .then((response) => {
-                this.props.setUsers(response.data.items)
+        usersApi.getUsersAPI(pageNumber, this.props.pageSize)
+            .then((data) => {
+                this.props.setUsers(data.items)
                 this.props.changeFetching()
 
             })
