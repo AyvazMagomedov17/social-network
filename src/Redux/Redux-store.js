@@ -1,9 +1,10 @@
-import { combineReducers, createStore, } from "redux";
+import { applyMiddleware, combineReducers, createStore, } from "redux";
 import AuthReducer from "./Auth-reducer";
 import friendsReducer from "./Friends-reducer";
 import messagesReducer from "./Messages-reducer";
 import profileReducer from "./Profile-reducer";
 import whoToFollowReducer from "./WhoToFollow-reducer";
+import thunkMiddleware from 'redux-thunk'
 
 
 let reducers = combineReducers({
@@ -17,7 +18,7 @@ let reducers = combineReducers({
 
 })
 
-let store = createStore(reducers);
+let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 window.store = store;
 

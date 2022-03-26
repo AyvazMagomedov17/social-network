@@ -1,3 +1,5 @@
+import { usersApi } from "../Api/api"
+
 const SET__FOLLOWS = 'SET-FOLLOWS'
 const TOGGLE_FOLLOWS = 'TOGGLE-FOLLOWS'
 
@@ -47,6 +49,13 @@ export const toggleFollowsAC = (userId) => {
         userId: userId
     }
 }
-
+export const whoToFollowThunkCreator = (page, count) => {
+    return (dispatch) => {
+        usersApi.getUsersAPI(page, count)
+            .then((data) => {
+                dispatch(setFollowsAC(data.items))
+            })
+    }
+}
 
 export default whoToFollowReducer;

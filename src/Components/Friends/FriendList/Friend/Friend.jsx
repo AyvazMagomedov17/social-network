@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 
 import { NavLink } from 'react-router-dom';
@@ -7,41 +6,6 @@ import s from './Friend.module.css'
 
 
 const Friend = (props) => {
-
-
-    const toggleFollow = (userId) => {
-        userId = props.id
-        props.toggleFollow(userId)
-    }
-
-    let followUnfollow = () => {
-        props.togglefollowingInProgress(true, props.id)
-        props.usersData.forEach((item) => {
-            if (item.id === props.id && item.followed === false) {
-                usersApi.FollowAPI(props.id)
-                    .then((data) => {
-
-                        if (data.resultCode === 0) {
-                            toggleFollow()
-                        }
-
-                        props.togglefollowingInProgress(false, props.id)
-
-                    })
-            }
-            if (item.id === props.id && item.followed === true) {
-                usersApi.unFollowAPI(props.id)
-                    .then((data) => {
-
-                        if (data.resultCode === 0) {
-                            toggleFollow()
-                        }
-                        props.togglefollowingInProgress(false, props.id)
-                    })
-            }
-        })
-    }
-
     return (
         <li className={s.friend}>
             <div className={s.left}>
@@ -50,7 +14,6 @@ const Friend = (props) => {
                         <img src={props.img} alt="user" />
                     </div>
                 </NavLink>
-
             </div>
             <div className={s.right}>
                 <div className={s.first}>
@@ -65,16 +28,13 @@ const Friend = (props) => {
                     </div>
                 </div>
                 <div className={s.second}>
-                    <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => {
-                        followUnfollow()
+                    <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { // метод some возвращает true или false взависимости удовлетворяет ли хотя бы один элемент массива условию
+                        props.followUnfollowThunk(props.id, props.usersData)
                     }} className={s.follow}>
                         {props.follow}
                     </button>
                 </div>
-
             </div>
-
-
         </li >
     )
 }

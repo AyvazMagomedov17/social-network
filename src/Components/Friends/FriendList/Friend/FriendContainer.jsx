@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { setUsersAC, toggleFollowAC, togglefollowingInProgressAC } from "../../../../Redux/Friends-reducer";
+import { followUnfollowThunkCreator, setUsersAC, toggleFollowAC, togglefollowingInProgressAC } from "../../../../Redux/Friends-reducer";
 import Friend from "./Friend";
 
 
@@ -15,8 +15,8 @@ let mapStateToProps = (state) => {
 }
 
 const FriendContainer = connect(mapStateToProps, {
-    toggleFollow: toggleFollowAC,
-    togglefollowingInProgress: togglefollowingInProgressAC
+
+    followUnfollowThunk: followUnfollowThunkCreator
 })(Friend)
 
 

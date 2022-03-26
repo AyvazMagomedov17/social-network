@@ -1,4 +1,5 @@
-import { act } from "react-dom/test-utils"
+import store from '../Redux/Redux-store'
+import { usersApi } from "../Api/api"
 
 const SET_USERS = 'SET-USERS'
 const TOGGLE_FOLLOW = 'TOGGLE-FOLLOW'
@@ -46,14 +47,13 @@ const friendsReducer = (state = initialState, action) => {
         case SET_TOTAL_USERS_COUNT:
             return { ...state, totalUsersCount: action.count }
         case CHANGE_FETCHING:
-
             return { ...state, isFetching: !state.isFetching }
         case TOGGLE_FOLLOWING_IN_PROGRESS:
 
             return {
                 ...state, followingInProgressArr: action.isFollowingInProgress
-                    ? [...state.followingInProgressArr, action.userId]
-                    : state.followingInProgressArr.filter(id => id != action.userId)
+                    ? [...state.followingInProgressArr, action.userId] // пока делается запрос на сервер
+                    : state.followingInProgressArr.filter(id => id != action.userId) // после того, как сервер закончил запрос
             }
 
 
@@ -101,4 +101,59 @@ export const togglefollowingInProgressAC = (isFollowingInProgress, userId) => {
     }
 }
 
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+
+    return (dispatch) => {
+
+        usersApi.getUsersAPI(currentPage, pageSize)
+            .then((data) => {
+                dispatch(setUsersAC(data.items))
+                dispatch(setTotalUsersCountAC(data.totalCount))
+                dispatch(changeFetchingAC())
+
+            })
+
+
+    }
+}
+export const setCurrentPageThunkCreator = (pageNumber, pageSize) => {
+
+    return (dispatch) => {
+
+        dispatch(setCurrentPageAC(pageNumber))
+        usersApi.getUsersAPI(pageNumber, pageSize)
+            .then((data) => {
+                dispatch(setUsersAC(data.items))
+                dispatch(changeFetchingAC())
+
+            })
+
+    }
+}
+
+export const followUnfollowThunkCreator = (userId, usersData) => {
+    return (dispatch) => {
+        dispatch(togglefollowingInProgressAC(true, userId))
+        usersData.forEach((item) => {
+            if (item.id === userId && item.followed === false) {
+                usersApi.FollowAPI(userId)
+                    .then((data) => {
+                        if (data.resultCode === 0) {
+                            dispatch(toggleFollowAC(userId))
+                        }
+                        dispatch(togglefollowingInProgressAC(false, userId))
+                    })
+            }
+            if (item.id === userId && item.followed === true) {
+                usersApi.unFollowAPI(userId)
+                    .then((data) => {
+                        if (data.resultCode === 0) {
+                            dispatch(toggleFollowAC(userId))
+                        }
+                        dispatch(togglefollowingInProgressAC(false, userId))
+                    })
+            }
+        })
+    }
+}
 export default friendsReducer;

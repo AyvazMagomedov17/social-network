@@ -1,12 +1,8 @@
 import { connect } from "react-redux";
-import { changeFetchingAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC } from "../../../Redux/Friends-reducer";
-import axios from 'axios';
+import { getUsersThunkCreator, setCurrentPageThunkCreator } from "../../../Redux/Friends-reducer";
 import React from 'react';
 import FriendList from './FriendList';
-
-import s from './FriendListContainer.module.css'
 import Preloader from "../../common/Preloader/Preloader";
-import { getUsersAPI, usersApi } from "../../../Api/api";
 
 
 
@@ -19,26 +15,15 @@ class FriendListApiComponent extends React.Component {
 
 
     componentDidMount() {
-        if (this.props.usersData.length === 0) {
-            usersApi.getUsersAPI(this.props.currentPage, this.props.pageSize)
-                .then((data) => {
-                    this.props.setUsers(data.items)
-                    this.props.setTotalUsersCount(data.totalCount)
-                    this.props.changeFetching()
 
-                })
+        if (this.props.usersData.length === 0) {
+            this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
         }
 
 
     }
     setCurrentPage = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber)
-        usersApi.getUsersAPI(pageNumber, this.props.pageSize)
-            .then((data) => {
-                this.props.setUsers(data.items)
-                this.props.changeFetching()
-
-            })
+        this.props.setCurrentPageThunk(pageNumber, this.props.pageSize)
 
     }
 
@@ -73,11 +58,8 @@ let mapStateToProps = (state) => {
 
 }
 const FriendListContainer = connect(mapStateToProps, {
-    setUsers: setUsersAC,
-    setCurrentPage: setCurrentPageAC,
-
-    setTotalUsersCount: setTotalUsersCountAC,
-    changeFetching: changeFetchingAC,
+    getUsersThunk: getUsersThunkCreator,
+    setCurrentPageThunk: setCurrentPageThunkCreator
 
 })(FriendListApiComponent)
 

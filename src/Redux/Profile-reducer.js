@@ -1,5 +1,6 @@
 import PostImg from '../Assets/img/Profile/user2.jpg'
 import newPostImg from '../Assets/img/Profile/user1.jpg'
+import { profileApi } from '../Api/api'
 
 
 const ADD__POST = 'ADD-POST'
@@ -98,6 +99,16 @@ export const setActualStringAC = (actualString) => {
     return {
         type: SET_ACTUAL_STRING,
         actualString: actualString
+
+    }
+}
+
+export const getProfileThunkCreator = (userId) => {
+    return (dispatch) => {
+        profileApi.getProfileAPI(userId)
+            .then((data) => {
+                dispatch(setUserProfileAC(data))
+            })
 
     }
 }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { profileApi } from '../../../Api/api';
 
-import { setActualStringAC, setUserProfileAC } from '../../../Redux/Profile-reducer'
+import { getProfileThunkCreator, setActualStringAC, setUserProfileAC } from '../../../Redux/Profile-reducer'
 import ProfileUser from './ProfileUser';
 
 
@@ -18,10 +18,7 @@ class ProfileUserContainer extends Component {
         if (!userId) {
             userId = 2
         }
-        profileApi.getProfileAPI(userId)
-            .then((data) => {
-                this.props.setUserProfile(data)
-            })
+        this.props.getProfileThunk(userId)
 
     }
 
@@ -53,5 +50,6 @@ let mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
     setUserProfile: setUserProfileAC,
-    setActualString: setActualStringAC
+    setActualString: setActualStringAC,
+    getProfileThunk: getProfileThunkCreator
 })(ProfileUserContainer);

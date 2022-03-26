@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { usersApi } from '../../Api/api';
-import { setFollowsAC, toggleFollowsAC } from '../../Redux/WhoToFollow-reducer';
+import { setFollowsAC, toggleFollowsAC, whoToFollowThunkCreator } from '../../Redux/WhoToFollow-reducer';
 import Item from './Item/Item';
 import WhoToFollow from './WhoToFollow';
 import s from './WhoToFollow.module.css'
@@ -13,10 +13,7 @@ class WhoToFollowApi extends Component {
     componentDidMount() {
         let page = 1;
         let count = 3
-        usersApi.getUsersAPI(page, count)
-            .then((data) => {
-                this.props.setFollows(data.items)
-            })
+        this.props.whoToFollowThunk(page, count)
     }
 
     render() {
@@ -35,7 +32,9 @@ let mapStateToProps = (state) => {
 
 const whoToFollowContainer = connect(mapStateToProps, {
     setFollows: setFollowsAC,
-    toggleFollows: toggleFollowsAC
+    toggleFollows: toggleFollowsAC,
+    whoToFollowThunk: whoToFollowThunkCreator
 })(WhoToFollowApi)
+
 
 export default whoToFollowContainer
