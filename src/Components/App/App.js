@@ -9,6 +9,9 @@ import Dialogs from '../Dialogs/Dialogs';
 import { Route, Routes, } from 'react-router-dom';
 import Friends from '../Friends/Friends';
 import HeaderContainer from '../Header/HeaderContainer';
+import Login from '../Login/Login';
+import DialogsContainer from '../Dialogs/DialogsContainer';
+import ProfileContainer from '../Profile/ProfileContainer';
 
 
 
@@ -26,9 +29,10 @@ function App(props) {
                 <div className='app-wrapper-main'>
 
                     <Routes>
-                        <Route path='/profile/*' element={<Profile />} />
-                        <Route path='/messages/*' element={<Dialogs />} />
+                        <Route path='/profile/*' element={<ProfileContainer />} />
+                        <Route path='/messages/*' element={<DialogsContainer />} />
                         <Route path='/friends/*' element={<Friends />} />
+                        <Route path='/login' element={<Login />} />
                     </Routes>
                 </div>
                 <WhoToFollowContainer />
