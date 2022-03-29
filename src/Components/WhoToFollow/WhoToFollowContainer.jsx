@@ -1,11 +1,12 @@
-import axios from 'axios';
+
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { usersApi } from '../../Api/api';
+import { compose } from 'redux';
+
 import { setFollowsAC, toggleFollowsAC, whoToFollowThunkCreator } from '../../Redux/WhoToFollow-reducer';
-import Item from './Item/Item';
+
 import WhoToFollow from './WhoToFollow';
-import s from './WhoToFollow.module.css'
+
 
 
 class WhoToFollowApi extends Component {
@@ -30,11 +31,10 @@ let mapStateToProps = (state) => {
 }
 
 
-const whoToFollowContainer = connect(mapStateToProps, {
+
+
+export default compose(connect(mapStateToProps, {
     setFollows: setFollowsAC,
     toggleFollows: toggleFollowsAC,
     whoToFollowThunk: whoToFollowThunkCreator
-})(WhoToFollowApi)
-
-
-export default whoToFollowContainer
+}))(WhoToFollowApi)

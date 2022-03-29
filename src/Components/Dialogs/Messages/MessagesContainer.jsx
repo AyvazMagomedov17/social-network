@@ -1,4 +1,5 @@
 import { connect } from "react-redux"
+import { compose } from "redux"
 import Messages from "./Messages"
 
 
@@ -17,11 +18,11 @@ let mapStateToProps = (state) => {
     }
 }
 
-const MessagesContainer = connect(mapStateToProps)(Messages)
 
 
 
 
 
 
-export default MessagesContainer;
+
+export default compose(connect(mapStateToProps))(Messages);

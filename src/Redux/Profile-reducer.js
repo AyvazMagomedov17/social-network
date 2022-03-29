@@ -3,10 +3,14 @@ import newPostImg from '../Assets/img/Profile/user1.jpg'
 import { profileApi } from '../Api/api'
 
 
+
 const ADD__POST = 'ADD-POST'
 const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
 const SET_ACTUAL_STRING = 'SET-ACTUAL-STRING'
+const SET_STATUS = 'SET-STATUS'
+const UPDATE_STATUS = 'UPDATE-STATUS'
+const TOGGLE_GET_PROFILE = 'TOGGLE-GET-PROFILE'
 
 let initialState = {
     postData: [
@@ -32,7 +36,9 @@ let initialState = {
     profile: null,
     newPostTextarea: '',
     addPostImg: newPostImg,
-    actualString: ''
+    actualString: '',
+    status: null,
+    isgetProfile: false
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -68,6 +74,13 @@ const profileReducer = (state = initialState, action) => {
         case SET_ACTUAL_STRING:
             return { ...state, actualString: action.actualString }
 
+        case SET_STATUS:
+            return { ...state, status: action.status }
+        case TOGGLE_GET_PROFILE:
+            return { ...state, isgetProfile: !state.isgetProfile }
+        case UPDATE_STATUS:
+            return { ...state, status: action.status }
+
         default:
             return state
     }
@@ -102,12 +115,53 @@ export const setActualStringAC = (actualString) => {
 
     }
 }
+const setStatusAc = (status) => {
+    return {
+        type: SET_STATUS,
+        status
+    }
+}
+const updateStatusAc = (status) => {
+    return {
+        type: UPDATE_STATUS,
+        status
+    }
+}
+
+const toggleGetProfileAC = () => {
+    return {
+        type: TOGGLE_GET_PROFILE
+    }
+}
 
 export const getProfileThunkCreator = (userId) => {
     return (dispatch) => {
+        dispatch(toggleGetProfileAC())
         profileApi.getProfileAPI(userId)
             .then((data) => {
                 dispatch(setUserProfileAC(data))
+                dispatch(toggleGetProfileAC())
+            })
+
+    }
+}
+export const getStatusThunkCreator = (userId) => {
+    return (dispatch) => {
+        profileApi.getStatusAPI(userId)
+            .then((data) => {
+                dispatch(setStatusAc(data))
+            })
+    }
+}
+
+export const updateStatusThunkCreator = (status) => {
+    return (dispatch) => {
+        profileApi.updateStatusApi(status)
+            .then((data) => {
+                if (data.resultCode === 0) {
+                    dispatch(updateStatusAc(status))
+
+                }
             })
 
     }

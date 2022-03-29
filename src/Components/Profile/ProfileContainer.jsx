@@ -1,14 +1,15 @@
 import { Component } from "react"
 import { connect } from "react-redux"
 import { Navigate } from "react-router-dom"
+import { compose } from "redux"
+import withAuthRedirect from "../../Hoc/withAuthRedirect"
+
 import Profile from "./Profile"
 
 
 class ProfileContainer extends Component {
+
     render() {
-        if (!this.props.isAuth) {
-            return <Navigate to='/login' />
-        }
         return (
             <div><Profile /></div>
         )
@@ -17,8 +18,12 @@ class ProfileContainer extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth
+        nothing: 0
     }
 }
 
-export default connect(mapStateToProps)(ProfileContainer)
+
+export default compose(
+    connect(mapStateToProps),
+    withAuthRedirect
+)(ProfileContainer)

@@ -1,5 +1,6 @@
 
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { addMessageActionCreator, changeMessageTextareaActionCreator } from '../../../Redux/Messages-reducer'
 import AddMessage from './AddMessage'
 
@@ -12,8 +13,9 @@ let mapStateToProps = (state) => {
 
 
 
-const AddMessageContainer = connect(mapStateToProps, {
+
+
+export default compose(connect(mapStateToProps, {
     addMessage: addMessageActionCreator,
     changeMessage: changeMessageTextareaActionCreator
-})(AddMessage)
-export default AddMessageContainer;
+}))(AddMessage);

@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import Preloader from '../../common/Preloader/Preloader'
 import s from './ProfileUser.module.css'
+import ProfileUserStatus from './ProfileUserStatus/ProfileUserStatusContainer'
 const ProfileUser = props => {
     let params = useParams()
     props.setActualString(params)
@@ -59,7 +60,8 @@ const ProfileUser = props => {
                 <div className={s.right}>
                     <div className={s.rightTop}>
                         <div className={s.fullName}>{props.profile.fullName}</div>
-                        <div className={s.status}>{props.profile.aboutMe}</div>
+                        {props.profile.aboutMe}
+                        <ProfileUserStatus />
                     </div>
                     <div className={s.contacts}>
                         <div className={s.contactsTitle}>

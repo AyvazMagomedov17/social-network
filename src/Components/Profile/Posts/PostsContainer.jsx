@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import Posts from './Posts'
 
@@ -11,6 +12,5 @@ let mapStateToProps = (state) => {
         postData: state.profilePage.postData
     }
 }
-const PostsContainer = connect(mapStateToProps)(Posts)
 
-export default PostsContainer;
+export default compose(connect(mapStateToProps))(Posts);

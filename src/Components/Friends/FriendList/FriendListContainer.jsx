@@ -3,6 +3,7 @@ import { getUsersThunkCreator, setCurrentPageThunkCreator } from "../../../Redux
 import React from 'react';
 import FriendList from './FriendList';
 import Preloader from "../../common/Preloader/Preloader";
+import { compose } from "redux";
 
 
 
@@ -57,10 +58,11 @@ let mapStateToProps = (state) => {
     }
 
 }
-const FriendListContainer = connect(mapStateToProps, {
+
+
+
+export default compose(connect(mapStateToProps, {
     getUsersThunk: getUsersThunkCreator,
     setCurrentPageThunk: setCurrentPageThunkCreator
 
-})(FriendListApiComponent)
-
-export default FriendListContainer;
+}))(FriendListApiComponent);
