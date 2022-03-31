@@ -7,13 +7,15 @@ import whoToFollowReducer from "./WhoToFollow-reducer";
 import thunkMiddleware from 'redux-thunk'
 
 
+
 let reducers = combineReducers({
 
     profilePage: profileReducer,
     messagesPage: messagesReducer,
     friendsPage: friendsReducer,
     whoToFollow: whoToFollowReducer,
-    auth: AuthReducer
+    auth: AuthReducer,
+
 
 
 })

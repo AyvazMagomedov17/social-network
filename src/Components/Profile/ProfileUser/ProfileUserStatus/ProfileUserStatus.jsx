@@ -6,7 +6,7 @@ const ProfileUserStatus = (props) => {
         <div className={s.ProfileUserStatus}>
             {!props.state.editMode && <div onDoubleClick={() => {
                 props.activateEditMode()
-            }} className={s.status} > {props.status}</div>}
+            }} className={s.status} > {props.status || 'Change status'}</div>}
             {props.state.editMode && <div onBlur={() => {
                 props.deactivateEditMode()
             }} className={s.status} > <input ref={inputRef} onChange={() => {

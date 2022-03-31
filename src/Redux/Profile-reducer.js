@@ -5,7 +5,7 @@ import { profileApi } from '../Api/api'
 
 
 const ADD__POST = 'ADD-POST'
-const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
+
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
 const SET_ACTUAL_STRING = 'SET-ACTUAL-STRING'
 const SET_STATUS = 'SET-STATUS'
@@ -46,7 +46,7 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD__POST:
 
-            if (state.newPostTextarea != '') {
+            if (action.text != '') {
 
                 let newPost = {
                     id: 2,
@@ -54,7 +54,7 @@ const profileReducer = (state = initialState, action) => {
                     follow: 'unfollowing',
                     like: '0', dislike: '0',
                     img: newPostImg,
-                    text: state.newPostTextarea
+                    text: action.text
                 }
                 return {
                     ...state,
@@ -62,12 +62,6 @@ const profileReducer = (state = initialState, action) => {
                     postData: [newPost, ...state.postData]
                 }
 
-            }
-
-        case CHANGE_TEXTAREA:
-            return {
-                ...state,
-                newPostTextarea: action.text
             }
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile }
@@ -90,18 +84,14 @@ const profileReducer = (state = initialState, action) => {
 
 
 }
-export const addPostActionCreator = () => {
+export const addPostActionCreator = (text) => {
     return {
-        type: ADD__POST
-    }
-}
-
-export const changeTextareaActionCreator = (text) => {
-    return {
-        type: CHANGE_TEXTAREA,
+        type: ADD__POST,
         text: text
     }
 }
+
+
 export const setUserProfileAC = (profile) => {
     return {
         type: SET_USER_PROFILE,

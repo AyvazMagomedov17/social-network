@@ -37,3 +37,6 @@
     color: #fff;
     font-size: 16px;
 }
+.formChild{
+    display: flex
+}

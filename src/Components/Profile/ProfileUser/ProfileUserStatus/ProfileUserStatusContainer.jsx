@@ -11,6 +11,14 @@ class ProfileUserStatusContainer extends Component {
         status: this.props.status
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('Update')
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
+    }
     activateEditMode = () => {
         this.setState({
             editMode: true
