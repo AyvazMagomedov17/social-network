@@ -17,7 +17,7 @@ class ProfileUserContainer extends Component {
 
         let userId = this.props.actualString["*"]
         if (!userId) {
-            userId = 23038
+            userId = this.props.userId
         }
         this.props.getProfileThunk(userId)
         this.props.getStatusThunk(userId)
@@ -28,7 +28,7 @@ class ProfileUserContainer extends Component {
     render() {
         let userId = this.props.actualString["*"]
         if (!userId) {
-            userId = 23038
+            userId = this.props.userId
         }
         this.props.getStatusThunk(userId)
         profileApi.getProfileAPI(userId)
@@ -49,6 +49,7 @@ class ProfileUserContainer extends Component {
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
     actualString: state.profilePage.actualString,
+    userId: state.auth.id
 
 })
 

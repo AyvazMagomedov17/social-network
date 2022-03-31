@@ -5,6 +5,9 @@ import Item from './Items/Item';
 import Logo from './logo/Logo';
 
 const Header = (props) => {
+    let ha = () => {
+        props.logoutThunk()
+    }
     return (
         <header className={s.header}>
             <div className={s.row}>
@@ -19,6 +22,7 @@ const Header = (props) => {
                             <Item link='/login' text='All pages' />
                             <Item link='/login' text='Contact' />
                             {props.isAuth ? <Item link='#' text={props.login} /> : <Item link='/login' text='Login' />}
+                            {props.isAuth ? <Item link='#' logout={ha} text='Logout' /> : <></>}
                         </ul>
                     </nav>
 

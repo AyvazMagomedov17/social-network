@@ -11,7 +11,7 @@ const Login = (props) => {
 
         <div className={s.Login}>
             <h3 className={s.title}>LOGIN</h3>
-            <LoginForm />
+            <LoginForm {...props} loginThunk={props.loginThunk} />
         </div>
     )
 }

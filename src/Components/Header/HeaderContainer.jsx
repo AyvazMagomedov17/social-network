@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getLoginThunkCreator, setAuthUserDataAC } from '../../Redux/Auth-reducer';
+import { getLoginThunkCreator, logoutThunkCreator, setAuthUserDataAC } from '../../Redux/Auth-reducer';
 import { getStatusThunkCreator } from '../../Redux/Profile-reducer';
 import Header from './Header';
 
@@ -28,5 +28,6 @@ let mapStateToProps = (state) => ({
 export default compose(connect(mapStateToProps, {
     setAuthUserData: setAuthUserDataAC,
     getLoginThunk: getLoginThunkCreator,
+    logoutThunk: logoutThunkCreator
 
 }))(HeaderContainer)

@@ -3,7 +3,9 @@ import s from '../Login.module.css'
 import { Formik } from 'formik';
 import * as yup from 'yup'
 
+
 const LoginForm = (props) => {
+
     const validationSheme = yup.object().shape({
         login: yup.string().typeError('Должно быть строкой').required('Обязательно'),
         password: yup.string().typeError('Должно быть строкой').required('Обязательно')
@@ -13,12 +15,18 @@ const LoginForm = (props) => {
             initialValues={
                 {
                     login: '',
-                    password: ''
+                    password: '',
+                    rememberMe: true
                 }
             }
             validateOnBlur                     // ВАЛИДАЦИЯ ПРИ ПЕРЕХОДЕ НА ДРУГОЕ ПОЛЕ
-            onSubmit={(values) => console.log(values.login, values.password)}
+            onSubmit={(values) => {
+
+                props.loginThunk(values.login, values.password, values.rememberMe)
+            }}
             validationSchema={validationSheme}
+
+
         >
             {({ values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) => (
                 <div className={s.form}>
@@ -30,6 +38,11 @@ const LoginForm = (props) => {
                     <div className={s.password}>
                         <input className={s.input} type={"password"} name={'password'} onChange={handleChange} onBlur={handleBlur} value={values.password} />
                         {touched.password && errors.password && <p> Ошибка: {errors.password}</p>}
+                        {!props.errorMessage ? <></> : <div>{props.errorMessage}</div>}
+                    </div>
+                    <div>
+                        <input type="checkbox" onChange={handleChange} name={'rememberMe'} checked={values.rememberMe} />
+                        <span>Запомнить меня</span>
                     </div>
 
                     <button disabled={!isValid && !dirty} type={"submit"} onClick={handleSubmit}>Login</button>
