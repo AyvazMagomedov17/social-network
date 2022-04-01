@@ -1,6 +1,6 @@
 import { Component } from "react"
 import { connect } from "react-redux"
-import { Navigate } from "react-router-dom"
+
 import { compose } from "redux"
 import withAuthRedirect from "../../Hoc/withAuthRedirect"
 

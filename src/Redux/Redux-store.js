@@ -5,6 +5,7 @@ import messagesReducer from "./Messages-reducer";
 import profileReducer from "./Profile-reducer";
 import whoToFollowReducer from "./WhoToFollow-reducer";
 import thunkMiddleware from 'redux-thunk'
+import appReducer from "./App-reducer";
 
 
 
@@ -15,6 +16,8 @@ let reducers = combineReducers({
     friendsPage: friendsReducer,
     whoToFollow: whoToFollowReducer,
     auth: AuthReducer,
+    app: appReducer
+
 
 
 

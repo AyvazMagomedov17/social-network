@@ -2,7 +2,6 @@ import MyMessage from './MyMessage/MyMessage';
 import s from './Messages.module.css'
 import YourMessage from './YourMessage/YourMessage';
 import OneMessage from './OneMessage/OneMessage';
-import AddMessage from '../AddMessage/AddMessage';
 import AddMessageContainer from '../AddMessage/AddMessageContainer';
 
 const Messages = (props) => {

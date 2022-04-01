@@ -13,7 +13,6 @@ let initialState = {
 
 let authReducer = (state = initialState, action) => {
     switch (action.type) {
-
         case SET_USER_DATA:
             return { ...state, ...action.data, isAuth: action.isAuth, errorMessage: '' }
         case ERROR_MESSAGE:
@@ -38,15 +37,15 @@ export const setAuthUserDataAC = (id, email, login, isAuth,) => {
 }
 
 export const getLoginThunkCreator = () => {
-
     return (dispatch) => {
-        authApi.me()
+        return authApi.me()
             .then((data) => {
                 if (data.resultCode === 0) {
                     let { id, email, login } = data.data
                     dispatch(setAuthUserDataAC(id, email, login, true))
                 }
             })
+
     }
 }
 
