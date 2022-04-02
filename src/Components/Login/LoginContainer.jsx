@@ -1,11 +1,11 @@
 
-
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { loginThunkCreator } from '../../Redux/Auth-reducer'
 import Login from './Login'
 import { Navigate } from 'react-router-dom'
+import { getErrorMessageSelector, getIsAuthSelector, getChotoSuperSelector } from '../../Redux/Selectors/Login-selectors'
 
 class LoginContainer extends Component {
     render() {
@@ -20,8 +20,8 @@ class LoginContainer extends Component {
 }
 let mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth,
-        errorMessage: state.auth.errorMessage
+        isAuth: getChotoSuperSelector(state),
+        errorMessage: getErrorMessageSelector(state)
     }
 }
 

@@ -1,12 +1,11 @@
 
-import axios from 'axios';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 import { compose } from 'redux';
 import { profileApi } from '../../../Api/api';
-
 import { getProfileThunkCreator, getStatusThunkCreator, setActualStringAC, setUserProfileAC } from '../../../Redux/Profile-reducer'
+import { getActualStringSelector, getProfileSelector, getUserIdSelector } from '../../../Redux/Selectors/ProfileUser-selectors';
 import ProfileUser from './ProfileUser';
 
 
@@ -47,9 +46,9 @@ class ProfileUserContainer extends Component {
 
 
 let mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    actualString: state.profilePage.actualString,
-    userId: state.auth.id
+    profile: getProfileSelector(state),
+    actualString: getActualStringSelector(state),
+    userId: getUserIdSelector(state)
 
 })
 

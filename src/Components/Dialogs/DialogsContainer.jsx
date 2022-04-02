@@ -23,13 +23,9 @@ class DialogsContainer extends Component {
 }
 
 
-let mapStateToProps = (state) => {
-    return {
-        nothing: 0
-    }
-}
+
 
 export default compose(
-    connect(mapStateToProps),
+    connect(null),
     withAuthRedirect
 )(DialogsContainer)

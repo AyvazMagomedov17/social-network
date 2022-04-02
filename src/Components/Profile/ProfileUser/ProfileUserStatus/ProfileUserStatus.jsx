@@ -1,21 +1,38 @@
-import React, { createRef, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import s from '../ProfileUser.module.css'
+
 const ProfileUserStatus = (props) => {
     const inputRef = useRef(null)
+    let [editMode, setEditMode] = useState(false)
+    let [status, setStatus] = useState(props.status)
+
+    let activateEditMode = () => {
+        setEditMode(true)
+    }
+    let deActivateEditMode = () => {
+        setEditMode(false)
+        props.updateStatusThunk(status)
+    }
+    let onStatusChange = () => {
+        setStatus(inputRef.current.value)
+    }
+
+    useEffect(() => {
+        setStatus(props.status)
+    }, [props.status])
     return (
         <div className={s.ProfileUserStatus}>
-            {!props.state.editMode && <div onDoubleClick={() => {
-                props.activateEditMode()
-            }} className={s.status} > {props.status || 'Change status'}</div>}
-            {props.state.editMode && <div onBlur={() => {
-                props.deactivateEditMode()
-            }} className={s.status} > <input ref={inputRef} onChange={() => {
-                props.onStatusChange(inputRef.current.value)
-            }} autoFocus={true} type="text" value={props.state.status} /></div>}
+            {!editMode && <div onDoubleClick={activateEditMode} className={s.status} > {props.status}</div>}
+            {editMode && <div className={s.status} > <input onChange={onStatusChange} ref={inputRef} onBlur={deActivateEditMode} autoFocus={true} type="text" value={status} /></div>}
 
 
         </div>
     )
 }
+
+
+
+
+
 
 export default ProfileUserStatus
