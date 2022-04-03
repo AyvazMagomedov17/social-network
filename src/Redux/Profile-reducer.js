@@ -1,16 +1,12 @@
 import PostImg from '../Assets/img/Profile/user2.jpg'
 import newPostImg from '../Assets/img/Profile/user1.jpg'
 import { profileApi } from '../Api/api'
-
-
-
-const ADD__POST = 'ADD-POST'
-
-const SET_USER_PROFILE = 'SET-USER-PROFILE'
-const SET_ACTUAL_STRING = 'SET-ACTUAL-STRING'
-const SET_STATUS = 'SET-STATUS'
-const UPDATE_STATUS = 'UPDATE-STATUS'
-const TOGGLE_GET_PROFILE = 'TOGGLE-GET-PROFILE'
+const ADD__POST = 'profile/ADD-POST'
+const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
+const SET_ACTUAL_STRING = 'profile/SET-ACTUAL-STRING'
+const SET_STATUS = 'profile/SET-STATUS'
+const UPDATE_STATUS = 'profile/UPDATE-STATUS'
+const TOGGLE_GET_PROFILE = 'profile/TOGGLE-GET-PROFILE'
 
 let initialState = {
     postData: [
@@ -84,7 +80,7 @@ const profileReducer = (state = initialState, action) => {
 
 
 }
-export const addPostActionCreator = (text) => {
+export const addPostAC = (text) => {
     return {
         type: ADD__POST,
         text: text
@@ -124,36 +120,30 @@ const toggleGetProfileAC = () => {
     }
 }
 
-export const getProfileThunkCreator = (userId) => {
-    return (dispatch) => {
+export const getProfileThunk = (userId) => {
+    return async (dispatch) => {
         dispatch(toggleGetProfileAC())
-        profileApi.getProfileAPI(userId)
-            .then((data) => {
-                dispatch(setUserProfileAC(data))
-                dispatch(toggleGetProfileAC())
-            })
+        let data = await profileApi.getProfileAPI(userId)
+        dispatch(setUserProfileAC(data))
+        dispatch(toggleGetProfileAC())
+
 
     }
 }
-export const getStatusThunkCreator = (userId) => {
-    return (dispatch) => {
-        profileApi.getStatusAPI(userId)
-            .then((data) => {
-                dispatch(setStatusAc(data))
-            })
+export const getStatusThunk = (userId) => {
+    return async (dispatch) => {
+        let data = await profileApi.getStatusAPI(userId)
+        dispatch(setStatusAc(data))
+
     }
 }
 
-export const updateStatusThunkCreator = (status) => {
-    return (dispatch) => {
-        profileApi.updateStatusApi(status)
-            .then((data) => {
-                if (data.resultCode === 0) {
-                    dispatch(updateStatusAc(status))
-
-                }
-            })
-
+export const updateStatusThunk = (status) => {
+    return async (dispatch) => {
+        let data = await profileApi.updateStatusApi(status)
+        if (data.resultCode === 0) {
+            dispatch(updateStatusAc(status))
+        }
     }
 }
 

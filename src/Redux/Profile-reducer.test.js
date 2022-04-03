@@ -1,7 +1,6 @@
 import profileReducer, { addPostActionCreator } from "./Profile-reducer";
 import PostImg from '../Assets/img/Profile/user2.jpg'
-import newPostImg from '../Assets/img/Profile/user1.jpg'
-import { profileApi } from '../Api/api'
+
 test('new post should be added', () => {
 
     // test data

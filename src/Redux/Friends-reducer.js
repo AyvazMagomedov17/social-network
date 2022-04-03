@@ -1,15 +1,17 @@
-import store from '../Redux/Redux-store'
+
 import { usersApi } from "../Api/api"
 
-const SET_USERS = 'SET-USERS'
-const TOGGLE_FOLLOW = 'TOGGLE-FOLLOW'
-const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
-const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT'
-const CHANGE_FETCHING = 'CHANGE-FETCHING'
-const TOGGLE_FOLLOWING_IN_PROGRESS = 'TOGGLE-FOLLOWING-IN-PROGRESS'
+const SET_USERS = 'friends/SET-USERS'
+const TOGGLE_FOLLOW = 'friends/TOGGLE-FOLLOW'
+const SET_CURRENT_PAGE = 'friends/SET-CURRENT-PAGE'
+const SET_TOTAL_USERS_COUNT = 'friends/SET-TOTAL-USERS-COUNT'
+const CHANGE_FETCHING = 'friends/CHANGE-FETCHING'
+const TOGGLE_FOLLOWING_IN_PROGRESS = 'friends/TOGGLE-FOLLOWING-IN-PROGRESS'
+const WHO_TO_FOLLOW_SET_USERS = 'friends/WHO_TO_FOLLOW_SET_USERS'
 
 let initialState = {
     usersData: [],
+    whoToFollowsData: [],
     pageSize: 100,
     totalUsersCount: 0,
     currentPage: 1,
@@ -21,18 +23,24 @@ let initialState = {
 const friendsReducer = (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_FOLLOW: {
-
             let stateCopy = {
                 ...state,
                 usersData: state.usersData.map((u) => {
                     if (u.id === action.userId) {
-
                         return {
                             ...u,
                             followed: !u.followed,
                         }
                     }
-
+                    return u
+                }),
+                whoToFollowsData: state.whoToFollowsData.map((u) => {
+                    if (u.id === action.userId) {
+                        return {
+                            ...u,
+                            followed: !u.followed,
+                        }
+                    }
                     return u
                 })
             }
@@ -49,15 +57,13 @@ const friendsReducer = (state = initialState, action) => {
         case CHANGE_FETCHING:
             return { ...state, isFetching: !state.isFetching }
         case TOGGLE_FOLLOWING_IN_PROGRESS:
-
             return {
                 ...state, followingInProgressArr: action.isFollowingInProgress
                     ? [...state.followingInProgressArr, action.userId] // пока делается запрос на сервер
                     : state.followingInProgressArr.filter(id => id != action.userId) // после того, как сервер закончил запрос
             }
-
-
-
+        case WHO_TO_FOLLOW_SET_USERS:
+            return { ...state, whoToFollowsData: action.users }
         default:
             return state
     }
@@ -76,6 +82,13 @@ export const setUsersAC = (users) => {
         users: users
     }
 }
+export const whoToFollowSetUsersAC = (users) => {
+    return {
+        type: WHO_TO_FOLLOW_SET_USERS,
+        users: users
+    }
+}
+
 export const setCurrentPageAC = (currentPage) => {
     return {
         type: SET_CURRENT_PAGE,
@@ -101,57 +114,50 @@ export const togglefollowingInProgressAC = (isFollowingInProgress, userId) => {
     }
 }
 
-export const getUsersThunkCreator = (currentPage, pageSize) => {
-
-    return (dispatch) => {
-
-        usersApi.getUsersAPI(currentPage, pageSize)
-            .then((data) => {
-                dispatch(setUsersAC(data.items))
-                dispatch(setTotalUsersCountAC(data.totalCount))
-                dispatch(changeFetchingAC())
-
-            })
-
+export const getUsersThunk = (currentPage, pageSize, fromWho) => {
+    return async (dispatch) => {
+        let data = await usersApi.getUsersAPI(currentPage, pageSize)
+        if (fromWho === 'FRIENDS') {
+            dispatch(setUsersAC(data.items))
+            dispatch(setTotalUsersCountAC(data.totalCount))
+            dispatch(changeFetchingAC())
+        }
+        if (fromWho === 'WHO_TO_FOLLOW') {
+            dispatch(whoToFollowSetUsersAC(data.items))
+        }
 
     }
 }
-export const setCurrentPageThunkCreator = (pageNumber, pageSize) => {
 
-    return (dispatch) => {
+export const setCurrentPageThunk = (pageNumber, pageSize) => {
 
+    return async (dispatch) => {
         dispatch(setCurrentPageAC(pageNumber))
-        usersApi.getUsersAPI(pageNumber, pageSize)
-            .then((data) => {
-                dispatch(setUsersAC(data.items))
-                dispatch(changeFetchingAC())
-
-            })
-
+        let data = await usersApi.getUsersAPI(pageNumber, pageSize)
+        dispatch(setUsersAC(data.items))
+        dispatch(changeFetchingAC())
     }
 }
 
-export const followUnfollowThunkCreator = (userId, usersData) => {
-    return (dispatch) => {
+export const followUnfollowThunk = (userId, usersData) => {
+    return async (dispatch) => {
         dispatch(togglefollowingInProgressAC(true, userId))
-        usersData.forEach((item) => {
+        usersData.forEach(async (item) => {
             if (item.id === userId && item.followed === false) {
-                usersApi.FollowAPI(userId)
-                    .then((data) => {
-                        if (data.resultCode === 0) {
-                            dispatch(toggleFollowAC(userId))
-                        }
-                        dispatch(togglefollowingInProgressAC(false, userId))
-                    })
+                let data = await usersApi.FollowAPI(userId)
+                if (data.resultCode === 0) {
+                    dispatch(toggleFollowAC(userId))
+                }
+                dispatch(togglefollowingInProgressAC(false, userId))
+
             }
             if (item.id === userId && item.followed === true) {
-                usersApi.unFollowAPI(userId)
-                    .then((data) => {
-                        if (data.resultCode === 0) {
-                            dispatch(toggleFollowAC(userId))
-                        }
-                        dispatch(togglefollowingInProgressAC(false, userId))
-                    })
+                let data = await usersApi.unFollowAPI(userId)
+                if (data.resultCode === 0) {
+                    dispatch(toggleFollowAC(userId))
+                }
+                dispatch(togglefollowingInProgressAC(false, userId))
+
             }
         })
     }

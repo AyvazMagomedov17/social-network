@@ -1,8 +1,8 @@
 import { authApi } from "../Api/api"
 
 
-const SET_USER_DATA = 'SET-USER-DATA'
-const ERROR_MESSAGE = 'ERROR-MESSAGE'
+const SET_USER_DATA = 'auth/SET-USER-DATA'
+const ERROR_MESSAGE = 'auth/ERROR-MESSAGE'
 let initialState = {
     id: null,
     email: null,
@@ -36,9 +36,9 @@ export const setAuthUserDataAC = (id, email, login, isAuth,) => {
     }
 }
 
-export const getLoginThunkCreator = () => {
+export const getLoginThunk = () => {
     return (dispatch) => {
-        return authApi.me()
+        return authApi.meAPI()
             .then((data) => {
                 if (data.resultCode === 0) {
                     let { id, email, login } = data.data
@@ -49,28 +49,25 @@ export const getLoginThunkCreator = () => {
     }
 }
 
-export const loginThunkCreator = (email, password, rememberMe) => {
+export const loginThunk = (email, password, rememberMe) => {
 
-    return (dispatch) => {
-        authApi.login(email, password, rememberMe)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(getLoginThunkCreator())
-                } else {
-                    dispatch(errorMessageAc(data.messages[0]))
-                }
-            })
+    return async (dispatch) => {
+        let data = await authApi.loginAPI(email, password, rememberMe)
+        if (data.resultCode === 0) {
+            dispatch(getLoginThunk())
+        } else {
+            dispatch(errorMessageAc(data.messages[0]))
+        }
+
     }
 }
 
-export const logoutThunkCreator = () => {
-    return (dispatch) => {
-        authApi.logout()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setAuthUserDataAC(null, null, null, false))
-                }
-            })
+export const logoutThunk = () => {
+    return async (dispatch) => {
+        let data = await authApi.logoutAPI()
+        if (data.resultCode === 0) {
+            dispatch(setAuthUserDataAC(null, null, null, false))
+        }
     }
 }
 export default authReducer

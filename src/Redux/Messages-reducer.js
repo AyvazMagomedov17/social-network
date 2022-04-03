@@ -1,7 +1,7 @@
 
 
-const ADD__MESSAGE = 'ADD-MESSAGE'
-const CHANGE__MESSAGE = 'CHANGE-MESSAGE'
+const ADD__MESSAGE = 'messages/ADD-MESSAGE'
+const CHANGE__MESSAGE = 'messages/CHANGE-MESSAGE'
 let initialState = {
     myMessageInfo: {
         id: 'me',
@@ -32,54 +32,36 @@ let initialState = {
         { id: 4, name: 'Uma Turman' },
         { id: 5, name: 'Margo Robbie' },
     ],
-    newMessageTextarea: '',
+
 }
-window.newMessageTextarea = initialState.newMessageTextarea
+
 const messagesReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD__MESSAGE:
 
-            if (state.newMessageTextarea != '') {
+            if (action.message != '') {
                 let newMessage = {
                     id: 10,
                     from: 'me',
-                    message: state.newMessageTextarea
+                    message: action.message
                 }
                 return {
                     ...state,
-                    newMessageTextarea: '',
                     MessageData: [...state.MessageData, newMessage]
                 }
-
             }
-
-        case CHANGE__MESSAGE:
-            return {
-                ...state,
-                newMessageTextarea: action.text
-            }
-
-
         default:
             return state
     }
-
-
-
-
 }
 
-export const addMessageActionCreator = () => {
+export const addMessageAC = (message) => {
     return {
-        type: ADD__MESSAGE
+        type: ADD__MESSAGE,
+        message
     }
 }
-export const changeMessageTextareaActionCreator = (text) => {
-    return {
-        type: CHANGE__MESSAGE,
-        text: text
-    }
-}
+
 
 export default messagesReducer;

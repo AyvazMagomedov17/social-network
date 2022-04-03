@@ -1,9 +1,9 @@
 import s from './OneMessage.module.css'
 
-const OneMessage = (props) => {
+const OneMessage = ({ message }) => {
     return (
         <p className={s.message}>
-            {props.message}
+            {message}
         </p>
     )
 }

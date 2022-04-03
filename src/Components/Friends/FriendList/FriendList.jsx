@@ -20,7 +20,6 @@ let FriendList = (props) => {
         <div className={s.friendlist} >
             <div className={s.pages}>
                 {pages.map((p) => {
-
                     return <button onClick={() => { props.setCurrentPage(p) }} className={props.currentPage === p && s.selectedPage}>{p}</button>
                 })}
 

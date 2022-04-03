@@ -2,8 +2,9 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { getUsersThunk } from '../../Redux/Friends-reducer';
 
-import { setFollowsAC, toggleFollowsAC, whoToFollowThunkCreator } from '../../Redux/WhoToFollow-reducer';
+
 
 import WhoToFollow from './WhoToFollow';
 
@@ -14,19 +15,19 @@ class WhoToFollowApi extends Component {
     componentDidMount() {
         let page = 1;
         let count = 3
-        this.props.whoToFollowThunk(page, count)
+        this.props.getUsersThunk(page, count, 'WHO_TO_FOLLOW')
     }
 
     render() {
         return (
-            <WhoToFollow followsData={this.props.followsData} />
+            <WhoToFollow usersData={this.props.usersData} followsData={this.props.followsData} />
         )
     }
 }
 
 let mapStateToProps = (state) => {
     return {
-        followsData: state.whoToFollow.followsData
+        usersData: state.friendsPage.whoToFollowsData
     }
 }
 
@@ -34,7 +35,5 @@ let mapStateToProps = (state) => {
 
 
 export default compose(connect(mapStateToProps, {
-    setFollows: setFollowsAC,
-    toggleFollows: toggleFollowsAC,
-    whoToFollowThunk: whoToFollowThunkCreator
+    getUsersThunk: getUsersThunk
 }))(WhoToFollowApi)

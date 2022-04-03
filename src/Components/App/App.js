@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import { initializeAppThunk } from '../../Redux/App-reducer';
 import Preloader from '../common/Preloader/Preloader';
+import { getProfileThunk } from '../../Redux/Profile-reducer';
 
 
 
@@ -25,11 +26,12 @@ class App extends Component {
 
     componentDidMount() {
         this.props.initializeApp()
-
     }
+
+
+
     render() {
         if (!this.props.initialized) {
-
             return <Preloader />
         }
         return (
@@ -56,8 +58,10 @@ class App extends Component {
 }
 let mapStateToProps = (state) => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        id: state.auth.id,
+        isAuth: state.auth.isAuth
     }
 }
 
-export default compose(connect(mapStateToProps, { initializeApp: initializeAppThunk }))(App);
+export default compose(connect(mapStateToProps, { initializeApp: initializeAppThunk, getProfile: getProfileThunk }))(App);

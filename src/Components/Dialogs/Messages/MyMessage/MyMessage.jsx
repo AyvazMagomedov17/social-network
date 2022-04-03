@@ -1,36 +1,24 @@
-import OneMessage from '../OneMessage/OneMessage';
 import s from './MyMessage.module.css'
 
-const MyMessage = (props) => {
-
-
-
-
-
+const MyMessage = ({ time, name, NewMessageElement, img }) => {
     return (
         <div className={s.message}>
             <div className={s.column}>
                 <div className={s.rowReverse}>
                     <div className={s.profile}>
                         <div className={s.img}>
-                            <img src="img/Dialogs/user1.jpg" alt="" /></div>
-                        <span className={s.data}>{props.time}</span>
-                        <span className={s.name}>{props.name}</span>
-
+                            <img src={img} alt="" /></div>
+                        <span className={s.data}>{time}</span>
+                        <span className={s.name}>{name}</span>
                     </div>
                 </div>
                 <div className={s.main}>
                     <div className={s.mainColumn}>
-                        {props.NewMessageElement}
-                        {props.notNewMessage}
-
-
+                        {NewMessageElement}
                     </div>
 
                 </div>
             </div>
-
-
         </div>
     )
 }

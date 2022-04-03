@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 
 
-const LoginForm = (props) => {
+const LoginForm = ({ loginThunk, errorMessage }) => {
 
     const validationSheme = yup.object().shape({
         login: yup.string().typeError('Должно быть строкой').required('Обязательно'),
@@ -22,7 +22,7 @@ const LoginForm = (props) => {
             validateOnBlur                     // ВАЛИДАЦИЯ ПРИ ПЕРЕХОДЕ НА ДРУГОЕ ПОЛЕ
             onSubmit={(values) => {
 
-                props.loginThunk(values.login, values.password, values.rememberMe)
+                loginThunk(values.login, values.password, values.rememberMe)
             }}
             validationSchema={validationSheme}
 
@@ -38,7 +38,7 @@ const LoginForm = (props) => {
                     <div className={s.password}>
                         <input className={s.input} type={"password"} name={'password'} onChange={handleChange} onBlur={handleBlur} value={values.password} />
                         {touched.password && errors.password && <p> Ошибка: {errors.password}</p>}
-                        {!props.errorMessage ? <></> : <div>{props.errorMessage}</div>}
+                        {!errorMessage ? <></> : <div>{errorMessage}</div>}
                     </div>
                     <div>
                         <input type="checkbox" onChange={handleChange} name={'rememberMe'} checked={values.rememberMe} />

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getUsersThunkCreator, setCurrentPageThunkCreator } from "../../../Redux/Friends-reducer";
+import { getUsersThunk, setCurrentPageThunk } from "../../../Redux/Friends-reducer";
 import React from 'react';
 import FriendList from './FriendList';
 import Preloader from "../../common/Preloader/Preloader";
@@ -18,14 +18,13 @@ class FriendListApiComponent extends React.Component {
     componentDidMount() {
 
         if (this.props.usersData.length === 0) {
-            this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+            this.props.getUsersThunk(this.props.currentPage, this.props.pageSize, 'FRIENDS')
         }
 
 
     }
     setCurrentPage = (pageNumber) => {
         this.props.setCurrentPageThunk(pageNumber, this.props.pageSize)
-
     }
 
 
@@ -62,7 +61,7 @@ let mapStateToProps = (state) => {
 
 
 export default compose(connect(mapStateToProps, {
-    getUsersThunk: getUsersThunkCreator,
-    setCurrentPageThunk: setCurrentPageThunkCreator
+    getUsersThunk: getUsersThunk,
+    setCurrentPageThunk: setCurrentPageThunk
 
 }))(FriendListApiComponent);

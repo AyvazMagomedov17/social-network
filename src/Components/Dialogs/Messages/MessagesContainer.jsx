@@ -1,20 +1,33 @@
+import { useEffect } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
+import { getProfileThunk } from "../../../Redux/Profile-reducer"
+import { getMyMessageInfoDataSelector, getMyProfileImgSelector, getOneMessageDataSelector, getYourMessageInfoDataSelector } from "../../../Redux/Selectors/Messages-selector"
 import Messages from "./Messages"
 
 
 
+const MessagesContainer = (props) => {
 
+    useEffect(() => {
+        props.getProfile(props.id)
+    }, [props.id])
+    return (
+        <Messages {...props} />
+    )
+}
 
 
 let mapStateToProps = (state) => {
-    let myMessageInfoData = state.messagesPage.myMessageInfo
-    let yourMessageInfoData = state.messagesPage.yourMessageInfo
-    let OneMessageData = state.messagesPage.MessageData
+
     return {
-        myMessageInfoData: myMessageInfoData,
-        yourMessageInfoData: yourMessageInfoData,
-        OneMessageData: OneMessageData
+        myMessageInfoData: getMyMessageInfoDataSelector(state),
+        yourMessageInfoData: getYourMessageInfoDataSelector(state),
+        OneMessageData: getOneMessageDataSelector(state),
+        id: state.auth.id,
+        profile: state.profilePage.profile
+
+
     }
 }
 
@@ -25,4 +38,4 @@ let mapStateToProps = (state) => {
 
 
 
-export default compose(connect(mapStateToProps))(Messages);
+export default compose(connect(mapStateToProps, { getProfile: getProfileThunk }))(MessagesContainer);

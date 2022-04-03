@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+
 import s from './AddPost.module.css'
 import React from 'react'
 import { Formik } from 'formik'
@@ -6,14 +6,14 @@ import { Formik } from 'formik'
 
 
 
-const AddPost = (propsi) => {
+const AddPost = ({ addPost, img }) => {
     let onAddPost = (text) => {
-        propsi.addPost(text)
+        addPost(text)
 
     }
     return (
         <div className={s.form}>
-            <img src={propsi.img} alt="people" className={s.image} />
+            <img src={img} alt="people" className={s.image} />
             <Formik
                 initialValues={{
                     text: ''
@@ -21,12 +21,12 @@ const AddPost = (propsi) => {
                 onSubmit={(values) => {
                     onAddPost(values.text)
                 }}>
-                {props => (
+                {({ handleSubmit, handleReset, handleChange, values }) => (
                     <div className={s.formChild}>
-                        <textarea onChange={props.handleChange} name={'text'} value={props.values.text} placeholder='Write what you wish' className={s.textarea}></textarea>
+                        <textarea onChange={handleChange} name={'text'} value={values.text} placeholder='Write what you wish' className={s.textarea}></textarea>
                         <button type={"submit"} className={s.button} onClick={() => {
-                            props.handleSubmit()
-                            setTimeout(() => props.handleReset(), 1)
+                            handleSubmit()
+                            setTimeout(() => handleReset(), 1)
                         }}>Publish</button>
                     </div>
                 )

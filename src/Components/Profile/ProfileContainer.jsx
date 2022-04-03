@@ -1,6 +1,5 @@
 import { Component } from "react"
 import { connect } from "react-redux"
-
 import { compose } from "redux"
 import withAuthRedirect from "../../Hoc/withAuthRedirect"
 

@@ -42,15 +42,15 @@ export const profileApi = {
 }
 
 export const authApi = {
-    me() {
+    meAPI() {
         return instanse.get(`auth/me`)
             .then(response => response.data)
     },
-    login(email, password, rememberMe = false) {
+    loginAPI(email, password, rememberMe = false) {
         return instanse.post(`auth/login`, { email, password, rememberMe })
             .then(response => response.data)
     },
-    logout() {
+    logoutAPI() {
         return instanse.delete(`auth/login`)
             .then(response => response.data)
     },

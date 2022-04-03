@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { followUnfollowThunkCreator, setUsersAC, toggleFollowAC, togglefollowingInProgressAC } from "../../../../Redux/Friends-reducer";
+import { followUnfollowThunk } from "../../../../Redux/Friends-reducer";
 import Friend from "./Friend";
 
 
@@ -17,5 +17,5 @@ let mapStateToProps = (state) => {
 
 export default compose(connect(mapStateToProps, {
 
-    followUnfollowThunk: followUnfollowThunkCreator
-}))(Friend);
+    followUnfollowThunk: followUnfollowThunk
+}))(Friend)

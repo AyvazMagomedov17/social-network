@@ -11,7 +11,7 @@ const WhoToFollow = (props) => {
                 Who to Follow
             </h3>
             <ul className={s.list}>
-                {props.followsData
+                {props.usersData
                     .map((f) => {
 
                         if (f.followed === true) {
