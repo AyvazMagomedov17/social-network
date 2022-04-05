@@ -1,21 +1,23 @@
 
 import './App.css';
 import Nav from '../Nav/Nav';
-import WhoToFollowContainer from '../WhoToFollow/WhoToFollowContainer';
 import { BrowserRouter, Route, Routes, } from 'react-router-dom';
 import Friends from '../Friends/Friends';
-import HeaderContainer from '../Header/HeaderContainer';
-import DialogsContainer from '../Dialogs/DialogsContainer';
-import ProfileContainer from '../Profile/ProfileContainer';
-import LoginContainer from '../Login/LoginContainer';
-import { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { compose } from 'redux';
 import { connect, Provider } from 'react-redux';
 import { initializeAppThunk } from '../../Redux/App-reducer';
 import Preloader from '../common/Preloader/Preloader';
 import { getProfileThunk } from '../../Redux/Profile-reducer';
 import store from '../../Redux/Redux-store';
+import HeaderContainer from '../Header/HeaderContainer';
+import WhoToFollowContainer from '../WhoToFollow/WhoToFollowContainer';
 
+
+const DialogsContainer = React.lazy(() => import('../Dialogs/DialogsContainer'));
+
+const ProfileContainer = React.lazy(() => import('../Profile/ProfileContainer'));
+const LoginContainer = React.lazy(() => import('../Login/LoginContainer'));
 
 
 
@@ -39,15 +41,18 @@ class AppRender extends Component {
                 <div className="app__wrapper __container">
                     <Nav />
                     <div className='app-wrapper-main'>
-
-                        <Routes>
-                            <Route path='/profile/*' element={<ProfileContainer />} />
-                            <Route path='/messages/*' element={<DialogsContainer />} />
-                            <Route path='/friends/*' element={<Friends />} />
-                            <Route path='/login' element={<LoginContainer />} />
-                        </Routes>
+                        <Suspense fallback={<Preloader />}>
+                            <Routes>
+                                <Route path='/profile/*' element={<ProfileContainer />} />
+                                <Route path='/messages/*' element={<DialogsContainer />} />
+                                <Route path='/friends/*' element={<Friends />} />
+                                <Route path='/login' element={<LoginContainer />} />
+                            </Routes>
+                        </Suspense>
                     </div>
+
                     <WhoToFollowContainer />
+
                 </div>
             </div>
 

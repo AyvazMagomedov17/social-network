@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { getUsersThunk, setCurrentPageThunk } from "../../../Redux/Friends-reducer";
 import React from 'react';
 import FriendList from './FriendList';
-import Preloader from "../../common/Preloader/Preloader";
 import { compose } from "redux";
 
 
