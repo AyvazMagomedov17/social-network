@@ -32,14 +32,7 @@ class FriendListApiComponent extends React.Component {
     render() {
 
         return (
-            <>
-                {this.props.isFetching
-                    ?
-                    <Preloader />
-                    :
-                    <FriendList totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} usersData={this.props.usersData} currentPage={this.props.currentPage} setCurrentPage={this.setCurrentPage} />}
-
-            </>
+            <FriendList isFetching={this.props.isFetching} totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} usersData={this.props.usersData} currentPage={this.props.currentPage} setCurrentPage={this.setCurrentPage} />
         )
     }
 }

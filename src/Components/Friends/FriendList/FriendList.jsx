@@ -1,12 +1,16 @@
+import { memo } from 'react';
+import Paginator from '../../common/Paginator/Paginator';
+import Preloader from '../../common/Preloader/Preloader';
 import FriendContainer from './Friend/FriendContainer';
 import s from './FriendList.module.css'
 
-let FriendList = (props) => {
+let FriendList = memo((props) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
+
     let usersELem = props.usersData
         .map((user) => {
             if (user.followed === true) {
@@ -17,18 +21,23 @@ let FriendList = (props) => {
         }
         )
     return (
-        <div className={s.friendlist} >
-            <div className={s.pages}>
-                {pages.map((p) => {
-                    return <button onClick={() => { props.setCurrentPage(p) }} className={props.currentPage === p && s.selectedPage}>{p}</button>
-                })}
+        <>
+            <Paginator totalItemsCount={props.totalUsersCount} pageSize={props.pageSize} setCurrentPage={props.setCurrentPage} currentPage={props.currentPage} />
+            {props.isFetching
+                ?
+                <Preloader />
+                :
+                <div className={s.friendlist} >
 
-            </div>
-            <ul className={s.list}>
-                {usersELem}
-            </ul>
-        </div >)
-}
+                    <ul className={s.list}>
+                        {usersELem}
+                    </ul>
+                </div >
+            }
+
+        </>)
+
+})
 
 
 export default FriendList

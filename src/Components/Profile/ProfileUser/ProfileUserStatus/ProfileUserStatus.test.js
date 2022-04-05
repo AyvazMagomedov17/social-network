@@ -17,7 +17,6 @@ describe("ProfileUserComponent", () => {
         expect(input).not.toBeNull()
     });
     test("Div should be find ", () => {
-
         const component = create(<ProfileUserStatus />);
         const instanse = component.root
         const div = instanse.findByType('div')
