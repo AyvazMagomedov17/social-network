@@ -3,8 +3,9 @@ import s from '../ProfileUser.module.css'
 
 const ProfileUserStatus = (props) => {
     const inputRef = useRef(null)
-    let [editMode, setEditMode] = useState(false)
+    let [editMode, setEditMode] = useState(props.editMode || false)
     let [status, setStatus] = useState(props.status)
+
 
     let activateEditMode = () => {
         setEditMode(true)
@@ -19,10 +20,11 @@ const ProfileUserStatus = (props) => {
 
     useEffect(() => {
         setStatus(props.status)
+
     }, [props.status])
     return (
         <div className={s.ProfileUserStatus}>
-            {!editMode && <div onDoubleClick={activateEditMode} className={s.status} > {props.status || 'Change status'}</div>}
+            {!editMode && <div onDoubleClick={() => activateEditMode()} className={s.status} > {props.status || 'Change status'}</div>}
             {editMode && <div className={s.status} > <input onChange={onStatusChange} ref={inputRef} onBlur={deActivateEditMode} autoFocus={true} type="text" value={status} /></div>}
 
 

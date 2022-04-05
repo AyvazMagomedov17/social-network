@@ -1,10 +1,7 @@
 import PostsContainer from './Posts/PostsContainer';
 import AddPostContainer from './AddPost/AddPostContainer';
-
 import mainImg from '../../Assets/img/Profile/main.jpg'
-
 import s from './Profile.module.css'
-import ProfileUser from './ProfileUser/ProfileUser';
 import ProfileUserСontainer from './ProfileUser/ProfileUserСontainer';
 
 

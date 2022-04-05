@@ -1,7 +1,7 @@
 
 
 const ADD__MESSAGE = 'messages/ADD-MESSAGE'
-const CHANGE__MESSAGE = 'messages/CHANGE-MESSAGE'
+
 let initialState = {
     myMessageInfo: {
         id: 'me',

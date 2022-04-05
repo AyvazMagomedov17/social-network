@@ -142,7 +142,7 @@ export const updateStatusThunk = (status) => {
     return async (dispatch) => {
         let data = await profileApi.updateStatusApi(status)
         if (data.resultCode === 0) {
-            dispatch(updateStatusAc(status))
+            dispatch(setStatusAc(status))
         }
     }
 }

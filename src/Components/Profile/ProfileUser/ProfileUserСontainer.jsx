@@ -30,11 +30,7 @@ class ProfileUserContainer extends Component {
             userId = this.props.userId
         }
         this.props.getStatusThunk(userId)
-        profileApi.getProfileAPI(userId)
-            .then((data) => {
-                this.props.setUserProfile(data)
-            })
-
+        this.props.getProfileThunk(userId)
         return (
             <ProfileUser setActualString={this.props.setActualString} profile={this.props.profile} />
         )
