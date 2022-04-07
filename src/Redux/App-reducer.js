@@ -1,4 +1,4 @@
-import { getLoginThunk } from "./Auth-reducer"
+import { getAuthProfileThunk, getLoginThunk } from "./Auth-reducer"
 
 const INITIALIZED_SUCCES = 'app/INITIALIZED-SUCCES'
 
@@ -18,12 +18,13 @@ const appReducer = (state = initialState, action) => {
 
 export const initializedSuccesAC = () => ({ type: INITIALIZED_SUCCES })
 
-export const initializeAppThunk = () => (dispatch) => {
+export const initializeAppThunk = (id) => (dispatch) => {
     let promise = dispatch(getLoginThunk())
 
 
-    promise.then(() => {
+    return promise.then(() => {
         dispatch(initializedSuccesAC())
+        dispatch(getAuthProfileThunk(id))
     })
 
 }

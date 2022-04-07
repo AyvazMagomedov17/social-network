@@ -8,3 +8,6 @@ export const getActualStringSelector = (state) => {
 export const getUserIdSelector = (state) => {
     return state.auth.id
 }
+export const getUpdateProfileErrorMessage = (state) => {
+    return state.profilePage.updateProfileErrorMessage
+}

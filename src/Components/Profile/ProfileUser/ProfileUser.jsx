@@ -1,50 +1,36 @@
 
 import classNames from 'classnames'
+import { useRef, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import Preloader from '../../common/Preloader/Preloader'
 import s from './ProfileUser.module.css'
+import ProfileUserForm from './ProfileUserForm/ProfileUserForm'
+import ProfileUserInfo from './ProfileUserInfo/ProfileUserInfo'
 import ProfileUserStatusContainer from './ProfileUserStatus/ProfileUserStatusContainer'
 
-const ProfileUser = ({ setActualString, profile }) => {
-    let params = useParams()
 
+
+
+const ProfileUser = ({ setActualString, profile, isOwner, savePhotoThunk, updateProfileThunk, updateProfileErrorMessage }) => {
+    let inputFile = useRef(null)
+    let params = useParams()
+    const [editMode, seteditMode] = useState(false)
     setActualString(params)
     if (!profile) {
         return <Preloader />
     }
-    let contactsArr = []
-    let contacts = () => {
-        if (profile.contacts.facebook != null) {
-            contactsArr.push(<div className={classNames(s.facebook, s.itemContact)}><span className={s.contact}>Facebok:</span> <a className={s.contactsLink} href={profile.contacts.facebook}>{profile.contacts.facebook}</a></div>)
-        }
-        if (profile.contacts.website != null) {
-            contactsArr.push(<div className={classNames(s.website, s.itemContact)}><span className={s.contact}>Website:</span> <a className={s.contactsLink} href={profile.contacts.website}>{profile.contacts.website}</a></div>)
-        }
-        if (profile.contacts.vk != null) {
-            contactsArr.push(<div className={classNames(s.vk, s.itemContact)}><span className={s.contact}>Vk:</span> <a className={s.contactsLink} href={profile.contacts.vk}>{profile.contacts.vk}</a></div>)
-        }
-        if (profile.contacts.twitter != null) {
-            contactsArr.push(<div className={classNames(s.twitter, s.itemContact)}><span className={s.contact}>Twitter:</span> <a className={s.contactsLink} href={profile.contacts.twitter}>{profile.contacts.twitter}</a></div>)
-        }
-        if (profile.contacts.instagram != null) {
-            contactsArr.push(<div className={classNames(s.instagram, s.itemContact)}><span className={s.contact}>Instagram:</span> <a className={s.contactsLink} href={profile.contacts.instagram}>{profile.contacts.instagram}</a></div>)
-        }
-        if (profile.contacts.youtube != null) {
-            contactsArr.push(<div className={classNames(s.youtube, s.itemContact)}><span className={s.contact}>Youtube:</span> <a className={s.contactsLink} href={profile.contacts.youtube}>{profile.contacts.youtube}</a></div>)
-        }
-        if (profile.contacts.github != null) {
-            contactsArr.push(<div className={classNames(s.github, s.itemContact)}><span className={s.contact}>Github:</span> <a className={s.contactsLink} href={profile.contacts.github}>{profile.contacts.github}</a></div>)
-        }
-        if (profile.contacts.mainLink != null) {
-            contactsArr.push(<div className={classNames(s.mainLink, s.itemContact)}><span className={s.contact}>MainLink:</span> <a className={s.contactsLink} href={profile.contacts.mainLink}>{profile.contacts.mainLink}</a></div>)
-        }
-        else {
-            contactsArr.push(<div className={classNames(s.mainLink, s.itemContact)}><span className={s.contact}>Контактов нет</span> </div>)
+
+    const onMainPhotoSelected = () => {
+        if (inputFile.current.files.length) {
+            savePhotoThunk(inputFile.current.files[0])     // inputFile.current.files[0] выдаст нам файл который мы выбираем в input
+            inputFile.current.files[0] = null
         }
     }
 
+    const removeEditMode = () => {
+        seteditMode(false)
+    }
 
-    contacts()
     return (
 
         <div className={s.profileUser}>
@@ -53,30 +39,19 @@ const ProfileUser = ({ setActualString, profile }) => {
                     <div className={s.avatar}>
                         <img src={profile.photos.large != null ? profile.photos.large : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt="" />
                     </div>
+                    {isOwner && <input ref={inputFile} onChange={() => { onMainPhotoSelected() }} type="file" />}
                     <div className={s.firstButton}>
                         <NavLink to={`/messages/${profile.userId}`}><button className={s.message}>Send message</button></NavLink>
                     </div>
 
                     <button className={s.followed}>Followed</button>
                 </div>
-                <div className={s.right}>
-                    <div className={s.rightTop}>
-                        <div className={s.fullName}>{profile.fullName}</div>
-                        {profile.aboutMe}
-                        <ProfileUserStatusContainer />
-                    </div>
-                    <div className={s.contacts}>
-                        <div className={s.contactsTitle}>
-                            Контакты:
-                        </div>
-                        <div>{contactsArr}</div>
-
-                    </div>
-                </div>
+                {editMode ? <ProfileUserForm updateProfileErrorMessage={updateProfileErrorMessage} updateProfileThunk={updateProfileThunk} removeEditMode={removeEditMode} profile={profile} /> : <ProfileUserInfo goToEditMode={() => { seteditMode(true) }} isOwner={isOwner} profile={profile} />}
             </div>
         </div>
     )
 }
+
 
 
 

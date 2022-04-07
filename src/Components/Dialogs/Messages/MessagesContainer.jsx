@@ -9,9 +9,7 @@ import Messages from "./Messages"
 
 const MessagesContainer = (props) => {
 
-    useEffect(() => {
-        props.getProfile(props.id)
-    }, [props.id])
+
     return (
         <Messages {...props} />
     )
@@ -25,7 +23,7 @@ let mapStateToProps = (state) => {
         yourMessageInfoData: getYourMessageInfoDataSelector(state),
         OneMessageData: getOneMessageDataSelector(state),
         id: state.auth.id,
-        profile: state.profilePage.profile
+        profile: state.auth.authProfile
 
 
     }
@@ -38,4 +36,4 @@ let mapStateToProps = (state) => {
 
 
 
-export default compose(connect(mapStateToProps, { getProfile: getProfileThunk }))(MessagesContainer);
+export default compose(connect(mapStateToProps))(MessagesContainer);

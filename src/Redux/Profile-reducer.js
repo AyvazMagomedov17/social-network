@@ -1,12 +1,15 @@
 import PostImg from '../Assets/img/Profile/user2.jpg'
 import newPostImg from '../Assets/img/Profile/user1.jpg'
 import { profileApi } from '../Api/api'
+import { getAuthProfileThunk, SavePhotoToAuthSuccesAC } from './Auth-reducer'
 const ADD__POST = 'profile/ADD-POST'
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
 const SET_ACTUAL_STRING = 'profile/SET-ACTUAL-STRING'
 const SET_STATUS = 'profile/SET-STATUS'
 const UPDATE_STATUS = 'profile/UPDATE-STATUS'
 const TOGGLE_GET_PROFILE = 'profile/TOGGLE-GET-PROFILE'
+const SAVE_PHOTO_SUCCES = '/profile/SAVE-PHOTO-SUCCES'
+const UPDATE_PROFILE_ERROR_MESSAGE = '/profile/UPDATE-PROFILE-ERROR-MESSAGE'
 
 let initialState = {
     postData: [
@@ -34,7 +37,8 @@ let initialState = {
     addPostImg: newPostImg,
     actualString: '',
     status: null,
-    isgetProfile: false
+    isgetProfile: false,
+    updateProfileErrorMessage: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -70,6 +74,11 @@ const profileReducer = (state = initialState, action) => {
             return { ...state, isgetProfile: !state.isgetProfile }
         case UPDATE_STATUS:
             return { ...state, status: action.status }
+        case SAVE_PHOTO_SUCCES:
+
+            return { ...state, profile: { ...state.profile, photos: action.photos } }
+        case UPDATE_PROFILE_ERROR_MESSAGE:
+            return { ...state, updateProfileErrorMessage: action.error }
 
         default:
             return state
@@ -86,7 +95,6 @@ export const addPostAC = (text) => {
         text: text
     }
 }
-
 
 export const setUserProfileAC = (profile) => {
     return {
@@ -111,6 +119,18 @@ const updateStatusAc = (status) => {
     return {
         type: UPDATE_STATUS,
         status
+    }
+}
+export const updateProfileErrorMessageAC = (error) => {
+    return {
+        type: UPDATE_PROFILE_ERROR_MESSAGE,
+        error
+    }
+}
+const SavePhotoSuccesAC = (photos) => {
+    return {
+        type: SAVE_PHOTO_SUCCES,
+        photos
     }
 }
 
@@ -143,6 +163,37 @@ export const updateStatusThunk = (status) => {
         let data = await profileApi.updateStatusApi(status)
         if (data.resultCode === 0) {
             dispatch(setStatusAc(status))
+        }
+    }
+}
+
+export const savePhotoThunk = (file) => {
+    return async (dispatch) => {
+        let data = await profileApi.savePhotoApi(file)
+
+        if (data.resultCode === 0) {
+            debugger
+            dispatch(SavePhotoSuccesAC(data.data.photos))
+            dispatch(SavePhotoToAuthSuccesAC(data.data.photos))
+        }
+
+    }
+}
+
+export const updateProfileThunk = (profile) => {
+
+    return async (dispatch, getState) => {
+        let userId = getState().auth.id
+        let data = await profileApi.updateProfileInfo(profile)
+
+        if (data.resultCode === 0) {
+            dispatch(getProfileThunk(userId))
+            dispatch(getAuthProfileThunk(userId))
+            dispatch(updateProfileErrorMessageAC(null))
+
+        } else {
+            dispatch(updateProfileErrorMessageAC(data.messages))
+            return Promise.reject(data.messages)
         }
     }
 }
