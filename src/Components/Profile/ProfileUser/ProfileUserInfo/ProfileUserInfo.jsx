@@ -11,7 +11,7 @@ const ProfileUserInfo = ({ profile, isOwner, goToEditMode }) => {
                 <div className={s.aboutMe}>{profile.aboutMe}</div>
                 <div className={s.lookingForAJob}>Looking For A Job: {profile.lookingForAJob ? 'yes' : 'no'}</div>
                 <div className={s.lookingForAJobDescription}>Looking For a Job Description: {profile.lookingForAJobDescription}</div>
-                <ProfileUserStatusContainer />
+                <ProfileUserStatusContainer isOwner={isOwner} />
             </div>
             <div className={s.contacts}>
                 <div className={s.contactsTitle}>

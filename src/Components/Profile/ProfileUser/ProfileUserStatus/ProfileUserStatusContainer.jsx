@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { updateStatusThunk } from '../../../../Redux/Profile-reducer'
+import { updateStatusThunk } from '../../../../Redux/Profile-reducer.ts'
 
 import ProfileUserStatus from './ProfileUserStatus'
 

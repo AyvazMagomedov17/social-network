@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { logoutThunk } from '../../Redux/Auth-reducer';
+import { logoutThunk } from '../../Redux/Auth-reducer.ts';
 import Header from './Header';
 
 

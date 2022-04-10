@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import Paginator from '../../common/Paginator/Paginator';
+import Paginator from '../../common/Paginator/Paginator.tsx';
 import Preloader from '../../common/Preloader/Preloader';
 import FriendContainer from './Friend/FriendContainer';
 import s from './FriendList.module.css'

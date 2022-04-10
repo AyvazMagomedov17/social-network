@@ -8,7 +8,10 @@ const ProfileUserStatus = (props) => {
 
 
     let activateEditMode = () => {
-        setEditMode(true)
+        if (props.isOwner) {
+            setEditMode(true)
+        }
+
     }
     let deActivateEditMode = () => {
         setEditMode(false)
@@ -24,7 +27,7 @@ const ProfileUserStatus = (props) => {
     }, [props.status])
     return (
         <div className={s.ProfileUserStatus}>
-            {!editMode && <div onDoubleClick={() => activateEditMode()} className={s.status} > {props.status || 'Change status'}</div>}
+            {!editMode && <div onDoubleClick={() => activateEditMode()} className={s.status} > {props.status || (props.isOwner ? 'Change status' : 'No status')}</div>}
             {editMode && <div className={s.status} > <input onChange={onStatusChange} ref={inputRef} onBlur={deActivateEditMode} autoFocus={true} type="text" value={status} /></div>}
 
 

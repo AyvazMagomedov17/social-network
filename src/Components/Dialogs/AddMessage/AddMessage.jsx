@@ -12,7 +12,13 @@ const AddMessage = ({ addMessage }) => {
         >
             {({ handleSubmit, handleReset, handleChange, values }) => (
                 <div className={s.form}>
-                    <textarea onChange={handleChange} name={'message'} value={values.message} placeholder='Write your message' className={s.textarea} ></textarea>
+                    <textarea onKeyDown={(e) => {
+                        if (e.keyCode === 13) {
+                            handleSubmit()
+                            setTimeout(() => handleReset(), 1)
+                        }
+
+                    }} onChange={handleChange} name={'message'} value={values.message} placeholder='Write your message' className={s.textarea} ></textarea>
                     <button type={'submit'} onClick={() => {
                         handleSubmit()
                         setTimeout(() => handleReset(), 1)

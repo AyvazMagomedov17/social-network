@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
-import { getProfileThunk } from "../../../Redux/Profile-reducer"
+import { getProfileThunk } from "../../../Redux/Profile-reducer.ts"
 import Account from "./Account"
 
 
 
-const AccountContainer = ({ id, getProfile, profile }) => {
+const AccountContainer = ({ profile }) => {
 
 
     return (

@@ -1,7 +1,6 @@
 
 
 import { NavLink } from 'react-router-dom';
-import { usersApi } from '../../../../Api/api';
 import s from './Friend.module.css'
 
 

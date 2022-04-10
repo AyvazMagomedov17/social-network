@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getUsersThunk, setCurrentPageThunk } from "../../../Redux/Friends-reducer";
+import { getUsersThunk, setCurrentPageThunk } from "../../../Redux/Friends-reducer.ts";
 import React from 'react';
 import FriendList from './FriendList';
 import { compose } from "redux";

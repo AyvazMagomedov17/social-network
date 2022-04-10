@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Form from './form/Form';
 import s from './Header.module.css'
@@ -5,6 +6,7 @@ import Item from './Items/Item';
 import Logo from './logo/Logo';
 
 const Header = (props) => {
+    let isAuth = useSelector(state => state.auth.isAuth)
     let ha = () => {
         props.logoutThunk()
     }
@@ -21,7 +23,7 @@ const Header = (props) => {
                             <Item link='/login' text='Timeline' />
                             <Item link='/login' text='All pages' />
                             <Item link='/login' text='Contact' />
-                            {props.isAuth ? <Item link='#' text={props.login} /> : <Item link='/login' text='Login' />}
+                            {isAuth ? <Item link='#' text={props.login} /> : <Item link='/login' text='Login' />}
                             {props.isAuth ? <Item link='#' logout={ha} text='Logout' /> : <></>}
                         </ul>
                     </nav>

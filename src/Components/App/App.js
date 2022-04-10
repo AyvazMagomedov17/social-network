@@ -1,17 +1,17 @@
 
 import './App.css';
 import Nav from '../Nav/Nav'
-import { BrowserRouter, HashRouter, Route, Routes, } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, } from 'react-router-dom';
 import Friends from '../Friends/Friends';
-import React, { Component, memo, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, } from 'react';
 import { compose } from 'redux';
 import { connect, Provider } from 'react-redux';
-import { initializeAppThunk } from '../../Redux/App-reducer';
+import { initializeAppThunk } from '../../Redux/App-reducer.ts';
 import Preloader from '../common/Preloader/Preloader';
 import store from '../../Redux/Redux-store';
 import HeaderContainer from '../Header/HeaderContainer';
 import WhoToFollowContainer from '../WhoToFollow/WhoToFollowContainer';
-import { getAuthProfileThunk } from '../../Redux/Auth-reducer';
+import { getAuthProfileThunk } from '../../Redux/Auth-reducer.ts';
 
 
 const DialogsContainer = React.lazy(() => import('../Dialogs/DialogsContainer'));
@@ -45,10 +45,13 @@ const AppRender = (props) => {
                 <div className='app-wrapper-main'>
                     <Suspense fallback={<Preloader />}>
                         <Routes>
+                            <Route path='/friends/*' element={<Friends />} />
                             <Route path='/profile/*' element={<ProfileContainer />} />
                             <Route path='/messages/*' element={<DialogsContainer />} />
-                            <Route path='/friends/*' element={<Friends />} />
                             <Route path='/login' element={<LoginContainer />} />
+                            <Route path='*' element={<div>404 Not found</div>} />
+                            <Route path='/' element={props.initialized ? <Navigate to='/profile' /> : <Navigate to='/login' />} />
+
                         </Routes>
                     </Suspense>
                 </div>

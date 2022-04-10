@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { followUnfollowThunk } from "../../../../Redux/Friends-reducer";
+import { followUnfollowThunk } from "../../../../Redux/Friends-reducer.ts";
 import Friend from "./Friend";
 
 

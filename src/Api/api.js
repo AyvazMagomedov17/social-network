@@ -45,7 +45,7 @@ export const profileApi = {
         return instanse.put(`profile/photo`, formData)
             .then(response => response.data)
     },
-    updateProfileInfo(profile) {
+    updateProfileInfoApi(profile) {
         return instanse.put('profile', profile)
             .then(response => response.data)
     }
@@ -56,13 +56,21 @@ export const authApi = {
         return instanse.get(`auth/me`)
             .then(response => response.data)
     },
-    loginAPI(email, password, rememberMe = false) {
-        return instanse.post(`auth/login`, { email, password, rememberMe })
-            .then(response => response.data)
+    async loginAPI(email, password, rememberMe = false, captcha) {
+        let response = await instanse.post(`auth/login`, { email, password, rememberMe, captcha })
+        return response.data
     },
     logoutAPI() {
         return instanse.delete(`auth/login`)
             .then(response => response.data)
     },
 
+}
+
+export const securityApi = {
+    async getCaptchaAPI() {
+        let response = await instanse.get(`/security/get-captcha-url`)
+        return response
+
+    }
 }

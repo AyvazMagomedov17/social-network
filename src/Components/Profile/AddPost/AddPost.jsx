@@ -23,7 +23,13 @@ const AddPost = ({ addPost, img }) => {
                 }}>
                 {({ handleSubmit, handleReset, handleChange, values }) => (
                     <div className={s.formChild}>
-                        <textarea onChange={handleChange} name={'text'} value={values.text} placeholder='Write what you wish' className={s.textarea}></textarea>
+                        <textarea onKeyDown={(e) => {
+                            if (e.keyCode === 13) {
+                                handleSubmit()
+                                setTimeout(() => handleReset(), 1)
+                            }
+
+                        }} onChange={handleChange} name={'text'} value={values.text} placeholder='Write what you wish' className={s.textarea}></textarea>
                         <button type={"submit"} className={s.button} onClick={() => {
                             handleSubmit()
                             setTimeout(() => handleReset(), 1)

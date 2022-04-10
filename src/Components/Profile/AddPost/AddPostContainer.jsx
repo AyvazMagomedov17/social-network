@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { addPostAC } from '../../../Redux/Profile-reducer'
+import { addPostAC } from '../../../Redux/Profile-reducer.ts'
 import AddPost from './AddPost'
 
 

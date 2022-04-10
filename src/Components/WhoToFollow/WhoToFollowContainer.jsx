@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUsersThunk } from '../../Redux/Friends-reducer';
+import { getUsersThunk } from '../../Redux/Friends-reducer.ts';
 
 
 

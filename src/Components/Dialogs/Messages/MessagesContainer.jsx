@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
-import { getProfileThunk } from "../../../Redux/Profile-reducer"
+import { getProfileThunk } from "../../../Redux/Profile-reducer.ts"
 import { getMyMessageInfoDataSelector, getMyProfileImgSelector, getOneMessageDataSelector, getYourMessageInfoDataSelector } from "../../../Redux/Selectors/Messages-selector"
 import Messages from "./Messages"
 

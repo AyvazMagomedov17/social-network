@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { addMessageAC } from '../../../Redux/Messages-reducer'
+import { addMessageAC } from '../../../Redux/Messages-reducer.ts'
 import AddMessage from './AddMessage'
 
 

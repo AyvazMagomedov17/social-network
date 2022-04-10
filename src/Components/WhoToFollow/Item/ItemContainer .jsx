@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { followUnfollowThunk } from '../../../Redux/Friends-reducer';
+import { followUnfollowThunk } from '../../../Redux/Friends-reducer.ts';
 
 import Item from './Item';
 import s from './Item.module.css'

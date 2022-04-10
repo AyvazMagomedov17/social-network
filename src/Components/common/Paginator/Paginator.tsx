@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import s from './Paginator.module.css'
+
 const Paginator = ({ totalItemsCount, pageSize, setCurrentPage, currentPage, portionSize = 10 }) => {
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
     let pages = []

@@ -1,12 +1,12 @@
 
 import { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { compose } from 'redux';
-import { profileApi } from '../../../Api/api';
-import { getProfileThunk, getStatusThunk, savePhotoThunk, setActualStringAC, setUserProfileAC, updateProfileThunk } from '../../../Redux/Profile-reducer'
-import { getActualStringSelector, getProfileSelector, getUpdateProfileErrorMessage, getUserIdSelector } from '../../../Redux/Selectors/ProfileUser-selectors';
+
+import { getProfileThunk, getStatusThunk, savePhotoThunk, setActualStringAC, setUserProfileAC, updateProfileThunk } from '../../../Redux/Profile-reducer.ts'
+import { getActualStringSelector, getIsgetProfileSelector, getProfileSelector, getUpdateProfileErrorMessageSelector, getUserIdSelector } from '../../../Redux/Selectors/ProfileUser-selectors';
 import Preloader from '../../common/Preloader/Preloader';
+
 import ProfileUser from './ProfileUser';
 
 
@@ -33,7 +33,9 @@ class ProfileUserContainer extends Component {
     }
 
     render() {
-
+        if (this.props.isgetProfile) {
+            return <Preloader />
+        }
         return (
             <ProfileUser {...this.props} isOwner={!this.props.actualString["*"]} setActualString={this.props.setActualString} profile={this.props.profile} />
         )
@@ -46,7 +48,8 @@ let mapStateToProps = (state) => ({
     profile: getProfileSelector(state),
     actualString: getActualStringSelector(state),
     userId: getUserIdSelector(state),
-    updateProfileErrorMessage: getUpdateProfileErrorMessage(state)
+    updateProfileErrorMessage: getUpdateProfileErrorMessageSelector(state),
+    isgetProfile: getIsgetProfileSelector(state)
 
 })
 

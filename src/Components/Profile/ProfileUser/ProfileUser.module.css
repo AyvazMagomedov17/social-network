@@ -34,8 +34,10 @@
     color: #5d5d5e;
     font-weight: 600;
 }
+
 .status input {
     border: 1px solid black;
+    
 }
 
 .rightTop {

@@ -2,7 +2,7 @@
 import s from '../ProfileUser.module.css'
 import ProfileUserStatusContainer from '../ProfileUserStatus/ProfileUserStatusContainer'
 import { Formik } from 'formik'
-import Preloader from '../../../common/Preloader/Preloader'
+
 
 
 const ProfileUserForm = ({ profile, removeEditMode, updateProfileThunk, updateProfileErrorMessage }) => {
@@ -32,7 +32,7 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileThunk, updatePr
 
                 updateProfileThunk(values)
                     .then(() => {
-                        removeEditMode()
+                        removeEditMode()  // сработает только если промис не вернет отклоненный Promise.reject(data.messages)
                     })
 
 
