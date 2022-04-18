@@ -1,0 +1,93 @@
+@import '../Common/colors';
+@import '../Common/mixins';
+.profileUser {
+    margin-bottom: 20px;
+}
+
+.body {
+    display: flex;
+}
+.left {
+    
+    border-radius: 10px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 0 1 250px;
+    padding: 10px 0 0 20px;
+}
+
+
+.avatar {
+    position: relative;
+    padding: 100px;
+    margin-bottom: 10px;
+    background-color: $WHITE;
+    border-radius: 15px;
+}
+.avatar img {
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.firstButton {
+    margin-bottom: 5px;
+    background-color:$BlACK ;
+   
+}
+.message {
+    font-size: 15px;
+    color: $WHITE;
+    font-weight: 600;
+    background-color: $BlACK;
+    
+}
+
+.followed {
+    color: $WHITE;
+    font-weight: 600;
+    font-size: 15px;
+    padding-bottom: 20px;
+    height: 10px;
+    background: $BlACK;
+}
+.setPhotoBox{
+    margin-bottom: 10px;
+
+}
+.setPhotoInput{
+    position: absolute;
+	opacity: 0;
+    width:0.1px;
+    height: 0.1px;
+}
+
+.setPhotoInput+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    background-color: $YELLOW;
+    width: 150PX;
+    height: 30px;
+    justify-content: center;
+    @extend %yellowButton;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.setPhotoInput+label:hover {
+    @extend %yellwoButtonHover;
+    border-radius: 5px;
+}
+.setPhotoInput+label::before {
+    content: 'Choose a photo...';
+    color: $BlACK;
+    display: inline-block;
+    font-weight: 700;
+}
+

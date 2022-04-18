@@ -1,14 +1,14 @@
 import Post from './Post/Post';
-import s from './Posts.module.css'
-let itemImg = 'img/Profile/'
-
-const Posts = (props) => {
+import s from '../../../Styles/Profile/posts.module.scss'
 
 
-    let postData = props.postData
+const Posts = ({ postData, profile }) => {
 
-    let postElem = postData
-        .map(post => <Post name={post.name} follow={post.follow} like={post.like} dislike={post.dislike} img={post.img} text={post.text} />)
+
+    let postDatat = postData
+
+    let postElem = postDatat
+        .map(post => <Post name={profile.fullName} follow={post.follow} like={post.like} dislike={post.dislike} img={profile.photos.small != null ? profile.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} text={post.text} />)
 
     return (
         <div className={s.posts}>

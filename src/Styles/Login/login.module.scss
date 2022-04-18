@@ -1,0 +1,48 @@
+@import '../Common/colors';
+.Login{
+    display: flex;
+    justify-content: center;
+    background-color: $BlACK;
+    
+}
+.body{
+    display: flex;
+    background-color: $BlACK;
+    height: 100vh;
+    
+    
+}
+.mainImg img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.mainImg {
+    padding-left: 800px;
+    height: 100vh;
+    position: relative;
+   
+   
+}
+.logoImg{
+    margin-bottom: 54px;
+    position: relative;
+    padding: 74px 250px;
+}
+.logoImg img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150px;
+}

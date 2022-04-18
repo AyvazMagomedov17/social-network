@@ -1,0 +1,48 @@
+@import '../Common/colors';
+
+.message {
+    margin-bottom: 30px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.profile {
+    display: flex;
+    flex-direction: row-reverse;
+}
+.img {
+    position: relative;
+    padding: 18.5px;
+    margin-left: 10px;
+}
+.img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.name {
+    color: $YELLOW;
+    font-weight: 800;
+    padding-top: 10px;
+}
+.data {
+    padding-top: 10px;
+    margin-left: 20px;
+    color: #828486f6;
+}
+.mainColumn {
+    margin-top: 10px;
+    background-color: $WHITE;
+    word-break: break-all;
+    border-radius: 15px;
+    padding: 10px;
+    width: 100%;
+}

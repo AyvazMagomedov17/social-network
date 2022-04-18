@@ -1,0 +1,16 @@
+.contact {
+    font-size: 15px;
+    margin-right: 10px;
+}
+.contactsLink {
+    color: #606063;
+    text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
+
+}
+.itemContact {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}

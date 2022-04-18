@@ -57,6 +57,7 @@ export const authApi = {
             .then(response => response.data)
     },
     async loginAPI(email, password, rememberMe = false, captcha) {
+        debugger
         let response = await instanse.post(`auth/login`, { email, password, rememberMe, captcha })
         return response.data
     },

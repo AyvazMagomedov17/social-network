@@ -1,8 +1,11 @@
+//@ts-ignore
 import { SavePhotoToAuthSuccesAC, getAuthProfileThunk } from './Auth-reducer.ts';
-import { ProfileType, ProfilePhotosType } from '../Types/types';
-
+import { ProfileType, ProfilePhotosType, ActualStringType } from '../Types/types';
+//@ts-ignore
 import PostImg from '../Assets/img/Profile/user2.jpg'
+//@ts-ignore
 import newPostImg from '../Assets/img/Profile/user1.jpg'
+//@ts-ignore
 import { profileApi } from '../Api/api'
 
 const ADD__POST = 'profile/ADD-POST'
@@ -33,7 +36,7 @@ type setStatusAcType = {
 }
 type updateProfileErrorMessageACType = {
     type: typeof UPDATE_PROFILE_ERROR_MESSAGE
-    error: string
+    error: string | null
 }
 type SavePhotoSuccesACType = {
     type: typeof SAVE_PHOTO_SUCCES
@@ -43,9 +46,7 @@ type toggleGetProfileACType = {
     type: typeof TOGGLE_GET_PROFILE,
     isgetProfile: boolean
 }
-type ActualStringType = {
-    '*': string
-}
+
 // Типы для initialState
 type postDataType = {
     id: number
@@ -83,7 +84,7 @@ let initialState = {
             text: 'Как у тебя дела?'
         }
     ] as Array<postDataType>,
-    actualString: { '*': '' } as ActualStringType,
+    actualString: {} as ActualStringType,
     profile: null as ProfileType | null,
     addPostImg: newPostImg as any,
     status: null as string | null,
@@ -109,8 +110,8 @@ const profileReducer = (state = initialState, action: any): initialStateType => 
                     ...state,
                     postData: [newPost, ...state.postData]
                 }
-
             }
+            return state
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile }
         case SET_ACTUAL_URL:
@@ -144,7 +145,7 @@ export const setUserProfileAC = (profile: ProfileType): setUserProfileACType => 
     profile: profile
 })
 
-export const setActualStringAC = (actualString: ActualStringType): setActualStringACType => ({
+export const setActualStringAC = (actualString: any): setActualStringACType => ({
     type: SET_ACTUAL_URL,
     actualString
 })
@@ -156,7 +157,7 @@ const setStatusAc = (status: string): setStatusAcType => ({
 
 
 
-export const updateProfileErrorMessageAC = (error: string): updateProfileErrorMessageACType => ({
+export const updateProfileErrorMessageAC = (error: string | null): updateProfileErrorMessageACType => ({
     type: UPDATE_PROFILE_ERROR_MESSAGE,
     error
 })
@@ -171,8 +172,8 @@ const SavePhotoSuccesAC = (photos: ProfilePhotosType): SavePhotoSuccesACType => 
 const toggleGetProfileAC = (isgetProfile: boolean): toggleGetProfileACType => ({ type: TOGGLE_GET_PROFILE, isgetProfile })
 
 
-export const getProfileThunk = (userId) => {
-    return async (dispatch) => {
+export const getProfileThunk = (userId: number) => {
+    return async (dispatch: any) => {
         dispatch(toggleGetProfileAC(true))
         let data = await profileApi.getProfileAPI(userId)
         dispatch(setUserProfileAC(data))
@@ -181,22 +182,22 @@ export const getProfileThunk = (userId) => {
 
     }
 }
-export const getStatusThunk = (userId) => {
-    return async (dispatch) => {
+export const getStatusThunk = (userId: number) => {
+    return async (dispatch: any) => {
         let data = await profileApi.getStatusAPI(userId)
         dispatch(setStatusAc(data))
 
     }
 }
 
-export const updateStatusThunk = (status) => {
-    return async (dispatch) => {
+export const updateStatusThunk = (status: string) => {
+    return async (dispatch: any) => {
         try {
             let data = await profileApi.updateStatusApi(status)
             if (data.resultCode === 0) {
                 dispatch(setStatusAc(status))
             }
-        } catch (error) {               // сработает если промис отклонится. Аналоги Promis.reject
+        } catch (error: any) {               // сработает если промис отклонится. Аналоги Promis.reject
 
             alert(`${error.message}.
              Не удалось обновить статус, скорее всего проблема в токене`)
@@ -206,8 +207,8 @@ export const updateStatusThunk = (status) => {
     }
 }
 
-export const savePhotoThunk = (file) => {
-    return async (dispatch) => {
+export const savePhotoThunk = (file: ProfilePhotosType) => {
+    return async (dispatch: any) => {
         let data = await profileApi.savePhotoApi(file)
 
         if (data.resultCode === 0) {
@@ -219,9 +220,9 @@ export const savePhotoThunk = (file) => {
     }
 }
 
-export const updateProfileThunk = (profile) => {
-
-    return async (dispatch, getState) => {
+export const updateProfileThunk = (profile: ProfileType) => {
+    debugger
+    return async (dispatch: any, getState: any) => {
         let userId = getState().auth.id
         let data = await profileApi.updateProfileInfoApi(profile)
         if (data.resultCode === 0) {

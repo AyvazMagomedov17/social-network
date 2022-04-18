@@ -1,23 +1,11 @@
-import { number, object } from "yup"
-
+import { MessageDataType, MessageInfoType } from './../Types/types';
+import { dialogDataType } from "../Types/types"
 
 const ADD__MESSAGE = 'messages/ADD-MESSAGE'
-type MessageInfoType = {
-    id: number
-    name: string
-    time: string
-}
-type MessageDataType = {
-    id: number
-    from: string
-    message: string
 
-}
-type dialogDataType = {
-    id: number
-    name: string
-}
-type initialStateType = typeof initialState
+
+
+export type initialStateMessagesType = typeof initialState
 
 let initialState = {
     myMessageInfo: {
@@ -48,11 +36,10 @@ let initialState = {
 
 }
 
-const messagesReducer = (state = initialState, action: any): initialStateType => {
+const messagesReducer = (state = initialState, action: any): initialStateMessagesType => {
 
     switch (action.type) {
         case ADD__MESSAGE:
-
             if (action.message != '') {
                 let newMessage = {
                     id: 10,
@@ -64,16 +51,17 @@ const messagesReducer = (state = initialState, action: any): initialStateType =>
                     MessageData: [...state.MessageData, newMessage]
                 }
             }
+            return state
         default:
             return state
     }
 }
 
-type addMessageACType = {
+export type addMessageACType = {
     type: typeof ADD__MESSAGE
     message: string
 }
-export const addMessageAC = (message): addMessageACType => ({
+export const addMessageAC = (message: string): addMessageACType => ({
     type: ADD__MESSAGE,
     message
 })

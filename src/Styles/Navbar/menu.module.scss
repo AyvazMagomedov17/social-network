@@ -1,0 +1,28 @@
+
+@import '../Common/colors';
+.menu {
+    padding-top: 20px;
+}
+
+
+
+
+.menuItem {
+    margin-bottom: 40px;
+    padding-left: 30px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+.menuItem img {
+    margin-right: 15px;
+}
+.menuLink {
+    color: $WHITE;
+    font-size: 18px;
+}
+
+.menuItem a[class*="active"] {
+    color: $YELLOW;
+    font-size: 20px;
+}

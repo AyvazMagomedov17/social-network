@@ -1,0 +1,29 @@
+
+@import '../Common/colors';
+/*====================================================*/
+
+.app{
+    background-color: $BlACK;
+   
+}
+.app__wrapper {
+    margin: 0 auto;
+    padding: 30px 10px 0 10px;
+    display: grid;
+
+    grid-template-rows:60px  1fr;
+    grid-template-columns: 2fr 8fr 1.5fr;
+    grid-template-areas:
+        "header header header"
+        "nav main whoToFollow";
+}
+[class*="__container"] {
+    max-width: 1480px;
+    margin: 0 auto;
+}
+
+.app-wrapper-main {
+    grid-area: main;
+    padding: 0 15px;
+    max-width: 1000px;
+}

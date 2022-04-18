@@ -1,5 +1,4 @@
 import { ProfileType } from '../Types/types';
-
 import { authApi, profileApi, securityApi } from "../Api/api"
 
 
@@ -23,9 +22,9 @@ type SavePhotoToAuthSuccesACType = {
 type setAuthUserDataACType = {
     type: typeof SET_USER_DATA,
     data: {
-        id: number,
-        email: string
-        login: string,
+        id: number | null,
+        email: string | null
+        login: string | null
     },
     isAuth: boolean
 }
@@ -76,7 +75,7 @@ const errorMessageAc = (errorMessage: string | null = null): errorMessageACType 
     type: ERROR_MESSAGE,
     errorMessage
 })
-export const setAuthUserDataAC = (id: number, email: string, login: string, isAuth: boolean):
+export const setAuthUserDataAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean):
     setAuthUserDataACType => {
 
     return {
@@ -98,10 +97,10 @@ export const deleteAuthProfileAC = (): deleteAuthProfileACType => ({
 })
 
 
-export const setCaptchaUrlAC = (captcha) => ({ type: SET_CAPTCHA_URL, captcha })
+export const setCaptchaUrlAC = (captcha: string) => ({ type: SET_CAPTCHA_URL, captcha })
 
 export const getLoginThunk = () => {
-    return (dispatch) => {
+    return (dispatch: any) => {
         return authApi.meAPI()
             .then((data) => {
                 if (data.resultCode === 0) {
@@ -113,17 +112,17 @@ export const getLoginThunk = () => {
     }
 }
 
-export const getAuthProfileThunk = (userId) => {
-    return async (dispatch) => {
+export const getAuthProfileThunk = (userId: number) => {
+    return async (dispatch: any) => {
         let data = await profileApi.getProfileAPI(userId)
 
         return dispatch(setAuthProfileAC(data))
     }
 }
 
-export const loginThunk = (email, password, rememberMe, captcha) => {
+export const loginThunk = (email: string, password: string, rememberMe: boolean, captcha: string) => {
 
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         let data = await authApi.loginAPI(email, password, rememberMe, captcha)
         if (data.resultCode === 0) {
             dispatch(getLoginThunk())
@@ -139,7 +138,7 @@ export const loginThunk = (email, password, rememberMe, captcha) => {
 }
 
 export const logoutThunk = () => {
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         let data = await authApi.logoutAPI()
         if (data.resultCode === 0) {
             dispatch(setAuthUserDataAC(null, null, null, false))
@@ -147,9 +146,9 @@ export const logoutThunk = () => {
         }
     }
 }
-export const getCapthaThunk = () => async (dispatch) => {
+export const getCapthaThunk = () => async (dispatch: any) => {
     const response = await securityApi.getCaptchaAPI()
-    const captchaUrl = response.data.url
+    const captchaUrl: string = response.data.url
     dispatch(setCaptchaUrlAC(captchaUrl))
 }
 export default authReducer

@@ -1,0 +1,19 @@
+@import '../../../Styles/Common/colors';
+@import '../../../Styles/Common/mixins';
+.button{
+    @extend %yellowButton;
+    border-radius: 5px;
+    
+}
+.button:hover{
+    @extend %yellwoButtonHover
+}
+.unfolButton{
+    @extend %redButton;
+    border-radius: 5px;
+}
+.unfolButton:hover{
+    @extend %redButtonHover;
+   
+
+}

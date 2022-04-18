@@ -1,0 +1,41 @@
+@import '../.././../Styles/Common/colors';
+@import '../.././../Styles/Common/mixins';
+
+
+.pages button {
+    margin-right: 10px;
+}
+
+.button{
+    @extend %yellowButton;
+    width: 40px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 18px;
+}
+.button:hover{
+    @extend %yellwoButtonHover
+}
+.pageButton{
+    height: 30px;
+    background-color: black;
+    color: $WHITE;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: all 0.1s linear;
+    
+}
+.pages{
+    margin-bottom: 40px;
+    border: 1px solid $GRAY2;
+    padding: 10px;
+}
+.pageButton:hover{
+    transform: scale(1.1);
+    color: $YELLOW;
+    transition: all 0.1s linear;
+}
+.selectedPage {
+    font-weight: 700;
+    color: $YELLOWHOVER;
+}

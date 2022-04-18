@@ -1,7 +1,6 @@
-import Item from './Item/Item';
 import ItemContainer from './Item/ItemContainer ';
-import s from './WhoToFollow.module.css'
-let itemImg = 'img/whoToFollowItem/'
+import s from '../../Styles/WhoToFollow/whoToFollow.module.scss'
+
 
 const WhoToFollow = (props) => {
 

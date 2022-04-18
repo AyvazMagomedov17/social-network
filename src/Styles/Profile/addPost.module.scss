@@ -1,0 +1,52 @@
+@import '../Common/colors';
+@import '../Common/mixins';
+
+
+.form {
+    display: flex;
+    align-items: center;
+    height: 90px;
+    padding-left: 15%;
+    border: 1px solid $GRAY2;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.textarea {
+    border-radius: 10px;
+    border: 1px solid rgb(110, 110, 110);
+   
+    min-height: 50px;
+    min-width: 300px;
+    max-width: 350px;
+    margin-right: 200px;
+    padding: 10px 0 0 20px;
+    font-size: 17px;
+    height: auto;
+    resize: none;
+}
+.textarea::-webkit-scrollbar{
+    width: 0px;
+    
+}
+
+.button {
+    width: 150px;
+    border-radius: 15px;
+   @extend %redButton;
+   font-size: 15px;
+   height: 45px;
+}
+.button:hover{
+    @extend %redButtonHover
+}
+.formChild{
+    display: flex
+}

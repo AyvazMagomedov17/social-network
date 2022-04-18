@@ -14,7 +14,7 @@ class WhoToFollowApi extends Component {
 
     componentDidMount() {
         let page = 1;
-        let count = 3
+        let count = 5
         this.props.getUsersThunk(page, count, 'WHO_TO_FOLLOW')
     }
 

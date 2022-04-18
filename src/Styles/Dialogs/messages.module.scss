@@ -1,0 +1,18 @@
+@import '../Common/colors';
+
+
+.messages {
+    border-top: 1px solid $GRAY2;
+}
+.main {
+    overflow-y: scroll;
+    height: 75vh;
+    padding: 0 15px;
+}
+
+.main::-webkit-scrollbar {
+    width: 5px;
+}
+.main::-webkit-scrollbar-thumb {
+    background-color: rgb(194, 187, 187);
+}

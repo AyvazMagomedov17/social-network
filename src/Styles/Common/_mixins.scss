@@ -1,0 +1,29 @@
+@import 'colors';
+
+%adaptImage{
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+%yellowButton{
+    background-color: $YELLOW;
+    transition: background-color 0.3s;
+}
+%yellwoButtonHover{
+    background-color: $YELLOWHOVER;
+    transition: background-color 0.3s;
+}
+
+%redButton{
+    background-color: rgb(171, 44, 44);
+    transition: background-color 0.3s;
+    color: $WHITE;
+}
+%redButtonHover{
+    background-color: rgb(219, 32, 32);
+    transition: background-color 0.3s;
+    color: $YELLOWHOVER;
+}

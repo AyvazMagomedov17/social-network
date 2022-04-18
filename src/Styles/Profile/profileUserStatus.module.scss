@@ -1,0 +1,27 @@
+@import '../Common/colors';
+
+.status {
+    font-size: 15px;
+    color: $WHITE;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 300px;
+    margin-bottom: 20px;
+   
+}
+.status span{
+    cursor: pointer;
+    transition: color 0.3s;
+    
+}
+.status span:hover{
+    color: $GRAY;
+    transition: color 0.3s;
+}
+
+.status input {
+    border: 1px solid black;
+    
+}

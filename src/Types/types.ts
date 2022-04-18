@@ -12,11 +12,42 @@ export type ProfileContactsType = {
     mainLink: string | null
 }
 export type ProfileType = {
-    aboutMe: string | null
-    fullName: string
-    lookingForAJob: boolean
-    lookingForAJobDescription: string | null
-    userId: number
-    contacts: ProfileContactsType
+    aboutMe?: string | null | undefined
+    fullName?: string | undefined
+    lookingForAJob?: boolean | undefined
+    lookingForAJobDescription?: string | null | undefined
+    userId?: number | undefined
+    contacts?: ProfileContactsType | undefined
+    photos?: ProfilePhotosType | undefined
+}
+export type ActualStringType = {
+    '*': number
+}
+
+
+export type UsersDataType = {
+    followed: boolean
+    id: number
+    name: string
     photos: ProfilePhotosType
+    status: null | string
+    uniqueUrlName: null | string
+
+}
+
+export type dialogDataType = {
+    id: number
+    name: string
+}
+
+export type MessageInfoType = {
+    id: number
+    name: string
+    time: string
+}
+export type MessageDataType = {
+    id: number
+    from: string
+    message: string
+
 }

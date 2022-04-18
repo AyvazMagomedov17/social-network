@@ -1,10 +1,13 @@
-import s from './Post.module.css'
+import s from '../../../../Styles/Profile/post.module.scss'
 import classNames from 'classnames'
 import likeImg from '../../../../Assets/img/Profile/like.svg'
 import dislikeImg from '../../../../Assets/img/Profile/dislike.svg'
+import { useState } from 'react'
 
 
 const Post = (props) => {
+    const [likesCount, setlikesCount] = useState(0)
+    const [dislikesCount, setdislikesCount] = useState(0)
     return (
         <div className={s.post}>
             <div className={s.body}>
@@ -19,13 +22,13 @@ const Post = (props) => {
                         </div>
                     </div>
                     <div className={s.right}>
-                        <button className={classNames(s.like, s.likes)}>
+                        <button onClick={() => setlikesCount(likesCount + 1)} className={classNames(s.like, s.likes)}>
                             <img src={likeImg} alt="likes" />
-                            <span>{props.like}</span>
+                            <span>{likesCount}</span>
                         </button>
-                        <button className={classNames(s.dislike, s.likes)} >
+                        <button onClick={() => setdislikesCount(dislikesCount + 1)} className={classNames(s.dislike, s.likes)} >
                             <img src={dislikeImg} alt="dislikes" />
-                            <span>{props.dislike}</span>
+                            <span>{dislikesCount}</span>
                         </button>
                     </div>
                 </div>

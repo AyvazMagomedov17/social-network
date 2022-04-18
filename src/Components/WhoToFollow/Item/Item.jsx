@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import s from './Item.module.css'
+import s from '../../../Styles/WhoToFollow/item.module.scss'
+import FollowButton from '../../common/FollowButton/FollowButton';
 
 
 const Item = (props) => {
@@ -9,11 +10,11 @@ const Item = (props) => {
 
             <div className={s.body}>
                 <NavLink to={`profile/${props.id}`}>
-                    <span className={s.name}>{props.name}</span>
+                    <p className={s.name}>{props.name}</p>
                 </NavLink>
-                <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => {
+                <FollowButton style={{ 'width': '100px', 'height': '20px' }} disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => {
                     props.toggleFollows(props.id, props.usersData)
-                }} className={s.addFriend}>{props.followed}</button>
+                }} className={s.addFriend}>{props.followed}</FollowButton>
             </div>
 
         </li>

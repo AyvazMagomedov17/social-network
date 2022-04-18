@@ -1,5 +1,5 @@
-import { number } from 'yup';
-import { ProfilePhotosType } from '../Types/types';
+
+import { UsersDataType } from '../Types/types';
 
 
 
@@ -44,15 +44,7 @@ type togglefollowingInProgressACType = {
     isFollowingInProgress: boolean
     userId: number
 }
-type UsersDataType = {
-    followed: boolean
-    id: number
-    name: string
-    photos: ProfilePhotosType
-    status: null | string
-    uniqueUrlName: null | string
 
-}
 
 
 
@@ -159,8 +151,8 @@ export const togglefollowingInProgressAC = (isFollowingInProgress: boolean, user
 
 
 
-export const getUsersThunk = (currentPage, pageSize, fromWho) => {
-    return async (dispatch) => {
+export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: string) => {
+    return async (dispatch: any) => {
         let data = await usersApi.getUsersAPI(currentPage, pageSize)
         if (fromWho === 'FRIENDS') {
 
@@ -175,9 +167,9 @@ export const getUsersThunk = (currentPage, pageSize, fromWho) => {
     }
 }
 
-export const setCurrentPageThunk = (pageNumber, pageSize) => {
+export const setCurrentPageThunk = (pageNumber: number, pageSize: number) => {
 
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         dispatch(setCurrentPageAC(pageNumber))
         let data = await usersApi.getUsersAPI(pageNumber, pageSize)
         dispatch(setUsersAC(data.items))
@@ -185,8 +177,8 @@ export const setCurrentPageThunk = (pageNumber, pageSize) => {
     }
 }
 
-export const followUnfollowThunk = (userId, usersData) => {
-    return async (dispatch) => {
+export const followUnfollowThunk = (userId: number, usersData: Array<UsersDataType>) => {
+    return async (dispatch: any) => {
         dispatch(togglefollowingInProgressAC(true, userId))
         usersData.forEach(async (item) => {
             if (item.id === userId && item.followed === false) {

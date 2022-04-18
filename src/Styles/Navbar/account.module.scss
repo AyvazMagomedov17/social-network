@@ -1,0 +1,30 @@
+@import '../Common/colors';
+.account {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    width: 180px;
+}
+
+.row {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.left {
+    width: 40%;
+}
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    max-width: 100px;
+}
+.body {
+    background-color: $YELLOW;
+    height: 70px;
+    border-radius: 5px;
+    width: 200px;
+}

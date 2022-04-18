@@ -1,0 +1,75 @@
+@import '../Common/colors';
+@import '../Common/mixins';
+.right {
+    color: $WHITE;
+    border-radius: 10px;
+    padding: 30px 0px;
+    width: 500px;
+    flex: 1 1 auto;
+    margin-right: 10px;
+    display: flex;
+    border: 1px solid $GRAY2;
+    padding-left: 10px;
+}
+
+.fullName {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    word-break: break-all;
+}
+
+.aboutMe{
+    font-size: 15px;
+    margin-bottom: 10px;
+    max-width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    
+}
+.lookingForAJob{
+    margin-bottom: 20px
+}
+.lookingForAJobDescription{
+    line-height: 20px;
+    max-width: 300px;
+    word-break: break-all
+}
+.rightTop {
+    margin-bottom: 60px;
+    font-size: 15px;
+    margin-right: 50px;
+    border-right: 1px solid $GRAY2;
+    padding-right: 20px;
+    height: 100%;
+    position: relative;
+    min-width: 250px;
+}
+.lookingForAJoBox{
+    border: 1px solid $GRAY2;
+    padding: 10px 5px;
+    
+}
+.editButton{
+ @extend %yellowButton;
+ width: 150px;
+ height: 40px;
+ position:absolute;
+ bottom: 0;
+ left: 25%;
+}
+.editButton:hover{
+    @extend %yellwoButtonHover;
+}
+.contacts{
+    border: 1px solid $GRAY2;
+    padding: 10px;
+    min-width: 300px   
+}
+.contactsTitle {
+    font-size: 15px;
+    font-weight: 900;
+    
+    margin-bottom: 10px;
+}

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getAuthProfileThunk, getLoginThunk } from './Auth-reducer.ts';
 
 

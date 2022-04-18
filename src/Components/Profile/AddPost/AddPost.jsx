@@ -1,29 +1,41 @@
 
-import s from './AddPost.module.css'
-import React from 'react'
+import s from '../../../Styles/Profile/addPost.module.scss'
+
 import { Formik } from 'formik'
+import Preloader from '../../common/Preloader/Preloader'
+import { useState } from 'react'
 
 
 
 
-const AddPost = ({ addPost, img }) => {
+const AddPost = ({ addPost, profile }) => {
+    const [textAreaHeight, settextAreaHeight] = useState(20)
+
+    let settextAreaHeightFunc = (e) => {
+        settextAreaHeight(e.target.scrollHeight)
+    }
     let onAddPost = (text) => {
         addPost(text)
 
     }
+    if (!profile) {
+        return <Preloader />
+    }
     return (
-        <div className={s.form}>
-            <img src={img} alt="people" className={s.image} />
-            <Formik
-                initialValues={{
-                    text: ''
-                }}
-                onSubmit={(values) => {
-                    onAddPost(values.text)
-                }}>
-                {({ handleSubmit, handleReset, handleChange, values }) => (
+
+        <Formik
+            initialValues={{
+                text: ''
+            }}
+            onSubmit={(values) => {
+                onAddPost(values.text)
+            }}>
+            {({ handleSubmit, handleReset, handleChange, values }) => (
+                <div className={s.form}>
+                    <img src={profile.photos.small != null ? profile.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt="people" className={s.image} />
                     <div className={s.formChild}>
                         <textarea onKeyDown={(e) => {
+                            settextAreaHeightFunc(e)
                             if (e.keyCode === 13) {
                                 handleSubmit()
                                 setTimeout(() => handleReset(), 1)
@@ -35,10 +47,12 @@ const AddPost = ({ addPost, img }) => {
                             setTimeout(() => handleReset(), 1)
                         }}>Publish</button>
                     </div>
-                )
-                }
-            </Formik >
-        </div >
+                </div>
+            )
+            }
+
+        </Formik >
+
 
     )
 
