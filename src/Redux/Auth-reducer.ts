@@ -1,5 +1,8 @@
+import { stateType } from './Redux-store';
+import { ProfilePhotosType } from './../Types/types';
 import { ProfileType } from '../Types/types';
 import { authApi, profileApi, securityApi } from "../Api/api"
+import { ThunkAction } from 'redux-thunk';
 
 
 const SET_USER_DATA = 'auth/SET-USER-DATA'
@@ -17,7 +20,7 @@ type errorMessageACType = {
 }
 type SavePhotoToAuthSuccesACType = {
     type: typeof SAVE_PHOTO_SUCCES,
-    photos: string
+    photos: ProfilePhotosType
 }
 type setAuthUserDataACType = {
     type: typeof SET_USER_DATA,
@@ -35,11 +38,16 @@ type setAuthProfileACType = {
 type deleteAuthProfileACType = {
     type: typeof DELETE_AUTH_PROFILE
 }
-
+type setCaptchaUrlACType = {
+    type: typeof SET_CAPTCHA_URL
+    captcha: string
+}
+type ActionTypes = errorMessageACType | SavePhotoToAuthSuccesACType | setAuthUserDataACType | setAuthProfileACType | deleteAuthProfileACType | setCaptchaUrlACType
+type ThunkType = ThunkAction<Promise<void>, stateType, unknown, ActionTypes>
 
 
 //Тип InitialState
-type initialStateType = typeof initialState
+export type AuthReducerInitialStateType = typeof initialState
 
 let initialState = {
     id: null as number | null,
@@ -52,7 +60,7 @@ let initialState = {
 }
 
 
-let authReducer = (state: initialStateType = initialState, action: any): initialStateType => {
+let authReducer = (state: AuthReducerInitialStateType = initialState, action: ActionTypes): AuthReducerInitialStateType => {
     switch (action.type) {
         case SET_USER_DATA:
             return { ...state, ...action.data, isAuth: action.isAuth, errorMessage: '', captchaUrl: null }
@@ -84,7 +92,7 @@ export const setAuthUserDataAC = (id: number | null, email: string | null, login
         isAuth
     }
 }
-export const SavePhotoToAuthSuccesAC = (photos: string): SavePhotoToAuthSuccesACType => ({
+export const SavePhotoToAuthSuccesAC = (photos: ProfilePhotosType): SavePhotoToAuthSuccesACType => ({
     type: SAVE_PHOTO_SUCCES,
     photos
 })
@@ -97,10 +105,10 @@ export const deleteAuthProfileAC = (): deleteAuthProfileACType => ({
 })
 
 
-export const setCaptchaUrlAC = (captcha: string) => ({ type: SET_CAPTCHA_URL, captcha })
+export const setCaptchaUrlAC = (captcha: string): setCaptchaUrlACType => ({ type: SET_CAPTCHA_URL, captcha })
 
-export const getLoginThunk = () => {
-    return (dispatch: any) => {
+export const getLoginThunk = (): ThunkType => {
+    return (dispatch) => {
         return authApi.meAPI()
             .then((data) => {
                 if (data.resultCode === 0) {
@@ -112,17 +120,17 @@ export const getLoginThunk = () => {
     }
 }
 
-export const getAuthProfileThunk = (userId: number) => {
-    return async (dispatch: any) => {
+export const getAuthProfileThunk = (userId: number): ThunkAction<Promise<ActionTypes>, stateType, unknown, ActionTypes> => {
+    return async (dispatch) => {
         let data = await profileApi.getProfileAPI(userId)
 
         return dispatch(setAuthProfileAC(data))
     }
 }
 
-export const loginThunk = (email: string, password: string, rememberMe: boolean, captcha: string) => {
+export const loginThunk = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => {
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         let data = await authApi.loginAPI(email, password, rememberMe, captcha)
         if (data.resultCode === 0) {
             dispatch(getLoginThunk())
@@ -137,8 +145,8 @@ export const loginThunk = (email: string, password: string, rememberMe: boolean,
     }
 }
 
-export const logoutThunk = () => {
-    return async (dispatch: any) => {
+export const logoutThunk = (): ThunkType => {
+    return async (dispatch) => {
         let data = await authApi.logoutAPI()
         if (data.resultCode === 0) {
             dispatch(setAuthUserDataAC(null, null, null, false))
@@ -146,7 +154,7 @@ export const logoutThunk = () => {
         }
     }
 }
-export const getCapthaThunk = () => async (dispatch: any) => {
+export const getCapthaThunk = (): ThunkType => async (dispatch) => {
     const response = await securityApi.getCaptchaAPI()
     const captchaUrl: string = response.data.url
     dispatch(setCaptchaUrlAC(captchaUrl))

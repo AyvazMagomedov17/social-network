@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, compose, createStore, } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore, Store, } from "redux";
 //@ts-ignore
 import AuthReducer from "./Auth-reducer.ts";
 //@ts-ignore
@@ -10,17 +10,23 @@ import profileReducer from "./Profile-reducer.ts";
 import thunkMiddleware from 'redux-thunk'
 //@ts-ignore
 import appReducer from "./App-reducer.ts";
+import { ProfileReducerinitialStateType } from "./Profile-reducer";
+import { AppReducerInitialStateType } from "./App-reducer";
+import { FriendsReducerInitialStateType } from "./Friends-reducer";
+import { AuthReducerInitialStateType } from "./Auth-reducer";
+import { initialStateMessagesType } from "./Messages-reducer";
 
 
 
 
-let rootReducer = combineReducers({
+let rootReducer = combineReducers<{ profilePage: ProfileReducerinitialStateType, messagesPage: initialStateMessagesType, friendsPage: FriendsReducerInitialStateType, auth: AuthReducerInitialStateType, app: AppReducerInitialStateType }>({
     profilePage: profileReducer,
     messagesPage: messagesReducer,
     friendsPage: friendsReducer,
     auth: AuthReducer,
     app: appReducer
-})
+}
+)
 export type rootReducerType = typeof rootReducer // (globalState: stateType) => StateType
 export type stateType = ReturnType<rootReducerType>
 

@@ -3,8 +3,14 @@ import { dialogDataType } from "../Types/types"
 
 const ADD__MESSAGE = 'messages/ADD-MESSAGE'
 
+//ACTION-TYPES 
+export type addMessageACType = {
+    type: typeof ADD__MESSAGE
+    message: string
+}
+type ActionTypes = addMessageACType
 
-
+//STATE TYPE
 export type initialStateMessagesType = typeof initialState
 
 let initialState = {
@@ -36,7 +42,7 @@ let initialState = {
 
 }
 
-const messagesReducer = (state = initialState, action: any): initialStateMessagesType => {
+const messagesReducer = (state = initialState, action: ActionTypes): initialStateMessagesType => {
 
     switch (action.type) {
         case ADD__MESSAGE:
@@ -57,10 +63,7 @@ const messagesReducer = (state = initialState, action: any): initialStateMessage
     }
 }
 
-export type addMessageACType = {
-    type: typeof ADD__MESSAGE
-    message: string
-}
+
 export const addMessageAC = (message: string): addMessageACType => ({
     type: ADD__MESSAGE,
     message
