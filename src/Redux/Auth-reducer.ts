@@ -1,8 +1,9 @@
-import { stateType } from './Redux-store';
-import { ProfilePhotosType } from './../Types/types';
+
+import { stateType, InferActionsTypes } from './Redux-store';
+import { ProfilePhotosType, ResultCodeEnum, ResultCodeForCaptchaEnum, BaseThunkType } from './../Types/types';
 import { ProfileType } from '../Types/types';
 import { authApi, profileApi, securityApi } from "../Api/api"
-import { ThunkAction } from 'redux-thunk';
+
 
 
 const SET_USER_DATA = 'auth/SET-USER-DATA'
@@ -14,36 +15,8 @@ const SET_CAPTCHA_URL = '/auth/SET-CAPTCHA-URL'
 
 
 //Тип ACTION
-type errorMessageACType = {
-    type: typeof ERROR_MESSAGE,
-    errorMessage: null | string
-}
-type SavePhotoToAuthSuccesACType = {
-    type: typeof SAVE_PHOTO_SUCCES,
-    photos: ProfilePhotosType
-}
-type setAuthUserDataACType = {
-    type: typeof SET_USER_DATA,
-    data: {
-        id: number | null,
-        email: string | null
-        login: string | null
-    },
-    isAuth: boolean
-}
-type setAuthProfileACType = {
-    type: typeof SET_AUTH_PROFILE,
-    profile: ProfileType
-}
-type deleteAuthProfileACType = {
-    type: typeof DELETE_AUTH_PROFILE
-}
-type setCaptchaUrlACType = {
-    type: typeof SET_CAPTCHA_URL
-    captcha: string
-}
-type ActionTypes = errorMessageACType | SavePhotoToAuthSuccesACType | setAuthUserDataACType | setAuthProfileACType | deleteAuthProfileACType | setCaptchaUrlACType
-type ThunkType = ThunkAction<Promise<void>, stateType, unknown, ActionTypes>
+type ActionTypes = InferActionsTypes<typeof AuthActions>
+type ThunkType = BaseThunkType<ActionTypes>
 
 
 //Тип InitialState
@@ -79,52 +52,53 @@ let authReducer = (state: AuthReducerInitialStateType = initialState, action: Ac
     }
 }
 
-const errorMessageAc = (errorMessage: string | null = null): errorMessageACType => ({
-    type: ERROR_MESSAGE,
-    errorMessage
-})
-export const setAuthUserDataAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean):
-    setAuthUserDataACType => {
-
-    return {
+export const AuthActions = {
+    errorMessageAc: (errorMessage: string | null = null) => ({
+        type: ERROR_MESSAGE,
+        errorMessage
+    } as const),
+    setAuthUserDataAC: (id: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
         type: SET_USER_DATA,
         data: { id, email, login },
         isAuth
-    }
+    } as const),
+
+    SavePhotoToAuthSuccesAC: (photos: ProfilePhotosType) => ({
+        type: SAVE_PHOTO_SUCCES,
+        photos
+    } as const),
+    setAuthProfileAC: (profile: ProfileType) => ({
+        type: SET_AUTH_PROFILE,
+        profile
+    } as const),
+    deleteAuthProfileAC: () => ({
+        type: DELETE_AUTH_PROFILE
+    } as const),
+    setCaptchaUrlAC: (captcha: string) => ({ type: SET_CAPTCHA_URL, captcha } as const)
 }
-export const SavePhotoToAuthSuccesAC = (photos: ProfilePhotosType): SavePhotoToAuthSuccesACType => ({
-    type: SAVE_PHOTO_SUCCES,
-    photos
-})
-export const setAuthProfileAC = (profile: ProfileType): setAuthProfileACType => ({
-    type: SET_AUTH_PROFILE,
-    profile
-})
-export const deleteAuthProfileAC = (): deleteAuthProfileACType => ({
-    type: DELETE_AUTH_PROFILE
-})
 
 
-export const setCaptchaUrlAC = (captcha: string): setCaptchaUrlACType => ({ type: SET_CAPTCHA_URL, captcha })
+
+
 
 export const getLoginThunk = (): ThunkType => {
     return (dispatch) => {
         return authApi.meAPI()
             .then((data) => {
-                if (data.resultCode === 0) {
+                if (data.resultCode === ResultCodeEnum.Succes) {
                     let { id, email, login } = data.data
-                    dispatch(setAuthUserDataAC(id, email, login, true))
+                    dispatch(AuthActions.setAuthUserDataAC(id, email, login, true))
                 }
             })
 
     }
 }
 
-export const getAuthProfileThunk = (userId: number): ThunkAction<Promise<ActionTypes>, stateType, unknown, ActionTypes> => {
+export const getAuthProfileThunk = (userId: number): BaseThunkType<ActionTypes, Promise<ActionTypes>> => {
     return async (dispatch) => {
         let data = await profileApi.getProfileAPI(userId)
 
-        return dispatch(setAuthProfileAC(data))
+        return dispatch(AuthActions.setAuthProfileAC(data))
     }
 }
 
@@ -132,14 +106,14 @@ export const loginThunk = (email: string, password: string, rememberMe: boolean,
 
     return async (dispatch) => {
         let data = await authApi.loginAPI(email, password, rememberMe, captcha)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodeEnum.Succes) {
             dispatch(getLoginThunk())
         }
-        if (data.resultCode === 10) {
+        if (data.resultCode === ResultCodeForCaptchaEnum.CaptchaIs) {
             dispatch(getCapthaThunk())
-            dispatch(errorMessageAc(data.messages[0]))
+            dispatch(AuthActions.errorMessageAc(data.messages[0]))
         } else {
-            dispatch(errorMessageAc(data.messages[0]))
+            dispatch(AuthActions.errorMessageAc(data.messages[0]))
         }
 
     }
@@ -148,15 +122,16 @@ export const loginThunk = (email: string, password: string, rememberMe: boolean,
 export const logoutThunk = (): ThunkType => {
     return async (dispatch) => {
         let data = await authApi.logoutAPI()
-        if (data.resultCode === 0) {
-            dispatch(setAuthUserDataAC(null, null, null, false))
-            dispatch(deleteAuthProfileAC())
+        if (data.resultCode === ResultCodeEnum.Succes) {
+            dispatch(AuthActions.setAuthUserDataAC(null, null, null, false))
+            dispatch(AuthActions.deleteAuthProfileAC())
         }
     }
 }
 export const getCapthaThunk = (): ThunkType => async (dispatch) => {
     const response = await securityApi.getCaptchaAPI()
     const captchaUrl: string = response.data.url
-    dispatch(setCaptchaUrlAC(captchaUrl))
+    dispatch(AuthActions.setCaptchaUrlAC(captchaUrl))
+
 }
 export default authReducer

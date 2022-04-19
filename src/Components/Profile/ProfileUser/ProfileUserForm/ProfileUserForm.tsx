@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 
 
 
+
 type PropsType = {
     profile: any
     removeEditMode: () => void
@@ -51,7 +52,7 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileErrorMessage }:
                 } as any
             }}
             onSubmit={(values) => {
-                debugger
+
                 dispatch(updateProfileThunk(values))
                     //@ts-ignore
                     .then(() => {

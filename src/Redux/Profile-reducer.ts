@@ -1,8 +1,9 @@
-import { stateType } from './Redux-store';
+import { BaseThunkType } from './../Types/types';
+import { stateType, InferActionsTypes } from './Redux-store';
 import { ThunkAction } from 'redux-thunk';
 //@ts-ignore
-import { SavePhotoToAuthSuccesAC, getAuthProfileThunk } from './Auth-reducer.ts';
-import { ProfileType, ProfilePhotosType, ActualStringType } from '../Types/types';
+import { AuthActions, getAuthProfileThunk } from './Auth-reducer.ts';
+import { ProfileType, ProfilePhotosType, ActualStringType, ResultCodeEnum } from '../Types/types';
 //@ts-ignore
 import PostImg from '../Assets/img/Profile/user2.jpg'
 //@ts-ignore
@@ -20,36 +21,9 @@ const SAVE_PHOTO_SUCCES = '/profile/SAVE-PHOTO-SUCCES'
 const UPDATE_PROFILE_ERROR_MESSAGE = '/profile/UPDATE-PROFILE-ERROR-MESSAGE'
 
 //Типы ACTION
-type addPostACType = {
-    type: typeof ADD__POST,
-    text: string
-}
-type setUserProfileACType = {
-    type: typeof SET_USER_PROFILE
-    profile: ProfileType
-}
-type setActualStringACType = {
-    type: typeof SET_ACTUAL_URL
-    actualString: ActualStringType
-}
-type setStatusAcType = {
-    type: typeof SET_STATUS
-    status: string
-}
-type updateProfileErrorMessageACType = {
-    type: typeof UPDATE_PROFILE_ERROR_MESSAGE
-    error: string | null
-}
-type SavePhotoSuccesACType = {
-    type: typeof SAVE_PHOTO_SUCCES
-    photos: ProfilePhotosType
-}
-type toggleGetProfileACType = {
-    type: typeof TOGGLE_GET_PROFILE,
-    isgetProfile: boolean
-}
-type ActionTypes = addPostACType | setUserProfileACType | setActualStringACType | setStatusAcType | updateProfileErrorMessageACType | SavePhotoSuccesACType | toggleGetProfileACType
-type ThunkType = ThunkAction<Promise<void>, stateType, unknown, ActionTypes>
+
+type ActionTypes = InferActionsTypes<typeof profileActions>
+type ThunkType = BaseThunkType<ActionTypes>
 // Типы для initialState
 type postDataType = {
     id: number
@@ -92,7 +66,7 @@ let initialState = {
     addPostImg: newPostImg as any,
     status: null as string | null,
     isgetProfile: false as boolean,
-    updateProfileErrorMessage: null as string | null
+    updateProfileErrorMessage: null as Array<string> | null
 }
 export type ProfileReducerinitialStateType = typeof initialState
 
@@ -139,49 +113,43 @@ const profileReducer = (state = initialState, action: ActionTypes): ProfileReduc
 
 }
 
-export const addPostAC = (text: string): addPostACType => ({
-    type: ADD__POST,
-    text: text
-})
+export const profileActions = {
+    addPostAC: (text: string) => ({
+        type: ADD__POST,
+        text: text
+    } as const),
 
-export const setUserProfileAC = (profile: ProfileType): setUserProfileACType => ({
-    type: SET_USER_PROFILE,
-    profile: profile
-})
+    setUserProfileAC: (profile: ProfileType) => ({
+        type: SET_USER_PROFILE,
+        profile: profile
+    } as const),
+    setActualStringAC: (actualString: any) => ({
+        type: SET_ACTUAL_URL,
+        actualString
+    } as const),
+    setStatusAc: (status: string) => ({
+        type: SET_STATUS,
+        status
+    } as const),
 
-export const setActualStringAC = (actualString: any): setActualStringACType => ({
-    type: SET_ACTUAL_URL,
-    actualString
-})
-
-const setStatusAc = (status: string): setStatusAcType => ({
-    type: SET_STATUS,
-    status
-})
-
-
-
-export const updateProfileErrorMessageAC = (error: string | null): updateProfileErrorMessageACType => ({
-    type: UPDATE_PROFILE_ERROR_MESSAGE,
-    error
-})
-
-const SavePhotoSuccesAC = (photos: ProfilePhotosType): SavePhotoSuccesACType => ({
-    type: SAVE_PHOTO_SUCCES,
-    photos
-})
-
-
-
-const toggleGetProfileAC = (isgetProfile: boolean): toggleGetProfileACType => ({ type: TOGGLE_GET_PROFILE, isgetProfile })
+    updateProfileErrorMessageAC: (error: Array<string> | null) => ({
+        type: UPDATE_PROFILE_ERROR_MESSAGE,
+        error
+    } as const),
+    SavePhotoSuccesAC: (photos: ProfilePhotosType) => ({
+        type: SAVE_PHOTO_SUCCES,
+        photos
+    } as const),
+    toggleGetProfileAC: (isgetProfile: boolean) => ({ type: TOGGLE_GET_PROFILE, isgetProfile } as const)
+}
 
 
 export const getProfileThunk = (userId: number | null): ThunkType => {
     return async (dispatch) => {
-        dispatch(toggleGetProfileAC(true))
+        dispatch(profileActions.toggleGetProfileAC(true))
         let data = await profileApi.getProfileAPI(userId)
-        dispatch(setUserProfileAC(data))
-        dispatch(toggleGetProfileAC(false))
+        dispatch(profileActions.setUserProfileAC(data))
+        dispatch(profileActions.toggleGetProfileAC(false))
 
 
     }
@@ -189,7 +157,7 @@ export const getProfileThunk = (userId: number | null): ThunkType => {
 export const getStatusThunk = (userId: number): ThunkType => {
     return async (dispatch) => {
         let data = await profileApi.getStatusAPI(userId)
-        dispatch(setStatusAc(data))
+        dispatch(profileActions.setStatusAc(data))
 
     }
 }
@@ -198,8 +166,8 @@ export const updateStatusThunk = (status: string): ThunkType => {
     return async (dispatch) => {
         try {
             let data = await profileApi.updateStatusApi(status)
-            if (data.resultCode === 0) {
-                dispatch(setStatusAc(status))
+            if (data.resultCode === ResultCodeEnum.Succes) {
+                dispatch(profileActions.setStatusAc(status))
             }
         } catch (error: any) {               // сработает если промис отклонится. Аналоги Promis.reject
 
@@ -215,26 +183,26 @@ export const savePhotoThunk = (file: ProfilePhotosType): ThunkType => {
     return async (dispatch) => {
         let data = await profileApi.savePhotoApi(file)
 
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodeEnum.Succes) {
 
-            dispatch(SavePhotoSuccesAC(data.data.photos))
-            dispatch(SavePhotoToAuthSuccesAC(data.data.photos))
+            dispatch(profileActions.SavePhotoSuccesAC(data.data.photos))
+            dispatch(AuthActions.SavePhotoToAuthSuccesAC(data.data.photos))
         }
 
     }
 }
 
 export const updateProfileThunk = (profile: ProfileType): ThunkType => {
-    debugger
+
     return async (dispatch, getState) => {
         let userId = getState().auth.id
         let data = await profileApi.updateProfileInfoApi(profile)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodeEnum.Succes) {
             dispatch(getProfileThunk(userId))
             dispatch(getAuthProfileThunk(userId))
-            dispatch(updateProfileErrorMessageAC(null))
+            dispatch(profileActions.updateProfileErrorMessageAC(null))
         } else {
-            dispatch(updateProfileErrorMessageAC(data.messages))
+            dispatch(profileActions.updateProfileErrorMessageAC(data.messages))
             return Promise.reject(data.messages)
         }
     }

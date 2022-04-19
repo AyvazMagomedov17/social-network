@@ -1,12 +1,13 @@
+import { BaseThunkType } from './../Types/types';
 
-import { UsersDataType } from '../Types/types';
+import { ResultCodeEnum, UsersDataType } from '../Types/types';
 
 
 
 
 import { usersApi } from "../Api/api"
 import { ThunkAction } from 'redux-thunk';
-import { stateType } from './Redux-store';
+import { stateType, InferActionsTypes } from './Redux-store';
 
 const SET_USERS = 'friends/SET-USERS'
 const TOGGLE_FOLLOW = 'friends/TOGGLE-FOLLOW'
@@ -17,37 +18,10 @@ const TOGGLE_FOLLOWING_IN_PROGRESS = 'friends/TOGGLE-FOLLOWING-IN-PROGRESS'
 const WHO_TO_FOLLOW_SET_USERS = 'friends/WHO_TO_FOLLOW_SET_USERS'
 
 //ACTION TYPES
-type toggleFollowACType = {
-    type: typeof TOGGLE_FOLLOW
-    userId: number
-}
-type setUsersACType = {
-    type: typeof SET_USERS
-    users: Array<UsersDataType>
-}
-type setCurrentPageACType = {
-    type: typeof SET_CURRENT_PAGE
-    currentPage: number
-}
-type whoToFollowSetUsersACType = {
-    type: typeof WHO_TO_FOLLOW_SET_USERS
-    users: Array<UsersDataType>
-}
-type setTotalUsersCountACType = {
-    type: typeof SET_TOTAL_USERS_COUNT,
-    count: number
-}
-type changeFetchingACType = {
-    type: typeof CHANGE_FETCHING
-}
 
-type togglefollowingInProgressACType = {
-    type: typeof TOGGLE_FOLLOWING_IN_PROGRESS,
-    isFollowingInProgress: boolean
-    userId: number
-}
-type ActionTypes = toggleFollowACType | setUsersACType | setCurrentPageACType | whoToFollowSetUsersACType | setTotalUsersCountACType | changeFetchingACType | togglefollowingInProgressACType
-type ThunkType = ThunkAction<Promise<void>, stateType, unknown, ActionTypes>
+type ActionTypes = InferActionsTypes<typeof friendsAction>
+
+type ThunkType = BaseThunkType<ActionTypes>
 
 
 
@@ -115,41 +89,44 @@ const friendsReducer = (state = initialState, action: ActionTypes): FriendsReduc
 }
 
 
-export const toggleFollowAC = (userId: number): toggleFollowACType => ({
-    type: TOGGLE_FOLLOW,
-    userId: userId
-})
+const friendsAction = {
+    toggleFollowAC: (userId: number) => ({
+        type: TOGGLE_FOLLOW,
+        userId: userId
+    } as const),
 
-export const setUsersAC = (users: Array<UsersDataType>): setUsersACType => ({
-    type: SET_USERS,
-    users: users
-})
+    setUsersAC: (users: Array<UsersDataType>) => ({
+        type: SET_USERS,
+        users: users
+    } as const),
 
-export const whoToFollowSetUsersAC = (users: Array<UsersDataType>): whoToFollowSetUsersACType => ({
-    type: WHO_TO_FOLLOW_SET_USERS,
-    users
-})
+    whoToFollowSetUsersAC: (users: Array<UsersDataType>) => ({
+        type: WHO_TO_FOLLOW_SET_USERS,
+        users
+    } as const),
 
-export const setCurrentPageAC = (currentPage: number): setCurrentPageACType => ({
-    type: SET_CURRENT_PAGE,
-    currentPage: currentPage
-})
-
-
-export const setTotalUsersCountAC = (count: number): setTotalUsersCountACType => ({
-    type: SET_TOTAL_USERS_COUNT,
-    count
-})
+    setCurrentPageAC: (currentPage: number) => ({
+        type: SET_CURRENT_PAGE,
+        currentPage: currentPage
+    } as const),
 
 
-export const changeFetchingAC = (): changeFetchingACType => ({ type: CHANGE_FETCHING })
+    setTotalUsersCountAC: (count: number) => ({
+        type: SET_TOTAL_USERS_COUNT,
+        count
+    } as const),
 
 
-export const togglefollowingInProgressAC = (isFollowingInProgress: boolean, userId: number): togglefollowingInProgressACType => ({
-    type: TOGGLE_FOLLOWING_IN_PROGRESS,
-    isFollowingInProgress,
-    userId
-})
+    changeFetchingAC: () => ({ type: CHANGE_FETCHING } as const),
+
+
+    togglefollowingInProgressAC: (isFollowingInProgress: boolean, userId: number) => ({
+        type: TOGGLE_FOLLOWING_IN_PROGRESS,
+        isFollowingInProgress,
+        userId
+    } as const)
+}
+
 
 
 
@@ -159,12 +136,12 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
         let data = await usersApi.getUsersAPI(currentPage, pageSize)
         if (fromWho === 'FRIENDS') {
 
-            dispatch(setUsersAC(data.items))
-            dispatch(setTotalUsersCountAC(data.totalCount))
-            dispatch(changeFetchingAC())
+            dispatch(friendsAction.setUsersAC(data.items))
+            dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
+            dispatch(friendsAction.changeFetchingAC())
         }
         if (fromWho === 'WHO_TO_FOLLOW') {
-            dispatch(whoToFollowSetUsersAC(data.items))
+            dispatch(friendsAction.whoToFollowSetUsersAC(data.items))
         }
 
     }
@@ -173,30 +150,30 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
 export const setCurrentPageThunk = (pageNumber: number, pageSize: number): ThunkType => {
 
     return async (dispatch) => {
-        dispatch(setCurrentPageAC(pageNumber))
+        dispatch(friendsAction.setCurrentPageAC(pageNumber))
         let data = await usersApi.getUsersAPI(pageNumber, pageSize)
-        dispatch(setUsersAC(data.items))
-        dispatch(changeFetchingAC())
+        dispatch(friendsAction.setUsersAC(data.items))
+        dispatch(friendsAction.changeFetchingAC())
     }
 }
 
 export const followUnfollowThunk = (userId: number, usersData: Array<UsersDataType>): ThunkType => {
     return async (dispatch) => {
-        dispatch(togglefollowingInProgressAC(true, userId))
+        dispatch(friendsAction.togglefollowingInProgressAC(true, userId))
         usersData.forEach(async (item) => {
             if (item.id === userId && item.followed === false) {
                 let data = await usersApi.FollowAPI(userId)
-                if (data.resultCode === 0) {
-                    dispatch(toggleFollowAC(userId))
+                if (data.resultCode === ResultCodeEnum.Succes) {
+                    dispatch(friendsAction.toggleFollowAC(userId))
                 }
-                dispatch(togglefollowingInProgressAC(false, userId))
+                dispatch(friendsAction.togglefollowingInProgressAC(false, userId))
             }
             if (item.id === userId && item.followed === true) {
                 let data = await usersApi.unFollowAPI(userId)
-                if (data.resultCode === 0) {
-                    dispatch(toggleFollowAC(userId))
+                if (data.resultCode === ResultCodeEnum.Succes) {
+                    dispatch(friendsAction.toggleFollowAC(userId))
                 }
-                dispatch(togglefollowingInProgressAC(false, userId))
+                dispatch(friendsAction.togglefollowingInProgressAC(false, userId))
 
             }
         })

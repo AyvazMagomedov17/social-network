@@ -15,7 +15,7 @@ type PropsType = {
 function ProfileUserStatusContainer({ isOwner }: PropsType) {
     const dispatch = useDispatch()
     const updateStatusThunkFunc = (status: string) => {
-        debugger
+
         dispatch(updateStatusThunk(status))
     }
     const State = {

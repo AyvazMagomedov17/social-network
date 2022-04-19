@@ -1,9 +1,9 @@
 import { Formik } from 'formik';
-import React, { KeyboardEvent, MouseEvent, useState } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 //@ts-ignore
-import { addMessageAC } from '../../../Redux/Messages-reducer.ts';
+import { MessagesActions } from '../../../Redux/Messages-reducer.ts';
 //@ts-ignore
 import s from '../../../Styles/Dialogs/addMessage.module.scss'
 const AddMessage = () => {
@@ -18,7 +18,7 @@ const AddMessage = () => {
                 message: ''
             }}
             onSubmit={(values) => {
-                dispatch(addMessageAC(values.message))
+                dispatch(MessagesActions.addMessageAC(values.message))
             }}
         >
             {({ handleSubmit, handleReset, handleChange, values }) => (

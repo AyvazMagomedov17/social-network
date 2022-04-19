@@ -1,10 +1,10 @@
-import profileReducer, { addPostAC } from "./Profile-reducer";
+import profileReducer, { profileActions } from "./Profile-reducer";
 import PostImg from '../Assets/img/Profile/user2.jpg'
 
 test('new post should be added', () => {
 
     // test data
-    let action = addPostAC('Новый пост')
+    let action = profileActions.addPostAC('Новый пост')
     let State = {
         postData: [
             {

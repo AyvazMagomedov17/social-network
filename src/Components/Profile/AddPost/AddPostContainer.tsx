@@ -1,6 +1,6 @@
 
 
-import { addPostAC } from '../../../Redux/Profile-reducer'
+import { profileActions } from '../../../Redux/Profile-reducer'
 import AddPost from './AddPost'
 
 import { GetFuncForUseSelector } from '../../common/Functions/Functions'
@@ -17,7 +17,7 @@ const AddPostContainer = () => {
     }
     const dispatch = useDispatch()
     let addPost = (text: string) => {
-        dispatch(addPostAC(text))
+        dispatch(profileActions.addPostAC(text))
     }
     if (StateProps.profile === null) {
         return <Preloader />

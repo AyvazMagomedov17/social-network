@@ -1,3 +1,6 @@
+import { stateType } from './../Redux/Redux-store';
+import { ThunkAction } from 'redux-thunk';
+import { Action } from 'redux';
 export type ProfilePhotosType = {
     large: string | null
     small: string | null
@@ -24,7 +27,7 @@ export type ActualStringType = {
     '*': number
 }
 
-
+///
 export type UsersDataType = {
     followed: boolean
     id: number
@@ -35,6 +38,7 @@ export type UsersDataType = {
 
 }
 
+///
 export type dialogDataType = {
     id: number
     name: string
@@ -51,3 +55,17 @@ export type MessageDataType = {
     message: string
 
 }
+
+
+
+////
+export enum ResultCodeEnum {
+    Succes = 0,
+    Error = 1,
+}
+export enum ResultCodeForCaptchaEnum {
+    CaptchaIs = 10
+}
+
+///
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, stateType, unknown, A>

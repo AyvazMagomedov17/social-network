@@ -8,7 +8,7 @@ import s from '../../../Styles/Profile/profileUser.module.scss'
 import ProfileUserForm from './ProfileUserForm/ProfileUserForm'
 import ProfileUserInfo from './ProfileUserInfo/ProfileUserInfo'
 import { useDispatch } from 'react-redux'
-import { savePhotoThunk, setActualStringAC } from '../../../Redux/Profile-reducer'
+import { savePhotoThunk, profileActions } from '../../../Redux/Profile-reducer'
 import { ProfileType } from '../../../Types/types'
 
 
@@ -24,7 +24,7 @@ const ProfileUser = ({ profile, isOwner, updateProfileErrorMessage }: PropsType)
     let params = useParams()
     let dispatch = useDispatch()
     const [editMode, seteditMode] = useState(false)
-    dispatch(setActualStringAC(params))
+    dispatch(profileActions.setActualStringAC(params))
     if (!profile) {
         return <Preloader />
     }
