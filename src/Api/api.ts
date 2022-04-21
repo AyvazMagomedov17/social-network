@@ -24,6 +24,15 @@ export const usersApi = {
         const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}`);
         return response.data;
     },
+    async getFriendsAPI(currentPage: number, pageSize: number) {
+        const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}&friend=true`)
+        return response.data
+    },
+    async findUsersAPI(currentPage: number, pageSize: number, term: string) {
+        const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
+        return response.data
+    },
+
     async FollowAPI(userId: number) {
         const response = await instanse.post<updateStatusApiType>(`follow/${userId}`);
         return response.data;

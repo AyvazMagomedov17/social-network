@@ -7,6 +7,7 @@ import FriendContainer from './Friend/FriendContainer.tsx';
 //@ts-ignore
 import s from '../../../Styles/Friends/friendList.module.scss'
 import { UsersDataType } from '../../../Types/types';
+import FriendListFindForm from './FriendListFindForm/FriendListFindForm';
 
 
 type PropsType = {
@@ -16,8 +17,15 @@ type PropsType = {
     setCurrentPage: (pageNumber: number) => void
     currentPage: number
     isFetching: boolean
+    setIsGetFriends: React.Dispatch<React.SetStateAction<boolean>>
+    isGetFriends: boolean
+    setisClick: React.Dispatch<React.SetStateAction<boolean>>
+    setIsFindUsers: React.Dispatch<React.SetStateAction<boolean>>
+
+    setTermForFindUsers: React.Dispatch<React.SetStateAction<string>>
+
 }
-let FriendList = memo(({ totalUsersCount, pageSize, usersData, setCurrentPage, currentPage, isFetching }: PropsType) => {
+let FriendList = ({ setTermForFindUsers, setIsFindUsers, setisClick, isGetFriends, setIsGetFriends, totalUsersCount, pageSize, usersData, setCurrentPage, currentPage, isFetching }: PropsType) => {
 
 
     let usersELem = usersData
@@ -29,11 +37,21 @@ let FriendList = memo(({ totalUsersCount, pageSize, usersData, setCurrentPage, c
             }
         }
         )
+
     return (
         <div className={s.friendlist}>
             <Paginator totalItemsCount={totalUsersCount} pageSize={pageSize} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <FriendListFindForm setIsFindUsers={setIsFindUsers} setTermForFindUsers={setTermForFindUsers} setisClick={setisClick} />
+            <div className={s.friendsCheckboxBox}>
+                <input id='friendsCheckbox' className={s.friendsCheckbox} type='checkbox' onClick={() => {
+                    setIsGetFriends(!isGetFriends)
+                    setisClick(true)
+                }} />
+                <label htmlFor="friendsCheckbox"></label>
+                <span>Only subscriptions</span>
+            </div>
             <div className={s.body}>
-                {isFetching
+                {isFetching || usersData.length === 0
                     ?
                     <Preloader />
                     :
@@ -49,7 +67,7 @@ let FriendList = memo(({ totalUsersCount, pageSize, usersData, setCurrentPage, c
 
         </div>)
 
-})
+}
 
 
 export default FriendList

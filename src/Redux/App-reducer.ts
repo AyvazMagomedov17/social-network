@@ -1,9 +1,8 @@
 import { InferActionsTypes } from './Redux-store';
 
 //@ts-nocheck
-import { ThunkAction } from 'redux-thunk';
 import { getAuthProfileThunk, getLoginThunk } from './Auth-reducer';
-import { stateType } from './Redux-store';
+
 import { BaseThunkType } from '../Types/types';
 
 
