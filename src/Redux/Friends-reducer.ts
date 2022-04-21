@@ -37,7 +37,7 @@ let initialState = {
 
 export type FriendsReducerInitialStateType = typeof initialState
 
-const friendsReducer = (state = initialState, action: ActionTypes): FriendsReducerInitialStateType => {
+export const friendsReducer = (state = initialState, action: ActionTypes): FriendsReducerInitialStateType => {
     switch (action.type) {
         case TOGGLE_FOLLOW: {
             let stateCopy = {
@@ -201,6 +201,7 @@ export const findUsersThunk = (currentPage: number, pageSize: number, term: stri
     dispatch(friendsAction.setfindUsersAC(data.items))
     dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
     dispatch(friendsAction.changeFetchingAC(false))
+    dispatch(friendsAction.setIsFriendsUserInstateAC(false))
     dispatch(friendsAction.setIsFindUsersInStateAC(true))
 
 }
@@ -218,12 +219,10 @@ export const setCurrentPageThunk = (pageNumber: number, pageSize: number, term: 
         }
         if (isFriends) {
             dispatch(friendsAction.setCurrentPageAC(pageNumber))
-
             let data = await usersApi.getFriendsAPI(pageNumber, pageSize)
             dispatch(friendsAction.setfriendsAC(data.items))
         }
         if (isFindUsers) {
-
             dispatch(friendsAction.setCurrentPageAC(pageNumber))
             console.log('поиск запощены с setCurrentPageThunk')
             let data = await usersApi.findUsersAPI(pageNumber, pageSize, term)

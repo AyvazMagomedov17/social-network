@@ -11,11 +11,11 @@ import { GetFuncForUseSelector } from '../../../common/Functions/Functions'
 type PropsType = {
     setisClick: React.Dispatch<React.SetStateAction<boolean>>
     setTermForFindUsers: React.Dispatch<React.SetStateAction<string>>
-    isFindUsers: boolean
+
     setIsFindUsers: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const FriendListFindForm = ({ setisClick, setTermForFindUsers, isFindUsers, setIsFindUsers }: PropsType) => {
+const FriendListFindForm = ({ setisClick, setTermForFindUsers, setIsFindUsers }: PropsType) => {
     const dispatch = useDispatch()
     let StateProps = {
         pageSize: GetFuncForUseSelector(getPageSizeSelector) as number,

@@ -45,7 +45,7 @@ export const usersApi = {
 
 type getProfileAPIType = ProfileType
 type getStatusAPIType = string
-type updateStatusApiType = {
+export type updateStatusApiType = {
     data: {}
     resultCode: ResultCodeEnum
     messages: Array<string>
