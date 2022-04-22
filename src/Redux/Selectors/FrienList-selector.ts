@@ -15,3 +15,6 @@ export const getCurrentPageSelector = (state: stateType) => {
 export const getIsFetchingSelector = (state: stateType) => {
     return state.friendsPage.isFetching
 }
+export const getFilterSelector = (state: stateType) => {
+    return state.friendsPage.filter
+}

@@ -24,12 +24,9 @@ export const usersApi = {
         const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}`);
         return response.data;
     },
-    async getFriendsAPI(currentPage: number, pageSize: number) {
-        const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}&friend=true`)
-        return response.data
-    },
-    async findUsersAPI(currentPage: number, pageSize: number, term: string) {
-        const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
+
+    async filterUsersAPI(currentPage: number, pageSize: number, term: string = '', friend?: null | string) {
+        const response = await instanse.get<getUsersAPIType>(`users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${friend}`)
         return response.data
     },
 

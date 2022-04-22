@@ -1,5 +1,6 @@
+import { UsersDataType } from './../../Types/types';
 import { usersApi, updateStatusApiType } from './../../Api/api';
-import { followUnfollowThunk } from './../Friends-reducer';
+import { FilterType, followUnfollowThunk } from './../Friends-reducer';
 import friendsReducer, { FriendsReducerInitialStateType, friendsAction } from '../Friends-reducer';
 import thunk from 'redux-thunk';
 import { ResultCodeEnum } from '../../Types/types';
@@ -39,14 +40,18 @@ let state: FriendsReducerInitialStateType = {
         uniqueUrlName: 'https'
     },
     ],
-    whoToFollowsData: [],
-    pageSize: 100,
-    totalUsersCount: 0,
-    currentPage: 1,
-    isFetching: true,
-    followingInProgressArr: [], //array of userid
-    IsFriendsUserInstate: false,
-    isFindUsersInState: false
+    whoToFollowsData: [] as Array<UsersDataType>,
+    pageSize: 100 as number,
+    totalUsersCount: 0 as number,
+    currentPage: 1 as number,
+    isFetching: true as boolean,
+    followingInProgressArr: [] as Array<number>, //array of userid
+
+    isFindUsersInState: false as boolean,
+    filter: {
+        term: '',
+        friend: null
+    } as FilterType
 }
 
 beforeEach(() => {
@@ -85,14 +90,18 @@ beforeEach(() => {
             uniqueUrlName: 'https'
         },
         ],
-        whoToFollowsData: [],
-        pageSize: 100,
-        totalUsersCount: 0,
-        currentPage: 1,
-        isFetching: true,
-        followingInProgressArr: [], //array of userid
-        IsFriendsUserInstate: false,
-        isFindUsersInState: false
+        whoToFollowsData: [] as Array<UsersDataType>,
+        pageSize: 100 as number,
+        totalUsersCount: 0 as number,
+        currentPage: 1 as number,
+        isFetching: true as boolean,
+        followingInProgressArr: [] as Array<number>, //array of userid
+
+        isFindUsersInState: false as boolean,
+        filter: {
+            term: '',
+            friend: null
+        } as FilterType
     }
 })
 test('unfollow', () => {

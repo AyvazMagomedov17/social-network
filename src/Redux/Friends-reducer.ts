@@ -14,6 +14,7 @@ const IS_FRIEDS_USER_IN_STATE = 'friends/IS-FRIEDS-USER-IN-STATE'
 const IS_FIND_USERS_IN_STATE = 'friends/IS-FIND-USERS-IN-STATE'
 const SET_FRIENDS = 'friends/SET-FRIENDS '
 const SET_FIND_USERS = 'friends/SET_FIND_USERS'
+const SET_FILTER = 'friends/SET-FILTER'
 
 //ACTION TYPES
 
@@ -22,7 +23,10 @@ type ActionTypes = InferActionsTypes<typeof friendsAction>
 type ThunkType = BaseThunkType<ActionTypes>
 
 
-
+export type FilterType = {
+    term: string | undefined
+    friend: null | string | boolean
+}
 let initialState = {
     usersData: [] as Array<UsersDataType>,
     whoToFollowsData: [] as Array<UsersDataType>,
@@ -31,8 +35,12 @@ let initialState = {
     currentPage: 1 as number,
     isFetching: true as boolean,
     followingInProgressArr: [] as Array<number>, //array of userid
-    IsFriendsUserInstate: false as boolean,
-    isFindUsersInState: false as boolean
+
+    isFindUsersInState: false as boolean,
+    filter: {
+        term: '',
+        friend: null
+    } as FilterType
 }
 
 export type FriendsReducerInitialStateType = typeof initialState
@@ -75,7 +83,7 @@ export const friendsReducer = (state = initialState, action: ActionTypes): Frien
 
             return { ...state, usersData: action.users }
         case SET_CURRENT_PAGE:
-            return { ...state, usersData: [], currentPage: action.currentPage, isFetching: !state.isFetching }
+            return { ...state, usersData: [], currentPage: action.currentPage, isFetching: false }
         case SET_TOTAL_USERS_COUNT:
             return { ...state, totalUsersCount: action.count }
         case CHANGE_FETCHING:
@@ -89,10 +97,12 @@ export const friendsReducer = (state = initialState, action: ActionTypes): Frien
         case WHO_TO_FOLLOW_SET_USERS:
 
             return { ...state, whoToFollowsData: action.users }
-        case IS_FRIEDS_USER_IN_STATE:
-            return { ...state, IsFriendsUserInstate: action.isFriends }
+
         case IS_FIND_USERS_IN_STATE:
             return { ...state, isFindUsersInState: action.isFindUsers }
+        case SET_FILTER:
+
+            return { ...state, filter: { ...action } }
         default:
             return state
     }
@@ -142,14 +152,20 @@ export const friendsAction = {
         isFollowingInProgress,
         userId
     } as const),
-    setIsFriendsUserInstateAC: (isFriends: boolean) => ({
-        type: IS_FRIEDS_USER_IN_STATE,
-        isFriends
-    } as const),
+
     setIsFindUsersInStateAC: (isFindUsers: boolean) => ({
         type: IS_FIND_USERS_IN_STATE,
         isFindUsers
-    } as const)
+    } as const),
+    setFilterAC: ({ term, friend }: FilterType) => {
+
+        return {
+
+            type: SET_FILTER,
+            term: term,
+            friend: friend
+        } as const
+    }
 }
 
 
@@ -161,11 +177,10 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
         dispatch(friendsAction.changeFetchingAC(true))
         let data = await usersApi.getUsersAPI(currentPage, pageSize)
         if (fromWho === 'FRIENDS') {
-
             dispatch(friendsAction.setUsersAC(data.items))
             dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
             dispatch(friendsAction.changeFetchingAC(false))
-            dispatch(friendsAction.setIsFriendsUserInstateAC(false))
+
             dispatch(friendsAction.setIsFindUsersInStateAC(false))
 
         }
@@ -175,57 +190,43 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
 
     }
 }
-export const getFriendsThunk = (currentPage: number, pageSize: number, fromWho: string): ThunkType => {
 
-    return async (dispatch, getState) => {
-        dispatch(friendsAction.changeFetchingAC(true))
-        let data = await usersApi.getFriendsAPI(currentPage, pageSize)
-        if (fromWho === 'FRIENDS') {
 
-            dispatch(friendsAction.setfriendsAC(data.items))
-            dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
-            dispatch(friendsAction.changeFetchingAC(false))
-            dispatch(friendsAction.setIsFriendsUserInstateAC(true))
-            dispatch(friendsAction.setIsFindUsersInStateAC(false))
+export const filterUsersThunk = (currentPage: number, pageSize: number, term: string | undefined, friend: boolean | string | null): ThunkType => async (dispatch, getState) => {
 
-        }
-
-    }
-}
-
-export const findUsersThunk = (currentPage: number, pageSize: number, term: string): ThunkType => async (dispatch, getState) => {
 
     dispatch(friendsAction.changeFetchingAC(true))
-    let data = await usersApi.findUsersAPI(currentPage, pageSize, term)
-
+    //@ts-ignore
+    let data = await usersApi.filterUsersAPI(currentPage, pageSize, term, friend)
     dispatch(friendsAction.setfindUsersAC(data.items))
     dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
     dispatch(friendsAction.changeFetchingAC(false))
-    dispatch(friendsAction.setIsFriendsUserInstateAC(false))
+
     dispatch(friendsAction.setIsFindUsersInStateAC(true))
 
 }
 
-export const setCurrentPageThunk = (pageNumber: number, pageSize: number, term: string = ''): ThunkType => {
+export const setCurrentPageThunk = (pageNumber: number, pageSize: number): ThunkType => {
     return async (dispatch, getState) => {
-        let isFriends = getState().friendsPage.IsFriendsUserInstate
+
         let isFindUsers = getState().friendsPage.isFindUsersInState
-        if (!isFriends && !isFindUsers) {
+        const term = getState().friendsPage.filter.term
+        const friend = getState().friendsPage.filter.friend
+        if (!isFindUsers) {
 
             dispatch(friendsAction.setCurrentPageAC(pageNumber))
             console.log('юзеры запощены с setCurrentPageThunk')
             let data = await usersApi.getUsersAPI(pageNumber, pageSize)
             dispatch(friendsAction.setUsersAC(data.items))
         }
-        if (isFriends) {
-            dispatch(friendsAction.setCurrentPageAC(pageNumber))
-            let data = await usersApi.getFriendsAPI(pageNumber, pageSize)
-            dispatch(friendsAction.setfriendsAC(data.items))
-        }
+
         if (isFindUsers) {
+
             dispatch(friendsAction.setCurrentPageAC(pageNumber))
             console.log('поиск запощены с setCurrentPageThunk')
-            let data = await usersApi.findUsersAPI(pageNumber, pageSize, term)
+            //todo 
+            //@ts-ignore
+            let data = await usersApi.filterUsersAPI(pageNumber, pageSize, term, friend)
             dispatch(friendsAction.setfindUsersAC(data.items))
         }
         dispatch(friendsAction.changeFetchingAC(false))

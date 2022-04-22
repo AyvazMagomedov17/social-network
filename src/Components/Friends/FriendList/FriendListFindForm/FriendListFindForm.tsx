@@ -1,53 +1,63 @@
 
 
-import { Formik } from 'formik'
-import { useDispatch } from 'react-redux'
-import { findUsersThunk } from '../../../../Redux/Friends-reducer'
-import { getCurrentPageSelector, getPageSizeSelector } from '../../../../Redux/Selectors/FrienList-selector'
+import { Field, Formik } from 'formik'
+import { useDispatch, useSelector } from 'react-redux'
+import { FilterType, filterUsersThunk, friendsAction } from '../../../../Redux/Friends-reducer'
+import { getCurrentPageSelector, getFilterSelector, getPageSizeSelector } from '../../../../Redux/Selectors/FrienList-selector'
 //@ts-ignore
 import s from '../../../../Styles/Friends/friendListFindForm.module.scss'
 import { GetFuncForUseSelector } from '../../../common/Functions/Functions'
 
 type PropsType = {
-    setisClick: React.Dispatch<React.SetStateAction<boolean>>
+    setPortionNumber: React.Dispatch<React.SetStateAction<number>>
     setTermForFindUsers: React.Dispatch<React.SetStateAction<string>>
 
-    setIsFindUsers: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-const FriendListFindForm = ({ setisClick, setTermForFindUsers, setIsFindUsers }: PropsType) => {
+const FriendListFindForm = ({ setTermForFindUsers, setPortionNumber }: PropsType) => {
     const dispatch = useDispatch()
+
+    let filter: FilterType = useSelector(getFilterSelector)
+
     let StateProps = {
         pageSize: GetFuncForUseSelector(getPageSizeSelector) as number,
         currentPage: GetFuncForUseSelector(getCurrentPageSelector) as number,
 
     }
-    return (
-        <Formik initialValues={
-            {
-                term: '' as string
 
+    return (
+        <Formik enableReinitialize={true} initialValues={
+
+            {
+                term: filter.term as string,
+                friend: filter.friend as null | string
             }
         }
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
 
-                dispatch(findUsersThunk(StateProps.currentPage, StateProps.pageSize, values.term))
+                dispatch(friendsAction.setCurrentPageAC(1))
+                dispatch(friendsAction.setFilterAC({ friend: values.friend, term: values.term }))
+                dispatch(filterUsersThunk(1, StateProps.pageSize, values.term, values.friend))
                 setTermForFindUsers(values.term)
-                setisClick(true)
+                setPortionNumber(1)
+
             }}
         >
             {({ handleSubmit, handleChange, values }) => (
                 <div className={s.findForm}>
+                    <Field as="select" name="friend">
+                        <option value="null">All users</option>
+                        <option value="true">Only followed</option>
+                        <option value="false">Only unfollowed</option>
+                    </Field>
                     <input type="text" onChange={handleChange} name={'term'} value={values.term} />
                     <button className={s.editButton} type={'submit'} onClick={() => {
-                        setIsFindUsers(true)
                         handleSubmit()
-
-
                     }}>Find</button>
                 </div>
             )}
-        </Formik>
+        </Formik >
     )
 }
 
