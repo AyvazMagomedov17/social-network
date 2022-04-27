@@ -93,16 +93,12 @@ const profileReducer = (state = initialState, action: ActionTypes): ProfileReduc
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile }
         case SET_ACTUAL_URL:
-
             return { ...state, actualString: action.actualString }
-
         case SET_STATUS:
             return { ...state, status: action.status }
         case TOGGLE_GET_PROFILE:
             return { ...state, isgetProfile: action.isgetProfile }
-
         case SAVE_PHOTO_SUCCES:
-            console.log(action.photos)
             return { ...state, profile: { ...state.profile, photos: action.photos } }
         case UPDATE_PROFILE_ERROR_MESSAGE:
             return { ...state, updateProfileErrorMessage: action.error }

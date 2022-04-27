@@ -46,7 +46,11 @@
 .name {
     padding-right: 10px;
     font-size: 15px;
-    color: $YELLOW
+    color: $YELLOW;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; // чтобы обрезать длинный текст и добавить в конце три точки
+    max-width: 200px;
 }
 .status {
     color: #939598;
@@ -73,6 +77,10 @@
     justify-content: center;
     border-radius: 5px;
     position: absolute;
-
     right: 10px;
+}
+
+.dialog a[class*="active"] {
+    background-color: $GRAY2;
+    
 }

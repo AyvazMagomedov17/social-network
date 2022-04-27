@@ -8,7 +8,7 @@ const Posts = ({ postData, profile }) => {
     let postDatat = postData
 
     let postElem = postDatat
-        .map(post => <Post name={profile.fullName} follow={post.follow} like={post.like} dislike={post.dislike} img={profile.photos.small != null ? profile.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} text={post.text} />)
+        .map(post => <Post key={post.text} name={profile.fullName} follow={post.follow} like={post.like} dislike={post.dislike} img={profile.photos.small != null ? profile.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} text={post.text} />)
 
     return (
         <div className={s.posts}>

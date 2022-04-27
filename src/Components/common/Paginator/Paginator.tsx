@@ -34,7 +34,7 @@ const Paginator: FC<PropsType> = ({ totalItemsCount, portionNumber, setPortionNu
             {pages
                 .filter((p) => p >= leftPortionPageNumber && p <= rigthPortionNumber)
                 .map((p) => {
-                    return <button onClick={() => { setCurrentPage(p) }} className={cn(s.pageButton, currentPage === p && s.selectedPage)}>{p}</button>
+                    return <button key={p} onClick={() => { setCurrentPage(p) }} className={cn(s.pageButton, currentPage === p && s.selectedPage)}>{p}</button>
                 })}
             {portionCount > portionNumber && <button className={cn(s.button, s.right)} onClick={() => {
                 debugger

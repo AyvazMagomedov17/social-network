@@ -65,7 +65,7 @@ const FriendListApiComponent = () => {
         dispatch(filterUsersThunk(actualPage, StateProps.pageSize, actualFilter.term, actualFilter.friend))
     }, [])
     useEffect(() => {
-        debugger
+
         history(`/friends?term=${StateProps.filter.term}&friend=${StateProps.filter.friend}&page=${StateProps.currentPage}`)
 
     }, [StateProps.filter, StateProps.currentPage])

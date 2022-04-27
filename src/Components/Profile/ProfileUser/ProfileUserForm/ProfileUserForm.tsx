@@ -59,14 +59,11 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileErrorMessage }:
 
                         removeEditMode()  // сработает только если промис не вернет отклоненный Promise.reject(data.messages)
                     })
-
-
-
             }}>
             {({ handleSubmit, handleChange, values }) => (
                 <div className={s.right}>
                     <div className={s.rightTop}>
-                        <div className={s.fullName}><textarea placeholder='Full name' style={{ 'height': `${fullNameHeight}px` }} onClick={(e) => {
+                        <div className={s.fullName}><textarea maxLength={90} placeholder='Full name' style={{ 'height': `${fullNameHeight}px` }} onClick={(e) => {
                             setFullNameheightFunc(e)
                         }} onKeyDown={(e) => {
                             setFullNameheightFunc(e)
@@ -81,7 +78,7 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileErrorMessage }:
 
                         <div className={s.lookingForAJoBox}>
                             <div className={s.lookingForAjob}>Looking for a job: <input checked={values.lookingForAjob} type="checkbox" onChange={handleChange} name={'lookingForAjob'} /></div>
-                            <div className={s.lookingForAJobDescription}><textarea style={{ 'height': `${lookingForAJobDescriptionHeight}px` }} onKeyDown={(e) => {
+                            <div className={s.lookingForAJobDescription}><textarea maxLength={300} style={{ 'height': `${lookingForAJobDescriptionHeight}px` }} onKeyDown={(e) => {
                                 setlookingForAJobDescriptionHeightFunc(e)
 
                             }} onClick={(e) => {

@@ -1,7 +1,7 @@
 @import '../Common/colors';
 
 .status {
-    font-size: 15px;
+    font-size: 16px;
     color: $WHITE;
     font-weight: 600;
     text-overflow: ellipsis;
@@ -22,6 +22,9 @@
 }
 
 .status input {
-    border: 1px solid black;
+    font-size: 16px;
+    border-bottom: 1px solid $GRAY2;
+    color: $WHITE;
+    background-color: $BlACK;
     
 }

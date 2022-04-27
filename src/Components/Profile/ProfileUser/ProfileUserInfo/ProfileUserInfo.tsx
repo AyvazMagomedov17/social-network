@@ -33,7 +33,7 @@ const ProfileUserInfo = ({ profile, isOwner, goToEditMode }: PropsType) => {
                 </div>
                 <div>{Object.keys(profile.contacts).map(key => {
 
-                    return <ProfileUserContact contactsTitle={key} contactsValue={profile.contacts[key]} />
+                    return <ProfileUserContact key={key} contactsTitle={key} contactsValue={profile.contacts[key]} />
                 })}</div>
 
             </div>

@@ -40,7 +40,11 @@
     padding-top: 15px;
     font-size: 16px;
     margin-right: 10px;
-    color: $YELLOWHOVER
+    color: $YELLOWHOVER;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; // чтобы обрезать длинный текст и добавить в конце три точки
+    max-width: 300px;
 }
 
 .likes {

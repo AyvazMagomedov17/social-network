@@ -46,13 +46,13 @@ const FriendListFindForm = ({ setTermForFindUsers, setPortionNumber }: PropsType
         >
             {({ handleSubmit, handleChange, values }) => (
                 <div className={s.findForm}>
-                    <Field as="select" name="friend">
+                    <Field className={s.findSelect} as="select" name="friend">
                         <option value="null">All users</option>
                         <option value="true">Only followed</option>
                         <option value="false">Only unfollowed</option>
                     </Field>
-                    <input type="text" onChange={handleChange} name={'term'} value={values.term} />
-                    <button className={s.editButton} type={'submit'} onClick={() => {
+                    <input type="text" onChange={handleChange} className={s.findInput} name={'term'} value={values.term} />
+                    <button className={s.findButton} type={'submit'} onClick={() => {
                         handleSubmit()
                     }}>Find</button>
                 </div>

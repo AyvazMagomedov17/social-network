@@ -28,9 +28,9 @@ const LoginForm = ({ loginThunk, errorMessage, captchaUrl }: LoginFormPropsType)
                             captcha: ''
                         }
                     }
-                    validateOnBlur                     // ВАЛИДАЦИЯ ПРИ ПЕРЕХОДЕ НА ДРУГОЕ ПОЛЕ
+                    validateOnBlur                     // ВаЛИДАЦИЯ ПРИ ПЕРЕХОДЕ НА ДРУГОЕ ПОЛЕ
                     onSubmit={(values) => {
-                        debugger
+
                         loginThunk(values.login, values.password, values.rememberMe, values.captcha)
                     }}
                     validationSchema={validationSheme}

@@ -34,6 +34,10 @@
     color: $YELLOWHOVER;
     font-weight: 800;
     padding-top: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; // чтобы обрезать длинный текст и добавить в конце три точки
+    max-width: 100px;
 }
 .data {
     padding-top: 10px;

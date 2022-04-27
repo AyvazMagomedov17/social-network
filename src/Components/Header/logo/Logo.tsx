@@ -1,7 +1,7 @@
 //@ts-ignore
 import s from '../../../Styles/Header/logo.module.scss'
 //@ts-ignore
-import logoPNG from '../../../Assets/img/Header/logo.png'
+import logoPNG from '../../../Assets/img/Navbar/Vector.svg'
 
 const Logo = () => {
     return (
