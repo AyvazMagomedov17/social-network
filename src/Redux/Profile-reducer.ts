@@ -44,7 +44,7 @@ let initialState = {
     postData: [
         {
             id: 0,
-            name: 'Sarah Chruz',
+            name: 'test',
             follow: 'following',
             like: 5,
             dislike: 10,
@@ -53,7 +53,7 @@ let initialState = {
         },
         {
             id: 1,
-            name: 'Illon Mask',
+            name: 'test',
             follow: 'unfollowing',
             like: 30,
             dislike: 1,

@@ -21,31 +21,7 @@ export type initialStateMessagesType = typeof initialState
 type ThunkType = BaseThunkType<ActionTypes>
 
 let initialState = {
-    myMessageInfo: {
-        id: 1,
-        name: 'Айваз',
-        time: "10:00"
-    } as MessageInfoType,
-    yourMessageInfo: {
-        id: 2,
-        name: 'Марат',
-        time: '12: 00'
-    } as MessageInfoType,
-    MessageData: [
-        { id: 0, from: 'me', message: 'Привет, подруга' },
-        { id: 1, from: 'you', message: 'Как ты?' },
-        { id: 1, from: 'you', message: 'Что делаешь?' },
-        { id: 0, from: 'me', message: 'Блин, я гений' },
-        { id: 1, from: 'me', message: 'враг впереди' },
-        { id: 1, from: 'you', message: 'враг впереди' },
-    ] as Array<MessageDataType>,
-    dialogData: [
-        { id: 1, name: 'Lindsi Lohan' },
-        { id: 2, name: 'Sharon Tayt' },
-        { id: 3, name: 'Scarlet Johannson' },
-        { id: 4, name: 'Uma Turman' },
-        { id: 5, name: 'Margo Robbie' },
-    ] as Array<dialogDataType>,
+
     dialogList: [
     ] as Array<GetAllDialogsAPIType>,
     messagesList: [] as Array<GetOneMessageType> | Array<any>,
@@ -58,20 +34,7 @@ let initialState = {
 const messagesReducer = (state = initialState, action: ActionTypes): initialStateMessagesType => {
 
     switch (action.type) {
-        case ADD__MESSAGE:
-            if (action.message != '') {
-                let newMessage = {
-                    id: 10,
-                    from: 'me',
-                    message: action.message
-                }
-                return {
-                    ...state,
-                    MessageData: [...state.MessageData, newMessage],
 
-                }
-            }
-            return state
 
         case SET_COUNT_OF_NEW_MESSAGES:
             return { ...state, countOfNewMessages: action.count }

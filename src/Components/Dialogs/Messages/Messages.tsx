@@ -15,9 +15,7 @@ import { getMessagesListSelector, getTotalMessagesCountSelector } from '../../..
 import { profileApi } from '../../../Api/api';
 
 type PropsType = {
-    myMessageInfoData: MessageInfoType
-    yourMessageInfoData: MessageInfoType
-    OneMessageData: Array<MessageDataType>
+
     id: number | null
     profile: any
 }
@@ -29,7 +27,7 @@ const Messages = (props: PropsType) => {
     let params = useParams()
     let userId = Number(params['*'])
     const messagesList = useSelector(getMessagesListSelector)
-    let yourMessageInfoData = props.yourMessageInfoData
+
     let messagesScrollTop = document.getElementById('messagesScroll')
     const [isFirstSetUsers, setisFirstSetUsers] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)

@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux';
 import { getDialogListSelector } from '../../../Redux/Selectors/DialogItmes-selector';
 
 type PropsType = {
-    dialogDataState: Array<dialogDataType>
+
 }
-const DialogItems = ({ dialogDataState }: PropsType) => {
+const DialogItems = ({ }: PropsType) => {
 
     let dialogList = useSelector(getDialogListSelector)
     let dialogElements = dialogList
