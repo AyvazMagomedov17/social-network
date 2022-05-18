@@ -55,7 +55,7 @@ const AppRender = (props) => {
                         <div className='app-wrapper-main'>
                             <Suspense fallback={<Preloader />}>
                                 <Routes>
-                                    <Route path='/friends/*' element={<Friends />} />
+                                    <Route path='/friends/*' element={props.initialized ? <Friends /> : <Navigate to='/login' />} />
                                     <Route path='/profile/*' element={<ProfileContainer />} />
                                     <Route path='/messages/*' element={<DialogsContainer />} />
                                     <Route path='*' element={<div>404 Not found</div>} />

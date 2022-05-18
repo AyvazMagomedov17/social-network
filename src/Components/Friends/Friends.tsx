@@ -3,6 +3,8 @@ import FriendListContainer from './FriendList/FriendListContainer';
 //@ts-ignore
 import s from '../../Styles/Friends/friends.module.scss'
 import { useEffect } from 'react';
+import { compose } from 'redux';
+import withAuthRedirect from '../../Hoc/withAuthRedirect';
 
 
 const Friends = () => {
@@ -19,4 +21,6 @@ const Friends = () => {
     )
 }
 
-export default Friends;
+export default compose(
+    withAuthRedirect
+)(Friends)
