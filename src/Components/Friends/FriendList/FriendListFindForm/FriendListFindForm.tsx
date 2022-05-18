@@ -51,7 +51,11 @@ const FriendListFindForm = ({ setTermForFindUsers, setPortionNumber }: PropsType
                         <option value="true">Only followed</option>
                         <option value="false">Only unfollowed</option>
                     </Field>
-                    <input type="text" onChange={handleChange} className={s.findInput} name={'term'} value={values.term} />
+                    <input onKeyDown={(e) => {
+                        if (e.keyCode === 13) {
+                            handleSubmit()
+                        }
+                    }} type="text" onChange={handleChange} className={s.findInput} name={'term'} value={values.term} />
                     <button className={s.findButton} type={'submit'} onClick={() => {
                         handleSubmit()
                     }}>Find</button>

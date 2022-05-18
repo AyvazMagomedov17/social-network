@@ -44,6 +44,7 @@
 .lookingForAJoBox{
     border: 1px solid $GRAY2;
     padding: 10px 5px;
+    margin-bottom: 90px
 
     
 }
@@ -130,4 +131,7 @@ resize: vertical;
     position:absolute;
     bottom: 150px;
     
+}
+.updateProfileErrorMessage{
+    line-height: 25px
 }

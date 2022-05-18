@@ -1,18 +1,37 @@
 @import '../Common/colors';
+@import '../Common/mixins';
 
 
 .messages {
     border-top: 1px solid $GRAY2;
+    position: relative;
 }
 .main {
     overflow-y: scroll;
     height: 75vh;
     padding: 40px 15px 15px 15px;
+    color: #ffff;
+    
 }
-
+.withoutMessages{
+    font-size: 25px;
+    padding: 150px;
+    padding-left: 230px;
+}
 .main::-webkit-scrollbar {
     width: 5px;
 }
 .main::-webkit-scrollbar-thumb {
     background-color: rgb(194, 187, 187);
+}
+.updateMessages{
+    position: absolute;
+    bottom: 180px;
+    left: 0;
+    @extend %redButton;
+    width: 150px;
+    height: 30px;
+}
+.updateMessages:hover{
+    @extend %redButtonHover
 }

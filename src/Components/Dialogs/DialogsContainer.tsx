@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { compose } from 'redux'
 import withAuthRedirect from '../../Hoc/withAuthRedirect'
-import { getCountOfNewMessagesThunk, getDialogsThunk } from '../../Redux/Messages-reducer'
-import { getCountOfNewMessagesSelector, getMessagesIsFetching } from '../../Redux/Selectors/Messages-selector'
+import { getCountOfNewMessagesThunk, getDialogsThunk, MessagesActions } from '../../Redux/Messages-reducer'
+import { getCountOfNewMessagesSelector, getDialogsIsFetching, getMessagesIsFetching } from '../../Redux/Selectors/Messages-selector'
 import Preloader from '../common/Preloader/Preloader'
 import Dialogs from './Dialogs'
 
@@ -14,17 +14,19 @@ const DialogsContainer = () => {
     const dispatch = useDispatch()
     const messagesIsFetching = useSelector(getMessagesIsFetching) as boolean
     const countOfNewMessages = useSelector(getCountOfNewMessagesSelector) as number
+    const dialogsIsFetching = useSelector(getDialogsIsFetching) as boolean
 
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        dispatch(getCountOfNewMessagesThunk())
-
     }, [])
     useEffect(() => {
+        if (!dialogsIsFetching) dispatch(getDialogsThunk())
+        return function () {
+            dispatch(MessagesActions.clearDialogList())
+        }
 
-        dispatch(getDialogsThunk())
-    }, [])
+    }, [dialogsIsFetching])
     if (messagesIsFetching) {
         return <Preloader />
     }

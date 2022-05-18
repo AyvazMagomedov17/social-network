@@ -58,7 +58,6 @@ const AppRender = (props) => {
                                     <Route path='/friends/*' element={<Friends />} />
                                     <Route path='/profile/*' element={<ProfileContainer />} />
                                     <Route path='/messages/*' element={<DialogsContainer />} />
-
                                     <Route path='*' element={<div>404 Not found</div>} />
                                     <Route path='/' element={props.initialized ? <Navigate to='/profile' /> : <Navigate to='/login' />} />
 

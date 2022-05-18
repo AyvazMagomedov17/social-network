@@ -7,7 +7,7 @@ const instanse = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
     headers: {
-        "API-KEY": "eb7fb92c-b1c9-447d-a398-74eb40353fff"
+        "API-KEY": "04dd371b-4da8-4f89-896c-4e0e5c4f02b4"
     }
 
 })
@@ -146,7 +146,12 @@ export const profileApi = {
     async updateProfileInfoApi(profile: ProfileType) {
         const response = await instanse.put<updateStatusApiType>('profile', profile);
         return response.data;
+    },
+    async getIsFollowedApi(id: number | null) {
+        const response = await instanse.get<boolean>(`/follow/${id}`)
+        return response.data
     }
+
 }
 
 

@@ -16,10 +16,11 @@ const Dialog = ({ img, id, name }: PropsType) => {
         <div className={s.dialog}>
             <NavLink to={path} className={s.row}>
                 <div className={s.left}>
-                    <div className={s.img}>
-                        <img src={img} alt="dialogUser" />
-                    </div>
-
+                    <NavLink to={`/profile/${id}`}>
+                        <div className={s.img}>
+                            <img src={img} alt="dialogUser" />
+                        </div>
+                    </NavLink>
                 </div>
                 <div className={s.right}>
                     <div className={s.top}>
@@ -28,7 +29,6 @@ const Dialog = ({ img, id, name }: PropsType) => {
                     </div>
                     <div className={s.bottom}>
                         <div className={s.lastMessage}> id: {id}</div>
-
                     </div>
                 </div>
             </NavLink>

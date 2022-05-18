@@ -1,4 +1,6 @@
-import { BaseThunkType } from './../Types/types';
+import { friendsAction } from './Friends-reducer';
+import { usersApi } from './../Api/api';
+import { BaseThunkType, UsersDataType } from './../Types/types';
 import { stateType, InferActionsTypes } from './Redux-store';
 import { ThunkAction } from 'redux-thunk';
 //@ts-ignore
@@ -15,10 +17,11 @@ const ADD__POST = 'profile/ADD-POST'
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
 const SET_ACTUAL_URL = 'profile/SET-ACTUAL-URL'
 const SET_STATUS = 'profile/SET-STATUS'
-
 const TOGGLE_GET_PROFILE = 'profile/TOGGLE-GET-PROFILE'
 const SAVE_PHOTO_SUCCES = '/profile/SAVE-PHOTO-SUCCES'
 const UPDATE_PROFILE_ERROR_MESSAGE = '/profile/UPDATE-PROFILE-ERROR-MESSAGE'
+const TOGGLE_IS_FOLLOW_USER = '/profile/TOGGLE_IS_FOLLOW_USER'
+const SET_IS_FOLLOWED = '/profile/SET_IS_FOLLOWED'
 
 //Типы ACTION
 
@@ -66,7 +69,8 @@ let initialState = {
     addPostImg: newPostImg as any,
     status: null as string | null,
     isgetProfile: false as boolean,
-    updateProfileErrorMessage: null as Array<string> | null
+    updateProfileErrorMessage: null as Array<string> | null,
+    isFollowed: false
 }
 export type ProfileReducerinitialStateType = typeof initialState
 
@@ -102,6 +106,8 @@ const profileReducer = (state = initialState, action: ActionTypes): ProfileReduc
             return { ...state, profile: { ...state.profile, photos: action.photos } }
         case UPDATE_PROFILE_ERROR_MESSAGE:
             return { ...state, updateProfileErrorMessage: action.error }
+        case TOGGLE_IS_FOLLOW_USER:
+            return { ...state, isFollowed: action.isFollowed }
 
         default:
             return state
@@ -136,7 +142,8 @@ export const profileActions = {
         type: SAVE_PHOTO_SUCCES,
         photos
     } as const),
-    toggleGetProfileAC: (isgetProfile: boolean) => ({ type: TOGGLE_GET_PROFILE, isgetProfile } as const)
+    toggleGetProfileAC: (isgetProfile: boolean) => ({ type: TOGGLE_GET_PROFILE, isgetProfile } as const),
+    toggleIsFollowUserAc: (isFollowed: boolean) => ({ type: TOGGLE_IS_FOLLOW_USER, isFollowed } as const)
 }
 
 
@@ -145,6 +152,8 @@ export const getProfileThunk = (userId: number | null): ThunkType => {
         dispatch(profileActions.toggleGetProfileAC(true))
         let data = await profileApi.getProfileAPI(userId)
         dispatch(profileActions.setUserProfileAC(data))
+        let isFollowed = await profileApi.getIsFollowedApi(userId)
+        dispatch(profileActions.toggleIsFollowUserAc(isFollowed))
         dispatch(profileActions.toggleGetProfileAC(false))
 
 
@@ -203,5 +212,32 @@ export const updateProfileThunk = (profile: ProfileType): ThunkType => {
         }
     }
 }
+export const toggleIsFollowUserThunk = (id: number) => async (dispatch: any, getState: any) => {
+    let userIsFollowed = getState().profilePage.isFollowed
+    let whoToFollowData = getState().friendsPage.whoToFollowsData as Array<UsersDataType>
+    if (!userIsFollowed) {
+        let data = await usersApi.FollowAPI(id)
+        if (data.resultCode === ResultCodeEnum.Succes) {
+            dispatch(profileActions.toggleIsFollowUserAc(true))
+            whoToFollowData.forEach(item => {
+                if (item.id === id) {
+                    dispatch(friendsAction.toggleFollowAC(item.id))
+                }
+            })
+        }
+    } else {
+        let data = await usersApi.unFollowAPI(id)
+        if (data.resultCode === ResultCodeEnum.Succes) {
+            whoToFollowData.forEach(item => {
+                if (item.id === id) {
+                    dispatch(friendsAction.toggleFollowAC(item.id))
+                }
+            })
+            dispatch(profileActions.toggleIsFollowUserAc(false))
+        }
+    }
+
+}
+
 
 export default profileReducer;

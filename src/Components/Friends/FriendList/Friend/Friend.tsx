@@ -7,6 +7,9 @@ import { UsersDataType } from '../../../../Types/types';
 //@ts-ignore
 import s from '../../../../Styles/Friends/friend.module.scss'
 import FollowButton from '../../../common/FollowButton/FollowButton';
+import { dialogsApi } from '../../../../Api/api';
+import { useDispatch } from 'react-redux';
+import { startNewDialogThunk } from '../../../../Redux/Messages-reducer';
 
 export type FriendPropsType = {
     userId: number
@@ -20,7 +23,11 @@ export type FriendPropsType = {
 }
 
 const Friend = memo(({ userId, img, name, location, followingInProgress, usersData, follow, followUnfollowThunk }: FriendPropsType) => {
+    const dispatch = useDispatch()
+    const clickOnSendMessage = async () => {
+        dispatch(startNewDialogThunk(userId))
 
+    }
     return (
         <li className={s.friend}>
             <div className={s.left}>
@@ -36,9 +43,9 @@ const Friend = memo(({ userId, img, name, location, followingInProgress, usersDa
                         {name}
                     </NavLink>
                     <span className={s.location}>
-                        {location}
+                        id: {userId}
                     </span>
-                    <div className={s.sendMessage}>
+                    <div onClick={clickOnSendMessage} className={s.sendMessage}>
                         <NavLink to={`/messages/${userId}`}>Send message</NavLink>
                     </div>
                 </div>

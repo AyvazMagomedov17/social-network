@@ -11,6 +11,8 @@ const SET_MESSAGES_LIST = 'messages/SET_MESSAGES_LIST'
 const SET_MESSAGES_FETCHING = 'messages/SET_MESSAGES_FETCHING'
 const DELETE_MESSAGES_LIST = 'messages/DELETE_MESSAGES_LIST'
 const SET_TOTAL_MESSAGES_COUNT = 'messages/SET_TOTAL_MESSAGES_COUNT'
+const TOGGLE_DIALOGS_IS_FETCHING = 'messages/TOGGLE_DIALOGS_IS_FETCHING'
+const ClEAR_DIALOG_LIST = 'messages/ClEAR_DIALOG_LIST'
 
 
 //ACTION-TYPES 
@@ -27,7 +29,8 @@ let initialState = {
     messagesList: [] as Array<GetOneMessageType> | Array<any>,
     countOfNewMessages: 0 as number,
     messagesIsFetching: false as boolean,
-    totalMessagesCount: 0 as number
+    totalMessagesCount: 0 as number,
+    dialogsIsFetching: false as boolean
 
 }
 
@@ -39,9 +42,9 @@ const messagesReducer = (state = initialState, action: ActionTypes): initialStat
         case SET_COUNT_OF_NEW_MESSAGES:
             return { ...state, countOfNewMessages: action.count }
         case SET_DIALOG_LIST:
-            return { ...state, dialogList: action.dialogList }
+            return { ...state, dialogList: [...action.dialogList, ...state.dialogList] }
         case SET_MESSAGES_LIST:
-            return { ...state, messagesList: [...action.messagesList, ...state.messagesList] }
+            return { ...state, messagesList: [...action.messagesList] }
         case SEND_MESSAGE:
             return { ...state, messagesList: [...state.messagesList, action.message] }
         case DELETE_MESSAGES_LIST:
@@ -50,6 +53,10 @@ const messagesReducer = (state = initialState, action: ActionTypes): initialStat
             return { ...state, messagesIsFetching: action.isFetching }
         case SET_TOTAL_MESSAGES_COUNT:
             return { ...state, totalMessagesCount: action.count }
+        case TOGGLE_DIALOGS_IS_FETCHING:
+            return { ...state, dialogsIsFetching: action.payload }
+        case ClEAR_DIALOG_LIST:
+            return { ...state, dialogList: [] }
         default:
             return state
     }
@@ -86,13 +93,20 @@ export const MessagesActions = {
     setTotalMessagesCountAC: (count: number) => ({
         type: SET_TOTAL_MESSAGES_COUNT,
         count
+    } as const),
+    toggleDialogsIsFetchingAC: (payload: boolean) => ({
+        type: TOGGLE_DIALOGS_IS_FETCHING,
+        payload
+    } as const),
+    clearDialogList: () => ({
+        type: ClEAR_DIALOG_LIST
     } as const)
+
 
 
 }
 
 export const getMessagesThunk = (userId: number, page: number = 1, count: number = 20): ThunkType => async (dispatch) => {
-
     const response = await dialogsApi.getMessagesAPI(userId, page, count)
     if (response.error === null) {
         dispatch(MessagesActions.setMessagesListAC(response.items))
@@ -119,8 +133,6 @@ export const sendMessageThunk = (userId: number, body: string): ThunkType => asy
         dispatch(MessagesActions.sendMessageAC(response.data.message))
         const totalMessagesCount = (await dialogsApi.getMessagesAPI(userId)).totalCount
         dispatch(MessagesActions.setTotalMessagesCountAC(totalMessagesCount))
-
-
     }
 }
 export const getCountOfNewMessagesThunk = (): ThunkType => async (dispatch) => {
@@ -128,6 +140,20 @@ export const getCountOfNewMessagesThunk = (): ThunkType => async (dispatch) => {
     const response = await dialogsApi.getCountOfNewMessagesAPI()
     dispatch(MessagesActions.setCountOfNewMessagesAC(response))
     dispatch(MessagesActions.setMessagesFetchingAC(false))
+
+}
+export const startNewDialogThunk = (id: number): ThunkType => async (dispatch) => {
+    dispatch(MessagesActions.toggleDialogsIsFetchingAC(true))
+
+    const response = await dialogsApi.startDialogAPI(id)
+    if (response.resultCode === ResultCodeEnum.Succes) {
+        dispatch(MessagesActions.toggleDialogsIsFetchingAC(false))
+    } else {
+        alert('ошибка')
+        dispatch(MessagesActions.toggleDialogsIsFetchingAC(false))
+
+    }
+
 
 }
 

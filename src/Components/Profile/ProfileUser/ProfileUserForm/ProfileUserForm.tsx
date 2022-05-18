@@ -67,27 +67,32 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileErrorMessage }:
                             setFullNameheightFunc(e)
                         }} onKeyDown={(e) => {
                             setFullNameheightFunc(e)
-                        }} className={cn(s.textAreaInfo, 'changed')} onChange={handleChange} value={values.fullName} name={'fullName'}></textarea></div>
+                        }} className={cn(s.textAreaInfo, 'changed')} onChange={(e) => {
+                            handleChange(e)
+                            if (e.target.textLength === 0) setFullNameheight(19)
+                        }} value={values.fullName} name={'fullName'}></textarea></div>
                         <div className={s.aboutMe}><textarea style={{ 'height': `${aboutMeHeight}px` }} onClick={(e) => {
                             setaboutMeHeightFunc(e)
                         }} onKeyDown={(e) => {
                             setaboutMeHeightFunc(e)
-
-                        }} className={s.textAreaInfo} placeholder='About me' onChange={handleChange} value={values.aboutMe} name={'aboutMe'}></textarea></div>
+                        }} className={s.textAreaInfo} placeholder='About me' onChange={e => {
+                            handleChange(e)
+                            if (e.target.textLength === 0) setaboutMeHeight(19)
+                        }} value={values.aboutMe} name={'aboutMe'}></textarea></div>
                         <ProfileUserStatusContainer isOwner={true} />
-
                         <div className={s.lookingForAJoBox}>
                             <div className={s.lookingForAjob}>Looking for a job: <input checked={values.lookingForAjob} type="checkbox" onChange={handleChange} name={'lookingForAjob'} /></div>
                             <div className={s.lookingForAJobDescription}><textarea maxLength={300} style={{ 'height': `${lookingForAJobDescriptionHeight}px` }} onKeyDown={(e) => {
                                 setlookingForAJobDescriptionHeightFunc(e)
-
                             }} onClick={(e) => {
                                 setlookingForAJobDescriptionHeightFunc(e)
-
-                            }} className={s.textAreaInfo} placeholder='Looking for a job' name={'lookingForAJobDescription'} onChange={handleChange} value={values.lookingForAJobDescription}></textarea></div>
+                            }} className={s.textAreaInfo} placeholder='Looking for a job' name={'lookingForAJobDescription'} onChange={(e) => {
+                                handleChange(e)
+                                if (e.target.textLength === 0) setlookingForAJobDescriptionHeight(19)
+                            }} value={values.lookingForAJobDescription}></textarea></div>
                         </div>
                         <div className={s.updateProfileErrorMessage}>
-                            {updateProfileErrorMessage}
+                            {updateProfileErrorMessage && updateProfileErrorMessage[0]}
                         </div>
                         <button className={s.editButton} type={'submit'} onClick={() => {
                             handleSubmit()
@@ -106,8 +111,6 @@ const ProfileUserForm = ({ profile, removeEditMode, updateProfileErrorMessage }:
                                 </div>
                             )
                         })}
-
-
                         </div>
                     </div>
                 </div>

@@ -38,6 +38,10 @@
     font-weight: 600;
     color: $WHITE;
     transition: color 0.3s linear;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; // чтобы обрезать длинный текст и добавить в конце три точки
 }
 .name:hover{
     color: $YELLOWHOVER;

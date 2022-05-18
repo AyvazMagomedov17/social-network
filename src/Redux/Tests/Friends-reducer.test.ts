@@ -1,6 +1,6 @@
-import { UsersDataType } from './../../Types/types';
-import { usersApi, updateStatusApiType } from './../../Api/api';
-import { FilterType, followUnfollowThunk } from './../Friends-reducer';
+import { UsersDataType } from '../../Types/types';
+import { usersApi, updateStatusApiType } from '../../Api/api';
+import { FilterType, followUnfollowThunk } from '../Friends-reducer';
 import friendsReducer, { FriendsReducerInitialStateType, friendsAction } from '../Friends-reducer';
 import thunk from 'redux-thunk';
 import { ResultCodeEnum } from '../../Types/types';
@@ -122,7 +122,7 @@ test('ToggleFollow thunk succes', async () => {
     const getStateMok = jest.fn() // создаем фейковый getState
     let usersData = state.usersData
     const thunk = followUnfollowThunk(1, usersData) // передаем данные, нужные thunk(userId, usersData)
-
+    //@ts-ignore
     await thunk(dispatchMok, getStateMok, {}) // запускаем нашу thunk
     expect(dispatchMok).toBeCalledTimes(3) // столько раз должен вызваться dispatch
     expect(dispatchMok).toHaveBeenNthCalledWith(1, friendsAction.togglefollowingInProgressAC(true, 1)) // 1 диспатч должен вызваться с такими параметарми(заглядваем в friends-reducer  )

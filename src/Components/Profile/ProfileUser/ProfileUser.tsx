@@ -8,8 +8,11 @@ import s from '../../../Styles/Profile/profileUser.module.scss'
 import ProfileUserForm from './ProfileUserForm/ProfileUserForm'
 import ProfileUserInfo from './ProfileUserInfo/ProfileUserInfo'
 import { useDispatch } from 'react-redux'
-import { savePhotoThunk, profileActions } from '../../../Redux/Profile-reducer'
-import { ProfileType } from '../../../Types/types'
+import { savePhotoThunk, profileActions, toggleIsFollowUserThunk } from '../../../Redux/Profile-reducer'
+import { ProfileType, UsersDataType } from '../../../Types/types'
+import { followUnfollowThunk } from '../../../Redux/Friends-reducer'
+import { dialogsApi } from '../../../Api/api'
+import { getDialogsThunk, MessagesActions, startNewDialogThunk } from '../../../Redux/Messages-reducer'
 
 
 
@@ -18,8 +21,10 @@ type PropsType = {
     profile: any
     isOwner: boolean,
     updateProfileErrorMessage: string
+    friendsData: UsersDataType[],
+    isFollowedUser: boolean
 }
-const ProfileUser = ({ profile, isOwner, updateProfileErrorMessage }: PropsType) => {
+const ProfileUser = ({ isFollowedUser, friendsData, profile, isOwner, updateProfileErrorMessage }: PropsType) => {
     let inputFile = useRef<any>(null)
     let params = useParams()
     let dispatch = useDispatch()
@@ -40,7 +45,13 @@ const ProfileUser = ({ profile, isOwner, updateProfileErrorMessage }: PropsType)
     const removeEditMode = () => {
         seteditMode(false)
     }
+    const clickOnFollowButton = () => {
+        dispatch(toggleIsFollowUserThunk(profile.userId))
+    }
+    const clickOnSendMessageButton = async () => {
+        dispatch(startNewDialogThunk(profile.userId))
 
+    }
     return (
 
         <div className={s.profileUser}>
@@ -53,11 +64,10 @@ const ProfileUser = ({ profile, isOwner, updateProfileErrorMessage }: PropsType)
                         <input className={s.setPhotoInput} ref={inputFile} id='setPhotoInput' onChange={() => { onMainPhotoSelected() }} type="file" />
                         <label htmlFor="setPhotoInput"></label>
                     </div>}
-                    <div className={s.firstButton}>
-                        <NavLink to={`/messages/${profile.userId}`}><button className={s.message}>Send message</button></NavLink>
+                    {!isOwner && <><div className={s.firstButton}>
+                        <NavLink onClick={clickOnSendMessageButton} to={`/messages/${profile.userId}`}><button className={s.message}>Send message</button></NavLink>
                     </div>
-
-                    <button className={s.followed}>Followed</button>
+                        <button onClick={clickOnFollowButton} className={s.followed}>{isFollowedUser ? 'Followed' : 'Unfollowed'}</button></>}
                 </div>
                 {editMode ? <ProfileUserForm updateProfileErrorMessage={updateProfileErrorMessage} removeEditMode={removeEditMode} profile={profile} /> : <ProfileUserInfo goToEditMode={() => { seteditMode(true) }} isOwner={isOwner} profile={profile} />}
             </div>

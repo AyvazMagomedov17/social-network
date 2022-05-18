@@ -1,4 +1,3 @@
-//@ts-ignore
 import { stateType } from './../Redux-store';
 
 export const getMessagesIsFetching = (state: stateType) => {
@@ -13,3 +12,4 @@ export const getMessagesListSelector = (state: stateType) => {
 export const getTotalMessagesCountSelector = (state: stateType) => {
     return state.messagesPage.totalMessagesCount
 }
+export const getDialogsIsFetching = (state: stateType) => state.messagesPage.dialogsIsFetching

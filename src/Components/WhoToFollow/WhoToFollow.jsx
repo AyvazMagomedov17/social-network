@@ -14,10 +14,10 @@ const WhoToFollow = (props) => {
                     .map((f) => {
 
                         if (f.followed === true) {
-                            return <ItemContainer key={f.id} id={f.id} followed='followed' img={f.photos.small != null ? f.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} name={f.name} />
+                            return <ItemContainer key={f.id} id={f.id} followed='Followed' img={f.photos.small != null ? f.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} name={f.name} />
 
                         } else {
-                            return <ItemContainer key={f.id} id={f.id} followed='unfollowed' img={f.photos.small != null ? f.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} name={f.name} />
+                            return <ItemContainer key={f.id} id={f.id} followed='Unfollowed' img={f.photos.small != null ? f.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} name={f.name} />
 
                         }
 

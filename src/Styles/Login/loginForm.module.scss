@@ -16,6 +16,16 @@
     margin-bottom: 10px;
     
 }
+.captchaBox{
+    margin-top: -20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.captchaBox img {
+    width: 150px;
+}
 
 .button{
     width: 400px;

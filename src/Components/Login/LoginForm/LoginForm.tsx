@@ -61,7 +61,7 @@ const LoginForm = ({ loginThunk, errorMessage, captchaUrl }: LoginFormPropsType)
                                 <span className={s.checkboxText}>Remember me</span>
                             </div>
                             <div className={s.captcha}>
-                                {captchaUrl && <div>
+                                {captchaUrl && <div className={s.captchaBox}>
                                     <img src={captchaUrl} />
                                     <input onKeyDown={(e) => {
                                         if (e.keyCode === 13) {
@@ -69,7 +69,7 @@ const LoginForm = ({ loginThunk, errorMessage, captchaUrl }: LoginFormPropsType)
 
                                         }
 
-                                    }} placeholder='captcha' type="text" onChange={handleChange} name={'captcha'} value={values.captcha} />
+                                    }} placeholder='Enter captcha...' className={s.input} type="text" onChange={handleChange} name={'captcha'} value={values.captcha} />
                                 </div>}
 
                             </div>

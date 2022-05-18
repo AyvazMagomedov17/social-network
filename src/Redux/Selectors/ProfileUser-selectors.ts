@@ -1,5 +1,5 @@
-//@ts-ignore
-import { stateType } from './../Redux-store.ts';
+
+import { stateType } from './../Redux-store';
 
 export const getProfileSelector = (state: stateType) => {
     return state.profilePage.profile
@@ -16,4 +16,7 @@ export const getUpdateProfileErrorMessageSelector = (state: stateType) => {
 }
 export const getIsgetProfileSelector = (state: stateType) => {
     return state.profilePage.isgetProfile
+}
+export const getIsFollowedUser = (state: stateType) => {
+    return state.profilePage.isFollowed
 }

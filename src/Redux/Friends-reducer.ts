@@ -1,3 +1,4 @@
+import { profileActions } from './Profile-reducer';
 import { BaseThunkType } from './../Types/types';
 import { ResultCodeEnum, UsersDataType } from '../Types/types';
 import { usersApi } from "../Api/api"
@@ -72,9 +73,7 @@ export const friendsReducer = (state = initialState, action: ActionTypes): Frien
             return stateCopy
         }
         case SET_USERS: {
-
             return { ...state, usersData: action.users }
-
         }
         case SET_FRIENDS:
 
@@ -101,7 +100,6 @@ export const friendsReducer = (state = initialState, action: ActionTypes): Frien
         case IS_FIND_USERS_IN_STATE:
             return { ...state, isFindUsersInState: action.isFindUsers }
         case SET_FILTER:
-
             return { ...state, filter: { ...action } }
         default:
             return state
@@ -145,8 +143,6 @@ export const friendsAction = {
 
 
     changeFetchingAC: (isFetching: boolean) => ({ type: CHANGE_FETCHING, isFetching } as const),
-
-
     togglefollowingInProgressAC: (isFollowingInProgress: boolean, userId: number) => ({
         type: TOGGLE_FOLLOWING_IN_PROGRESS,
         isFollowingInProgress,
@@ -172,7 +168,6 @@ export const friendsAction = {
 
 
 export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: string): ThunkType => {
-
     return async (dispatch, getState) => {
         dispatch(friendsAction.changeFetchingAC(true))
         let data = await usersApi.getUsersAPI(currentPage, pageSize)
@@ -180,9 +175,7 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
             dispatch(friendsAction.setUsersAC(data.items))
             dispatch(friendsAction.setTotalUsersCountAC(data.totalCount))
             dispatch(friendsAction.changeFetchingAC(false))
-
             dispatch(friendsAction.setIsFindUsersInStateAC(false))
-
         }
         if (fromWho === 'WHO_TO_FOLLOW') {
             dispatch(friendsAction.whoToFollowSetUsersAC(data.items))
@@ -193,8 +186,6 @@ export const getUsersThunk = (currentPage: number, pageSize: number, fromWho: st
 
 
 export const filterUsersThunk = (currentPage: number, pageSize: number, term: string | undefined, friend: boolean | string | null): ThunkType => async (dispatch, getState) => {
-
-
     dispatch(friendsAction.changeFetchingAC(true))
     //@ts-ignore
     let data = await usersApi.filterUsersAPI(currentPage, pageSize, term, friend)
@@ -235,13 +226,19 @@ export const setCurrentPageThunk = (pageNumber: number, pageSize: number): Thunk
 
 
 export const followUnfollowThunk = (userId: number, usersData: Array<UsersDataType>): ThunkType => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const profilePage = getState().profilePage.profile
         dispatch(friendsAction.togglefollowingInProgressAC(true, userId))
         usersData.forEach(async (item) => {
             if (item.id === userId && item.followed === false) {
                 let data = await usersApi.FollowAPI(userId)
                 if (data.resultCode === ResultCodeEnum.Succes) {
+
                     dispatch(friendsAction.toggleFollowAC(userId))
+                    if (profilePage?.userId === userId) {
+                        //@ts-ignore
+                        dispatch(profileActions.toggleIsFollowUserAc(true))
+                    }
                 }
                 dispatch(friendsAction.togglefollowingInProgressAC(false, userId))
             }
@@ -249,6 +246,10 @@ export const followUnfollowThunk = (userId: number, usersData: Array<UsersDataTy
                 let data = await usersApi.unFollowAPI(userId)
                 if (data.resultCode === ResultCodeEnum.Succes) {
                     dispatch(friendsAction.toggleFollowAC(userId))
+                    if (profilePage?.userId === userId) {
+                        //@ts-ignore
+                        dispatch(profileActions.toggleIsFollowUserAc(false))
+                    }
                 }
                 dispatch(friendsAction.togglefollowingInProgressAC(false, userId))
 
