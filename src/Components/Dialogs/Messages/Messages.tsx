@@ -89,16 +89,16 @@ const Messages = (props: PropsType) => {
 
     let OneMessageElement = messagesList
         .map((messageEl) => {
-
+            let time = +messageEl.addedAt.slice(11, 13) + 3
             if (!props.profile) {
                 return <Preloader />
             }
             if (messageEl.senderId === authUserId) {
-                let time = +messageEl.addedAt.slice(11, 13) + 3
+
                 return <MyMessage id={props.profile.userId} key={uuidv4()} img={props.profile.photos.small != null ? props.profile.photos.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} NewMessageElement={<OneMessage message={messageEl.body} />} name={props.profile.fullName} time={messageEl?.addedAt.slice(0, 10) + '  ' + (time) + messageEl?.addedAt.slice(13, 16)} />
             }
             if (messageEl.senderId !== authUserId) {
-                return <YourMessage id={friendProfileInfo?.userId} key={uuidv4()} NewMessageElement={<OneMessage message={messageEl.body} />} name={friendProfileInfo?.fullName} time={messageEl.addedAt} img={friendProfileInfo?.photos?.small != null ? friendProfileInfo?.photos?.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} />
+                return <YourMessage id={friendProfileInfo?.userId} key={uuidv4()} NewMessageElement={<OneMessage message={messageEl.body} />} name={friendProfileInfo?.fullName} time={messageEl?.addedAt.slice(0, 10) + '  ' + (time) + messageEl?.addedAt.slice(13, 16)} img={friendProfileInfo?.photos?.small != null ? friendProfileInfo?.photos?.small : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} />
             }
 
         })

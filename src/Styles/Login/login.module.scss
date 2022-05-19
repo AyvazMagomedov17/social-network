@@ -2,18 +2,16 @@
 .Login{
     display: flex;
     justify-content: center;
-    background-color: $BlACK;
-    
+    background-color: black;
     align-items: center;
-    
 }
 .body{
     padding: 50px;
-    padding-top: 0;
+    padding-top: 0px;
     display: flex;
     background-color: $BlACK;
     width: 100vw;
-    height: 100vh;
+    max-height: 100vh;
     
     
 }
@@ -46,8 +44,9 @@
     object-fit: contain;
 }
 .right{
+    
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 110px;
 }

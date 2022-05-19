@@ -1,6 +1,6 @@
 
 import { connect, useDispatch } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { compose } from 'redux'
 import { loginThunk } from '../../Redux/Auth-reducer'
 import Login from './Login'
@@ -21,9 +21,20 @@ let LoginContainer = (props: any) => {
     let loginThunkk = (email: string, password: string, rememberMe: boolean, captcha: string) => {
         dispatch(loginThunk(email, password, rememberMe, captcha))
     }
+    const lockScrol = () => {
+        window.scrollTo(0, 0);
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', lockScrol);
+        return function () {
+            window.removeEventListener('scroll', lockScrol)
+        }
+    }, [])
     if (props.isAuth) {
         return <Navigate to='/profile' />
     }
+
+
     return (
         <Login {...props} loginThunk={loginThunkk} />
     )
