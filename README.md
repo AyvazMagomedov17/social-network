@@ -19,8 +19,7 @@ lotihe7566@duetube.com - логин
 test111 - пароль  
   
 Потестить можете здесь:   
-http://zaremanf.beget.tech
-
+http://zarema7l.beget.tech/
 Команды:
 yarn - установить все зависимости
 yarn run - запустить проект
